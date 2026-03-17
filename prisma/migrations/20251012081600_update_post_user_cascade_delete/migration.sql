@@ -1,0 +1,5 @@
+-- DropForeignKey
+ALTER TABLE "public"."Post" DROP CONSTRAINT "Post_userId_fkey";
+
+-- AddForeignKey
+ALTER TABLE "public"."Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -1,0 +1,467 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {  
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                     String         @id @default(cuid())
+  name                   String
+  email                  String         @unique
+  emailVerified          DateTime?
+  emailVerificationToken String?        @unique
+  password               String
+  image                  String?
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+  googleAccessToken      String?
+  googleRefreshToken     String?
+  googleTokenExpiresAt   DateTime?
+  
+  // Onboarding tracking fields
+  hasCompletedLocationSetup Boolean   @default(false)
+  hasCompletedReviewSetup   Boolean   @default(false)
+  onboardingCompletedAt     DateTime?
+  
+  posts                  Post[]
+  reviewReplies          ReviewReply[]
+  sessions               Session[]
+  locations              Location[]     @relation("LocationToUser")
+  aiTemplates            AIReplyTemplate[]
+  googleAccounts         GoogleAccount[]
+  locationReplySettings  LocationReplySettings[]
+  billingInvoices       BillingInvoice[]
+  subscriptions         Subscription[]
+}
+
+model Subscription {
+  id                     String         @id @default(cuid())
+  userId                 String
+  user                   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Razorpay subscription details
+  razorpaySubscriptionId String?        @unique
+  razorpayCustomerId     String?
+  razorpayPaymentId      String?
+  razorpayOrderId        String?
+  
+  // Subscription status and plan
+  status                 SubscriptionStatus @default(INACTIVE)
+  plan                   SubscriptionPlan?
+  
+  // Trial information
+  trialStartedAt         DateTime?
+  trialEndsAt            DateTime?
+  
+  // Billing period
+  currentPeriodStart     DateTime?
+  currentPeriodEnd       DateTime?
+  
+  // Payment method information
+  paymentMethodType      String?        // card/upi/netbanking/wallet
+  paymentMethodLast4     String?        // Last 4 digits of card/account
+  paymentMethodBrand     String?        // Card brand (Visa/Mastercard/etc.)
+  paymentMethodNetwork  String?        // Network (Visa/Mastercard/Rupay)
+  
+  // Timestamps
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+  
+  // Relations
+  billingInvoices        BillingInvoice[]
+
+  @@index([userId])
+  @@index([userId, status])
+  @@index([razorpaySubscriptionId])
+  @@index([status])
+  
+  // Note: Only one ACTIVE subscription per user is enforced at application level
+  // Prisma doesn't support partial unique indexes, so we handle this in code
+}
+
+model BillingInvoice {
+  id                String        @id // razorpay_invoice_id or payment_id
+  userId            String        // Required: Direct user reference for data integrity and performance
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  subscriptionId    String?       // Optional: References Subscription.id (nullable for flexibility)
+  subscription      Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  
+  amount            Int
+  currency          String        @default("INR")
+  status            BillingStatus
+  attemptCount      Int           @default(1)
+  failureReason     String?
+  razorpayPaymentId String?
+  createdAt         DateTime      @default(now())
+  paidAt            DateTime?
+
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model GoogleAccount {
+  id                       String    @id @default(cuid())
+  userId                   String
+  gmbAccountId             String    @unique
+  gmbAccountName           String
+  email                    String?
+  accessToken              String
+  refreshToken             String
+  tokenExpiresAt           DateTime?
+  notificationRegistered   Boolean   @default(false)
+  notificationRegisteredAt DateTime?
+  needsNotificationRegistration Boolean @default(false) // Flag to mark accounts that need Pub/Sub registration
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+  user                     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  locations                Location[]
+
+  @@index([userId])
+  @@index([needsNotificationRegistration]) // Index for efficient querying of pending registrations
+}
+
+
+
+model Location {
+  id              String       @id @default(cuid())
+  name            String
+  gmbLocationId   String       @unique
+  gmbLocationName String
+  address         String?
+  phone           String?
+  websiteUrl      String?
+  latitude        Float?
+  longitude       Float?
+  timezone        String       @default("UTC")
+  isVerified      Boolean      @default(false)
+  lastSyncedAt    DateTime     @default(now())
+  lastFetchedTimestamp DateTime?
+  autoReplyEnabled Boolean     @default(false)
+  autoPostEnabled  Boolean     @default(false)
+  replyTonePreference ReplyTone?
+  googleAccountId String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  logoUrl         String?
+  gmbAccountId    String?
+  insights        Insight[]
+  posts           Post[]
+  reports         Report[]
+  reviews         Review[]
+  users           User[]       @relation("LocationToUser")
+  searchKeywords  SearchKeyword[]
+  googleAccount   GoogleAccount? @relation(fields: [googleAccountId], references: [id], onDelete: Cascade)
+  aiTemplates     AIReplyTemplate[]
+  replySettings   LocationReplySettings[]
+
+  @@index([googleAccountId])
+  @@index([gmbAccountId])
+  @@index([createdAt])
+}
+
+model Post {
+  id                String     @id @default(cuid())
+  locationId        String
+  userId            String
+  title             String
+  content           String
+  type              PostType
+  mediaUrls         String[]
+  scheduledAt       DateTime
+  publishedAt       DateTime?
+  status            PostStatus @default(SCHEDULED)
+  eventStart        DateTime?
+  eventEnd          DateTime?
+  offerStart        DateTime?
+  offerEnd          DateTime?
+  couponCode        String?
+  callToAction      String?
+  ctaUrl            String?
+  redeemOnlineUrl   String?
+  termsAndConditions String?
+  recurType         RecurType?
+  gmbPostName       String?
+  recurEndsAt       DateTime?
+  timezone          String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  location          Location   @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([locationId])
+  @@index([userId])
+  @@index([status, scheduledAt])
+}
+
+model Review {
+  id            String         @id @default(cuid())
+  locationId    String
+  reviewId      String
+  authorName    String
+  authorPhoto   String?
+  rating        Int
+  comment       String?
+  createTime    DateTime
+  updateTime    DateTime
+  status        ReviewStatus   @default(PENDING)
+  isProcessed   Boolean        @default(false)
+  sentiment     SentimentType?
+  language      String?
+  isReplyNeeded Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  location      Location       @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  replies       ReviewReply[]
+
+  @@unique([reviewId, locationId])
+  @@index([locationId])
+  @@index([locationId, status])
+  @@index([createTime])
+}
+
+model ReviewReply {
+  id           String           @id @default(cuid())
+  reviewId     String           @unique
+  userId       String?
+  content      String
+  source       ReplySource
+  isPublished  Boolean          @default(false)
+  publishedAt  DateTime?
+  aiTemplateId String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  aiTemplate   AIReplyTemplate? @relation(fields: [aiTemplateId], references: [id])
+  review       Review           @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user         User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AIReplyTemplate {
+  id                  String        @id @default(cuid())
+  userId              String
+  locationId          String?                        // Optional — if null, it's a global default
+  name                String?        @default("Default Auto Reply")
+  tone                ReplyTone?                     // Friendly, Formal, Apologetic
+  language            String?                        // e.g. "en", "hi"
+  replyLength         ReplyLength?                   // Short, Medium, Long
+  customInstructions  String?        @db.Text        // General instructions for AI
+  brandVoice          String?        @db.Text        // Brand's personality and communication style
+  positiveResponseStyle String?      @db.Text        // Instructions for positive reviews
+  negativeResponseStyle String?      @db.Text        // Instructions for negative reviews
+  isDefault           Boolean        @default(false) // Marks default template per user/location
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  location        Location?      @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  replies         ReviewReply[]
+
+  @@unique([userId, locationId]) // Enforce one template per location (null = global, one per user)
+  @@index([userId, locationId])
+}
+
+enum ReplyLength {
+  SHORT
+  MEDIUM
+  LONG
+}
+
+model LocationReplySettings {
+  id                 String   @id @default(cuid())
+  userId             String
+  locationId         String? // null = global settings
+  autoReplyEnabled   Boolean  @default(false)
+  autoReplyDelayMins Int?     @default(0)
+  minStarReply       Int      @default(5)
+  maxStarReply       Int      @default(5)
+  isGlobal           Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  location Location? @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, locationId])
+  @@index([userId])
+  @@index([locationId])
+  @@index([userId, isGlobal])
+}
+
+model Insight {
+  id         String      @id @default(cuid())
+  locationId String
+  date       DateTime
+  type       InsightType
+  value      Int
+  createdAt  DateTime    @default(now())
+  location   Location    @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@unique([locationId, date, type])
+}
+
+model Report {
+  id         String       @id @default(cuid())
+  locationId String
+  name       String
+  startDate  DateTime
+  endDate    DateTime
+  reportType ReportType
+  fileUrl    String?
+  status     ReportStatus @default(GENERATING)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  location   Location     @relation(fields: [locationId], references: [id], onDelete: Cascade)
+}
+
+
+
+model SearchKeyword {
+  id         String   @id @default(cuid())
+  keyword    String
+  locationId String
+  latitude   Float
+  longitude  Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  rankResults RankTrackingResult[]
+
+  @@unique([keyword, locationId])
+  @@index([keyword])
+}
+
+model RankTrackingResult {
+  id            String       @id @default(cuid())
+  keywordId     String
+  rankPosition  Int?         // null means not found in top results
+  searchDate    DateTime     @default(now())
+  searchUrl     String?      // The URL that was searched
+  businessUrl   String?      // The target business URL that was tracked
+  businessName  String?      // The target business name that was tracked
+  htmlSnapshot  String?      // Optional snapshot of the search results HTML
+  createdAt     DateTime     @default(now())
+  keyword       SearchKeyword @relation(fields: [keywordId], references: [id], onDelete: Cascade)
+
+  @@index([keywordId, searchDate])
+}
+
+enum PostType {
+  UPDATE
+  EVENT
+  OFFER
+}
+
+enum PostStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  FAILED
+  DELETED
+}
+
+enum RecurType {
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+enum ReviewStatus {
+  PENDING
+  REPLIED
+  FLAGGED
+}
+
+enum SentimentType {
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
+}
+
+enum ReplySource {
+  MANUAL
+  AI_GENERATED
+  AUTO_POSTED
+}
+
+enum ReplyTone {
+  PROFESSIONAL
+  FRIENDLY
+  CASUAL
+  FORMAL
+  EMPATHETIC
+  ENTHUSIASTIC
+  APOLOGETIC
+}
+
+enum InsightType {
+  VIEWS
+  SEARCHES
+  CLICKS
+  DIRECTION_REQUESTS
+  PHONE_CALLS
+  PHOTOS_VIEWED
+  PHOTO_QUANTITY
+  WEBSITE_CLICKS
+  CALL_CLICKS
+  BUSINESS_IMPRESSIONS_MOBILE_MAPS
+  BUSINESS_IMPRESSIONS_MOBILE_SEARCH
+  BUSINESS_IMPRESSIONS_DESKTOP_MAPS
+  BUSINESS_IMPRESSIONS_DESKTOP_SEARCH
+  BUSINESS_BOOKINGS
+  BUSINESS_FOOD_ORDERS
+  BUSINESS_FOOD_MENU_CLICKS
+  BUSINESS_CONVERSATIONS
+}
+
+enum ReportType {
+  WEEKLY
+  MONTHLY
+  CUSTOM
+}
+
+enum ReportStatus {
+  GENERATING
+  COMPLETED
+  FAILED
+}
+
+
+
+enum SubscriptionStatus {
+  INACTIVE
+  TRIALING
+  PENDING
+  ACTIVE
+  PAST_DUE
+  SUSPENDED
+  CANCELED
+  EXPIRED
+  FAILED
+}
+
+enum SubscriptionPlan {
+  BASIC
+  PREMIUM
+  ENTERPRISE
+}
+
+enum BillingStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+}
