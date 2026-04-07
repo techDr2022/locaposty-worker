@@ -196,6 +196,9 @@ model Post {
   termsAndConditions String?
   recurType         RecurType?
   gmbPostName       String?
+  /// Resource name from accounts.locations.media (Google Business Profile photo upload API)
+  gmbPhotoMediaName String?
+  gmbMediaCategory GmbMediaCategory?
   recurEndsAt       DateTime?
   timezone          String?
   createdAt         DateTime   @default(now())
@@ -363,6 +366,24 @@ enum PostType {
   UPDATE
   EVENT
   OFFER
+  PHOTO
+}
+
+enum GmbMediaCategory {
+  CATEGORY_UNSPECIFIED
+  COVER
+  PROFILE
+  LOGO
+  EXTERIOR
+  INTERIOR
+  PRODUCT
+  AT_WORK
+  FOOD_AND_DRINK
+  MENU
+  COMMON_AREA
+  ROOMS
+  TEAMS
+  ADDITIONAL
 }
 
 enum PostStatus {

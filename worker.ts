@@ -5,6 +5,7 @@ import { Worker, Job } from "bullmq";
 import IORedis from "ioredis";
 import axios from "axios";
 import { OAuth2Client } from "google-auth-library";
+import { createLocationPhotoFromSourceUrl } from "./lib/gmb/createLocationPhotoMedia";
 
 import { PrismaClient } from "./lib/generated/prisma/index.js";
 
@@ -276,9 +277,56 @@ try {
       );
     }
 
-    const postBody = buildPostBody(post);
     const accountId = location.gmbAccountId.replace(/^accounts\//, "");
     const locationId = location.gmbLocationId.replace(/^locations\//, "");
+
+    if (String(post.type) === "PHOTO") {
+      const sourceUrl = post.mediaUrls[0];
+      if (!sourceUrl) {
+        throw new Error("Photo posts require at least one media URL");
+      }
+
+      const lowerUrl = sourceUrl.toLowerCase();
+      const mediaFormat = lowerUrl.endsWith(".mp4") ? "VIDEO" : "PHOTO";
+
+      const mediaResponse = await createLocationPhotoFromSourceUrl({
+        accessToken,
+        accountId,
+        locationId,
+        sourceUrl,
+        category: ((post as { gmbMediaCategory?: string | null })
+          .gmbMediaCategory ?? "ADDITIONAL") as
+          | "CATEGORY_UNSPECIFIED"
+          | "COVER"
+          | "PROFILE"
+          | "LOGO"
+          | "EXTERIOR"
+          | "INTERIOR"
+          | "PRODUCT"
+          | "AT_WORK"
+          | "FOOD_AND_DRINK"
+          | "MENU"
+          | "COMMON_AREA"
+          | "ROOMS"
+          | "TEAMS"
+          | "ADDITIONAL",
+        mediaFormat,
+      });
+
+      await prisma.post.update({
+        where: { id: postId },
+        data: {
+          status: "PUBLISHED",
+          publishedAt: new Date(),
+          gmbPhotoMediaName: mediaResponse.name ?? null,
+        } as unknown as Parameters<typeof prisma.post.update>[0]["data"],
+      });
+
+      console.log(`[WORKER] Photo ${postId} published successfully`);
+      return mediaResponse;
+    }
+
+    const postBody = buildPostBody(post);
     const apiUrl = `https://mybusiness.googleapis.com/v4/accounts/${accountId}/locations/${locationId}/localPosts`;
 
     console.log(`[WORKER] Sending post to GMB: ${apiUrl}`);

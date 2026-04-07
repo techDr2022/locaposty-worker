@@ -173,7 +173,7 @@ model Location {
 }
 
 model Post {
-  id                 String     @id @default(cuid())
+  id                 String            @id @default(cuid())
   locationId         String
   userId             String
   title              String
@@ -182,7 +182,7 @@ model Post {
   mediaUrls          String[]
   scheduledAt        DateTime
   publishedAt        DateTime?
-  status             PostStatus @default(SCHEDULED)
+  status             PostStatus        @default(SCHEDULED)
   eventStart         DateTime?
   eventEnd           DateTime?
   offerStart         DateTime?
@@ -194,12 +194,15 @@ model Post {
   termsAndConditions String?
   recurType          RecurType?
   gmbPostName        String?
+  /// Resource name from accounts.locations.media (Google Business Profile photo upload API)
+  gmbPhotoMediaName  String?
+  gmbMediaCategory   GmbMediaCategory?
   recurEndsAt        DateTime?
   timezone           String?
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
-  location           Location   @relation(fields: [locationId], references: [id], onDelete: Cascade)
-  user               User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  location           Location          @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([locationId])
   @@index([userId])
@@ -359,6 +362,24 @@ enum PostType {
   UPDATE
   EVENT
   OFFER
+  PHOTO
+}
+
+enum GmbMediaCategory {
+  CATEGORY_UNSPECIFIED
+  COVER
+  PROFILE
+  LOGO
+  EXTERIOR
+  INTERIOR
+  PRODUCT
+  AT_WORK
+  FOOD_AND_DRINK
+  MENU
+  COMMON_AREA
+  ROOMS
+  TEAMS
+  ADDITIONAL
 }
 
 enum PostStatus {

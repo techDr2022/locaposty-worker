@@ -105,10 +105,31 @@ export type ReplyLength = (typeof ReplyLength)[keyof typeof ReplyLength]
 export const PostType: {
   UPDATE: 'UPDATE',
   EVENT: 'EVENT',
-  OFFER: 'OFFER'
+  OFFER: 'OFFER',
+  PHOTO: 'PHOTO'
 };
 
 export type PostType = (typeof PostType)[keyof typeof PostType]
+
+
+export const GmbMediaCategory: {
+  CATEGORY_UNSPECIFIED: 'CATEGORY_UNSPECIFIED',
+  COVER: 'COVER',
+  PROFILE: 'PROFILE',
+  LOGO: 'LOGO',
+  EXTERIOR: 'EXTERIOR',
+  INTERIOR: 'INTERIOR',
+  PRODUCT: 'PRODUCT',
+  AT_WORK: 'AT_WORK',
+  FOOD_AND_DRINK: 'FOOD_AND_DRINK',
+  MENU: 'MENU',
+  COMMON_AREA: 'COMMON_AREA',
+  ROOMS: 'ROOMS',
+  TEAMS: 'TEAMS',
+  ADDITIONAL: 'ADDITIONAL'
+};
+
+export type GmbMediaCategory = (typeof GmbMediaCategory)[keyof typeof GmbMediaCategory]
 
 
 export const PostStatus: {
@@ -254,6 +275,10 @@ export const ReplyLength: typeof $Enums.ReplyLength
 export type PostType = $Enums.PostType
 
 export const PostType: typeof $Enums.PostType
+
+export type GmbMediaCategory = $Enums.GmbMediaCategory
+
+export const GmbMediaCategory: typeof $Enums.GmbMediaCategory
 
 export type PostStatus = $Enums.PostStatus
 
@@ -10399,6 +10424,8 @@ export namespace Prisma {
     termsAndConditions: string | null
     recurType: $Enums.RecurType | null
     gmbPostName: string | null
+    gmbPhotoMediaName: string | null
+    gmbMediaCategory: $Enums.GmbMediaCategory | null
     recurEndsAt: Date | null
     timezone: string | null
     createdAt: Date | null
@@ -10426,6 +10453,8 @@ export namespace Prisma {
     termsAndConditions: string | null
     recurType: $Enums.RecurType | null
     gmbPostName: string | null
+    gmbPhotoMediaName: string | null
+    gmbMediaCategory: $Enums.GmbMediaCategory | null
     recurEndsAt: Date | null
     timezone: string | null
     createdAt: Date | null
@@ -10454,6 +10483,8 @@ export namespace Prisma {
     termsAndConditions: number
     recurType: number
     gmbPostName: number
+    gmbPhotoMediaName: number
+    gmbMediaCategory: number
     recurEndsAt: number
     timezone: number
     createdAt: number
@@ -10483,6 +10514,8 @@ export namespace Prisma {
     termsAndConditions?: true
     recurType?: true
     gmbPostName?: true
+    gmbPhotoMediaName?: true
+    gmbMediaCategory?: true
     recurEndsAt?: true
     timezone?: true
     createdAt?: true
@@ -10510,6 +10543,8 @@ export namespace Prisma {
     termsAndConditions?: true
     recurType?: true
     gmbPostName?: true
+    gmbPhotoMediaName?: true
+    gmbMediaCategory?: true
     recurEndsAt?: true
     timezone?: true
     createdAt?: true
@@ -10538,6 +10573,8 @@ export namespace Prisma {
     termsAndConditions?: true
     recurType?: true
     gmbPostName?: true
+    gmbPhotoMediaName?: true
+    gmbMediaCategory?: true
     recurEndsAt?: true
     timezone?: true
     createdAt?: true
@@ -10639,6 +10676,8 @@ export namespace Prisma {
     termsAndConditions: string | null
     recurType: $Enums.RecurType | null
     gmbPostName: string | null
+    gmbPhotoMediaName: string | null
+    gmbMediaCategory: $Enums.GmbMediaCategory | null
     recurEndsAt: Date | null
     timezone: string | null
     createdAt: Date
@@ -10684,6 +10723,8 @@ export namespace Prisma {
     termsAndConditions?: boolean
     recurType?: boolean
     gmbPostName?: boolean
+    gmbPhotoMediaName?: boolean
+    gmbMediaCategory?: boolean
     recurEndsAt?: boolean
     timezone?: boolean
     createdAt?: boolean
@@ -10714,6 +10755,8 @@ export namespace Prisma {
     termsAndConditions?: boolean
     recurType?: boolean
     gmbPostName?: boolean
+    gmbPhotoMediaName?: boolean
+    gmbMediaCategory?: boolean
     recurEndsAt?: boolean
     timezone?: boolean
     createdAt?: boolean
@@ -10744,6 +10787,8 @@ export namespace Prisma {
     termsAndConditions?: boolean
     recurType?: boolean
     gmbPostName?: boolean
+    gmbPhotoMediaName?: boolean
+    gmbMediaCategory?: boolean
     recurEndsAt?: boolean
     timezone?: boolean
     createdAt?: boolean
@@ -10774,13 +10819,15 @@ export namespace Prisma {
     termsAndConditions?: boolean
     recurType?: boolean
     gmbPostName?: boolean
+    gmbPhotoMediaName?: boolean
+    gmbMediaCategory?: boolean
     recurEndsAt?: boolean
     timezone?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "locationId" | "userId" | "title" | "content" | "type" | "mediaUrls" | "scheduledAt" | "publishedAt" | "status" | "eventStart" | "eventEnd" | "offerStart" | "offerEnd" | "couponCode" | "callToAction" | "ctaUrl" | "redeemOnlineUrl" | "termsAndConditions" | "recurType" | "gmbPostName" | "recurEndsAt" | "timezone" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "locationId" | "userId" | "title" | "content" | "type" | "mediaUrls" | "scheduledAt" | "publishedAt" | "status" | "eventStart" | "eventEnd" | "offerStart" | "offerEnd" | "couponCode" | "callToAction" | "ctaUrl" | "redeemOnlineUrl" | "termsAndConditions" | "recurType" | "gmbPostName" | "gmbPhotoMediaName" | "gmbMediaCategory" | "recurEndsAt" | "timezone" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     location?: boolean | LocationDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -10822,6 +10869,11 @@ export namespace Prisma {
       termsAndConditions: string | null
       recurType: $Enums.RecurType | null
       gmbPostName: string | null
+      /**
+       * Resource name from accounts.locations.media (Google Business Profile photo upload API)
+       */
+      gmbPhotoMediaName: string | null
+      gmbMediaCategory: $Enums.GmbMediaCategory | null
       recurEndsAt: Date | null
       timezone: string | null
       createdAt: Date
@@ -11272,6 +11324,8 @@ export namespace Prisma {
     readonly termsAndConditions: FieldRef<"Post", 'String'>
     readonly recurType: FieldRef<"Post", 'RecurType'>
     readonly gmbPostName: FieldRef<"Post", 'String'>
+    readonly gmbPhotoMediaName: FieldRef<"Post", 'String'>
+    readonly gmbMediaCategory: FieldRef<"Post", 'GmbMediaCategory'>
     readonly recurEndsAt: FieldRef<"Post", 'DateTime'>
     readonly timezone: FieldRef<"Post", 'String'>
     readonly createdAt: FieldRef<"Post", 'DateTime'>
@@ -21234,6 +21288,8 @@ export namespace Prisma {
     termsAndConditions: 'termsAndConditions',
     recurType: 'recurType',
     gmbPostName: 'gmbPostName',
+    gmbPhotoMediaName: 'gmbPhotoMediaName',
+    gmbMediaCategory: 'gmbMediaCategory',
     recurEndsAt: 'recurEndsAt',
     timezone: 'timezone',
     createdAt: 'createdAt',
@@ -21560,6 +21616,20 @@ export namespace Prisma {
    * Reference to a field of type 'RecurType[]'
    */
   export type ListEnumRecurTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecurType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'GmbMediaCategory'
+   */
+  export type EnumGmbMediaCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GmbMediaCategory'>
+    
+
+
+  /**
+   * Reference to a field of type 'GmbMediaCategory[]'
+   */
+  export type ListEnumGmbMediaCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GmbMediaCategory[]'>
     
 
 
@@ -22340,6 +22410,8 @@ export namespace Prisma {
     termsAndConditions?: StringNullableFilter<"Post"> | string | null
     recurType?: EnumRecurTypeNullableFilter<"Post"> | $Enums.RecurType | null
     gmbPostName?: StringNullableFilter<"Post"> | string | null
+    gmbPhotoMediaName?: StringNullableFilter<"Post"> | string | null
+    gmbMediaCategory?: EnumGmbMediaCategoryNullableFilter<"Post"> | $Enums.GmbMediaCategory | null
     recurEndsAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     timezone?: StringNullableFilter<"Post"> | string | null
     createdAt?: DateTimeFilter<"Post"> | Date | string
@@ -22370,6 +22442,8 @@ export namespace Prisma {
     termsAndConditions?: SortOrderInput | SortOrder
     recurType?: SortOrderInput | SortOrder
     gmbPostName?: SortOrderInput | SortOrder
+    gmbPhotoMediaName?: SortOrderInput | SortOrder
+    gmbMediaCategory?: SortOrderInput | SortOrder
     recurEndsAt?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -22403,6 +22477,8 @@ export namespace Prisma {
     termsAndConditions?: StringNullableFilter<"Post"> | string | null
     recurType?: EnumRecurTypeNullableFilter<"Post"> | $Enums.RecurType | null
     gmbPostName?: StringNullableFilter<"Post"> | string | null
+    gmbPhotoMediaName?: StringNullableFilter<"Post"> | string | null
+    gmbMediaCategory?: EnumGmbMediaCategoryNullableFilter<"Post"> | $Enums.GmbMediaCategory | null
     recurEndsAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     timezone?: StringNullableFilter<"Post"> | string | null
     createdAt?: DateTimeFilter<"Post"> | Date | string
@@ -22433,6 +22509,8 @@ export namespace Prisma {
     termsAndConditions?: SortOrderInput | SortOrder
     recurType?: SortOrderInput | SortOrder
     gmbPostName?: SortOrderInput | SortOrder
+    gmbPhotoMediaName?: SortOrderInput | SortOrder
+    gmbMediaCategory?: SortOrderInput | SortOrder
     recurEndsAt?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -22467,6 +22545,8 @@ export namespace Prisma {
     termsAndConditions?: StringNullableWithAggregatesFilter<"Post"> | string | null
     recurType?: EnumRecurTypeNullableWithAggregatesFilter<"Post"> | $Enums.RecurType | null
     gmbPostName?: StringNullableWithAggregatesFilter<"Post"> | string | null
+    gmbPhotoMediaName?: StringNullableWithAggregatesFilter<"Post"> | string | null
+    gmbMediaCategory?: EnumGmbMediaCategoryNullableWithAggregatesFilter<"Post"> | $Enums.GmbMediaCategory | null
     recurEndsAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
     timezone?: StringNullableWithAggregatesFilter<"Post"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
@@ -23949,6 +24029,8 @@ export namespace Prisma {
     termsAndConditions?: string | null
     recurType?: $Enums.RecurType | null
     gmbPostName?: string | null
+    gmbPhotoMediaName?: string | null
+    gmbMediaCategory?: $Enums.GmbMediaCategory | null
     recurEndsAt?: Date | string | null
     timezone?: string | null
     createdAt?: Date | string
@@ -23979,6 +24061,8 @@ export namespace Prisma {
     termsAndConditions?: string | null
     recurType?: $Enums.RecurType | null
     gmbPostName?: string | null
+    gmbPhotoMediaName?: string | null
+    gmbMediaCategory?: $Enums.GmbMediaCategory | null
     recurEndsAt?: Date | string | null
     timezone?: string | null
     createdAt?: Date | string
@@ -24005,6 +24089,8 @@ export namespace Prisma {
     termsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     recurType?: NullableEnumRecurTypeFieldUpdateOperationsInput | $Enums.RecurType | null
     gmbPostName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbPhotoMediaName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbMediaCategory?: NullableEnumGmbMediaCategoryFieldUpdateOperationsInput | $Enums.GmbMediaCategory | null
     recurEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24035,6 +24121,8 @@ export namespace Prisma {
     termsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     recurType?: NullableEnumRecurTypeFieldUpdateOperationsInput | $Enums.RecurType | null
     gmbPostName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbPhotoMediaName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbMediaCategory?: NullableEnumGmbMediaCategoryFieldUpdateOperationsInput | $Enums.GmbMediaCategory | null
     recurEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24063,6 +24151,8 @@ export namespace Prisma {
     termsAndConditions?: string | null
     recurType?: $Enums.RecurType | null
     gmbPostName?: string | null
+    gmbPhotoMediaName?: string | null
+    gmbMediaCategory?: $Enums.GmbMediaCategory | null
     recurEndsAt?: Date | string | null
     timezone?: string | null
     createdAt?: Date | string
@@ -24089,6 +24179,8 @@ export namespace Prisma {
     termsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     recurType?: NullableEnumRecurTypeFieldUpdateOperationsInput | $Enums.RecurType | null
     gmbPostName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbPhotoMediaName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbMediaCategory?: NullableEnumGmbMediaCategoryFieldUpdateOperationsInput | $Enums.GmbMediaCategory | null
     recurEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24117,6 +24209,8 @@ export namespace Prisma {
     termsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     recurType?: NullableEnumRecurTypeFieldUpdateOperationsInput | $Enums.RecurType | null
     gmbPostName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbPhotoMediaName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbMediaCategory?: NullableEnumGmbMediaCategoryFieldUpdateOperationsInput | $Enums.GmbMediaCategory | null
     recurEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25625,6 +25719,13 @@ export namespace Prisma {
     not?: NestedEnumRecurTypeNullableFilter<$PrismaModel> | $Enums.RecurType | null
   }
 
+  export type EnumGmbMediaCategoryNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.GmbMediaCategory | EnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.GmbMediaCategory[] | ListEnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.GmbMediaCategory[] | ListEnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGmbMediaCategoryNullableFilter<$PrismaModel> | $Enums.GmbMediaCategory | null
+  }
+
   export type LocationScalarRelationFilter = {
     is?: LocationWhereInput
     isNot?: LocationWhereInput
@@ -25652,6 +25753,8 @@ export namespace Prisma {
     termsAndConditions?: SortOrder
     recurType?: SortOrder
     gmbPostName?: SortOrder
+    gmbPhotoMediaName?: SortOrder
+    gmbMediaCategory?: SortOrder
     recurEndsAt?: SortOrder
     timezone?: SortOrder
     createdAt?: SortOrder
@@ -25679,6 +25782,8 @@ export namespace Prisma {
     termsAndConditions?: SortOrder
     recurType?: SortOrder
     gmbPostName?: SortOrder
+    gmbPhotoMediaName?: SortOrder
+    gmbMediaCategory?: SortOrder
     recurEndsAt?: SortOrder
     timezone?: SortOrder
     createdAt?: SortOrder
@@ -25706,6 +25811,8 @@ export namespace Prisma {
     termsAndConditions?: SortOrder
     recurType?: SortOrder
     gmbPostName?: SortOrder
+    gmbPhotoMediaName?: SortOrder
+    gmbMediaCategory?: SortOrder
     recurEndsAt?: SortOrder
     timezone?: SortOrder
     createdAt?: SortOrder
@@ -25740,6 +25847,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumRecurTypeNullableFilter<$PrismaModel>
     _max?: NestedEnumRecurTypeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumGmbMediaCategoryNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GmbMediaCategory | EnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.GmbMediaCategory[] | ListEnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.GmbMediaCategory[] | ListEnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGmbMediaCategoryNullableWithAggregatesFilter<$PrismaModel> | $Enums.GmbMediaCategory | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumGmbMediaCategoryNullableFilter<$PrismaModel>
+    _max?: NestedEnumGmbMediaCategoryNullableFilter<$PrismaModel>
   }
 
   export type EnumReviewStatusFilter<$PrismaModel = never> = {
@@ -27303,6 +27420,10 @@ export namespace Prisma {
     set?: $Enums.RecurType | null
   }
 
+  export type NullableEnumGmbMediaCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.GmbMediaCategory | null
+  }
+
   export type LocationUpdateOneRequiredWithoutPostsNestedInput = {
     create?: XOR<LocationCreateWithoutPostsInput, LocationUncheckedCreateWithoutPostsInput>
     connectOrCreate?: LocationCreateOrConnectWithoutPostsInput
@@ -27955,6 +28076,13 @@ export namespace Prisma {
     not?: NestedEnumRecurTypeNullableFilter<$PrismaModel> | $Enums.RecurType | null
   }
 
+  export type NestedEnumGmbMediaCategoryNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.GmbMediaCategory | EnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.GmbMediaCategory[] | ListEnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.GmbMediaCategory[] | ListEnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGmbMediaCategoryNullableFilter<$PrismaModel> | $Enums.GmbMediaCategory | null
+  }
+
   export type NestedEnumPostTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.PostType | EnumPostTypeFieldRefInput<$PrismaModel>
     in?: $Enums.PostType[] | ListEnumPostTypeFieldRefInput<$PrismaModel>
@@ -27983,6 +28111,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumRecurTypeNullableFilter<$PrismaModel>
     _max?: NestedEnumRecurTypeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumGmbMediaCategoryNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GmbMediaCategory | EnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.GmbMediaCategory[] | ListEnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.GmbMediaCategory[] | ListEnumGmbMediaCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGmbMediaCategoryNullableWithAggregatesFilter<$PrismaModel> | $Enums.GmbMediaCategory | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumGmbMediaCategoryNullableFilter<$PrismaModel>
+    _max?: NestedEnumGmbMediaCategoryNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumReviewStatusFilter<$PrismaModel = never> = {
@@ -28156,6 +28294,8 @@ export namespace Prisma {
     termsAndConditions?: string | null
     recurType?: $Enums.RecurType | null
     gmbPostName?: string | null
+    gmbPhotoMediaName?: string | null
+    gmbMediaCategory?: $Enums.GmbMediaCategory | null
     recurEndsAt?: Date | string | null
     timezone?: string | null
     createdAt?: Date | string
@@ -28184,6 +28324,8 @@ export namespace Prisma {
     termsAndConditions?: string | null
     recurType?: $Enums.RecurType | null
     gmbPostName?: string | null
+    gmbPhotoMediaName?: string | null
+    gmbMediaCategory?: $Enums.GmbMediaCategory | null
     recurEndsAt?: Date | string | null
     timezone?: string | null
     createdAt?: Date | string
@@ -28572,6 +28714,8 @@ export namespace Prisma {
     termsAndConditions?: StringNullableFilter<"Post"> | string | null
     recurType?: EnumRecurTypeNullableFilter<"Post"> | $Enums.RecurType | null
     gmbPostName?: StringNullableFilter<"Post"> | string | null
+    gmbPhotoMediaName?: StringNullableFilter<"Post"> | string | null
+    gmbMediaCategory?: EnumGmbMediaCategoryNullableFilter<"Post"> | $Enums.GmbMediaCategory | null
     recurEndsAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     timezone?: StringNullableFilter<"Post"> | string | null
     createdAt?: DateTimeFilter<"Post"> | Date | string
@@ -29621,6 +29765,8 @@ export namespace Prisma {
     termsAndConditions?: string | null
     recurType?: $Enums.RecurType | null
     gmbPostName?: string | null
+    gmbPhotoMediaName?: string | null
+    gmbMediaCategory?: $Enums.GmbMediaCategory | null
     recurEndsAt?: Date | string | null
     timezone?: string | null
     createdAt?: Date | string
@@ -29649,6 +29795,8 @@ export namespace Prisma {
     termsAndConditions?: string | null
     recurType?: $Enums.RecurType | null
     gmbPostName?: string | null
+    gmbPhotoMediaName?: string | null
+    gmbMediaCategory?: $Enums.GmbMediaCategory | null
     recurEndsAt?: Date | string | null
     timezone?: string | null
     createdAt?: Date | string
@@ -32080,6 +32228,8 @@ export namespace Prisma {
     termsAndConditions?: string | null
     recurType?: $Enums.RecurType | null
     gmbPostName?: string | null
+    gmbPhotoMediaName?: string | null
+    gmbMediaCategory?: $Enums.GmbMediaCategory | null
     recurEndsAt?: Date | string | null
     timezone?: string | null
     createdAt?: Date | string
@@ -32200,6 +32350,8 @@ export namespace Prisma {
     termsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     recurType?: NullableEnumRecurTypeFieldUpdateOperationsInput | $Enums.RecurType | null
     gmbPostName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbPhotoMediaName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbMediaCategory?: NullableEnumGmbMediaCategoryFieldUpdateOperationsInput | $Enums.GmbMediaCategory | null
     recurEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32228,6 +32380,8 @@ export namespace Prisma {
     termsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     recurType?: NullableEnumRecurTypeFieldUpdateOperationsInput | $Enums.RecurType | null
     gmbPostName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbPhotoMediaName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbMediaCategory?: NullableEnumGmbMediaCategoryFieldUpdateOperationsInput | $Enums.GmbMediaCategory | null
     recurEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32255,6 +32409,8 @@ export namespace Prisma {
     termsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     recurType?: NullableEnumRecurTypeFieldUpdateOperationsInput | $Enums.RecurType | null
     gmbPostName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbPhotoMediaName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbMediaCategory?: NullableEnumGmbMediaCategoryFieldUpdateOperationsInput | $Enums.GmbMediaCategory | null
     recurEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32824,6 +32980,8 @@ export namespace Prisma {
     termsAndConditions?: string | null
     recurType?: $Enums.RecurType | null
     gmbPostName?: string | null
+    gmbPhotoMediaName?: string | null
+    gmbMediaCategory?: $Enums.GmbMediaCategory | null
     recurEndsAt?: Date | string | null
     timezone?: string | null
     createdAt?: Date | string
@@ -32941,6 +33099,8 @@ export namespace Prisma {
     termsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     recurType?: NullableEnumRecurTypeFieldUpdateOperationsInput | $Enums.RecurType | null
     gmbPostName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbPhotoMediaName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbMediaCategory?: NullableEnumGmbMediaCategoryFieldUpdateOperationsInput | $Enums.GmbMediaCategory | null
     recurEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32969,6 +33129,8 @@ export namespace Prisma {
     termsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     recurType?: NullableEnumRecurTypeFieldUpdateOperationsInput | $Enums.RecurType | null
     gmbPostName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbPhotoMediaName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbMediaCategory?: NullableEnumGmbMediaCategoryFieldUpdateOperationsInput | $Enums.GmbMediaCategory | null
     recurEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32996,6 +33158,8 @@ export namespace Prisma {
     termsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     recurType?: NullableEnumRecurTypeFieldUpdateOperationsInput | $Enums.RecurType | null
     gmbPostName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbPhotoMediaName?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbMediaCategory?: NullableEnumGmbMediaCategoryFieldUpdateOperationsInput | $Enums.GmbMediaCategory | null
     recurEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
