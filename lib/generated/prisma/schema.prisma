@@ -146,6 +146,7 @@ model Location {
   latitude             Float?
   longitude            Float?
   timezone             String                  @default("UTC")
+  reportEmail          String?
   isVerified           Boolean                 @default(false)
   lastSyncedAt         DateTime                @default(now())
   lastFetchedTimestamp DateTime?
@@ -160,6 +161,7 @@ model Location {
   insights             Insight[]
   posts                Post[]
   reports              Report[]
+  reportSchedules      ReportSchedule[]
   reviews              Review[]
   users                User[]                  @relation("LocationToUser")
   searchKeywords       SearchKeyword[]
@@ -315,17 +317,54 @@ model Insight {
 }
 
 model Report {
-  id         String       @id @default(cuid())
-  locationId String
-  name       String
-  startDate  DateTime
-  endDate    DateTime
-  reportType ReportType
-  fileUrl    String?
-  status     ReportStatus @default(GENERATING)
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  location   Location     @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  id                String          @id @default(cuid())
+  locationId        String
+  scheduleId        String?
+  name              String
+  startDate         DateTime
+  endDate           DateTime
+  reportType        ReportType
+  recipientEmail    String?
+  scheduledFor      DateTime?
+  deliveredAt       DateTime?
+  errorMessage      String?
+  attemptCount      Int             @default(0)
+  reportPeriodStart DateTime?
+  reportPeriodEnd   DateTime?
+  fileUrl           String?
+  status            ReportStatus    @default(GENERATING)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  location          Location        @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  schedule          ReportSchedule? @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
+
+  @@index([locationId, createdAt])
+  @@index([status, createdAt])
+  @@index([scheduleId])
+}
+
+model ReportSchedule {
+  id               String                  @id @default(cuid())
+  locationId       String
+  type             ReportScheduleType
+  enabled          Boolean                 @default(true)
+  timezone         String                  @default("UTC")
+  dayOfMonth       Int?
+  sendTimeLocal    String?
+  runAt            DateTime?
+  customPeriodType CustomReportPeriodType?
+  customStartDate  DateTime?
+  customEndDate    DateTime?
+  nextRunAt        DateTime?
+  lastRunAt        DateTime?
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+  location         Location                @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  reports          Report[]
+
+  @@index([enabled, nextRunAt])
+  @@index([locationId])
+  @@index([locationId, type])
 }
 
 model SearchKeyword {
@@ -454,6 +493,16 @@ enum ReportStatus {
   GENERATING
   COMPLETED
   FAILED
+}
+
+enum ReportScheduleType {
+  MONTHLY
+  CUSTOM
+}
+
+enum CustomReportPeriodType {
+  PREVIOUS_MONTH
+  CUSTOM_RANGE
 }
 
 enum SubscriptionStatus {

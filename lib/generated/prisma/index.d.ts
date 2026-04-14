@@ -79,6 +79,11 @@ export type Insight = $Result.DefaultSelection<Prisma.$InsightPayload>
  */
 export type Report = $Result.DefaultSelection<Prisma.$ReportPayload>
 /**
+ * Model ReportSchedule
+ * 
+ */
+export type ReportSchedule = $Result.DefaultSelection<Prisma.$ReportSchedulePayload>
+/**
  * Model SearchKeyword
  * 
  */
@@ -233,6 +238,22 @@ export const ReportStatus: {
 export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]
 
 
+export const ReportScheduleType: {
+  MONTHLY: 'MONTHLY',
+  CUSTOM: 'CUSTOM'
+};
+
+export type ReportScheduleType = (typeof ReportScheduleType)[keyof typeof ReportScheduleType]
+
+
+export const CustomReportPeriodType: {
+  PREVIOUS_MONTH: 'PREVIOUS_MONTH',
+  CUSTOM_RANGE: 'CUSTOM_RANGE'
+};
+
+export type CustomReportPeriodType = (typeof CustomReportPeriodType)[keyof typeof CustomReportPeriodType]
+
+
 export const SubscriptionStatus: {
   INACTIVE: 'INACTIVE',
   TRIALING: 'TRIALING',
@@ -315,6 +336,14 @@ export const ReportType: typeof $Enums.ReportType
 export type ReportStatus = $Enums.ReportStatus
 
 export const ReportStatus: typeof $Enums.ReportStatus
+
+export type ReportScheduleType = $Enums.ReportScheduleType
+
+export const ReportScheduleType: typeof $Enums.ReportScheduleType
+
+export type CustomReportPeriodType = $Enums.CustomReportPeriodType
+
+export const CustomReportPeriodType: typeof $Enums.CustomReportPeriodType
 
 export type SubscriptionStatus = $Enums.SubscriptionStatus
 
@@ -575,6 +604,16 @@ export class PrismaClient<
     * ```
     */
   get report(): Prisma.ReportDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.reportSchedule`: Exposes CRUD operations for the **ReportSchedule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReportSchedules
+    * const reportSchedules = await prisma.reportSchedule.findMany()
+    * ```
+    */
+  get reportSchedule(): Prisma.ReportScheduleDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.searchKeyword`: Exposes CRUD operations for the **SearchKeyword** model.
@@ -1049,6 +1088,7 @@ export namespace Prisma {
     LocationReplySettings: 'LocationReplySettings',
     Insight: 'Insight',
     Report: 'Report',
+    ReportSchedule: 'ReportSchedule',
     SearchKeyword: 'SearchKeyword',
     RankTrackingResult: 'RankTrackingResult'
   };
@@ -1069,7 +1109,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "subscription" | "billingInvoice" | "session" | "googleAccount" | "location" | "post" | "review" | "reviewReply" | "aIReplyTemplate" | "locationReplySettings" | "insight" | "report" | "searchKeyword" | "rankTrackingResult"
+      modelProps: "user" | "subscription" | "billingInvoice" | "session" | "googleAccount" | "location" | "post" | "review" | "reviewReply" | "aIReplyTemplate" | "locationReplySettings" | "insight" | "report" | "reportSchedule" | "searchKeyword" | "rankTrackingResult"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2035,6 +2075,80 @@ export namespace Prisma {
           }
         }
       }
+      ReportSchedule: {
+        payload: Prisma.$ReportSchedulePayload<ExtArgs>
+        fields: Prisma.ReportScheduleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReportScheduleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReportScheduleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload>
+          }
+          findFirst: {
+            args: Prisma.ReportScheduleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReportScheduleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload>
+          }
+          findMany: {
+            args: Prisma.ReportScheduleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload>[]
+          }
+          create: {
+            args: Prisma.ReportScheduleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload>
+          }
+          createMany: {
+            args: Prisma.ReportScheduleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReportScheduleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload>[]
+          }
+          delete: {
+            args: Prisma.ReportScheduleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload>
+          }
+          update: {
+            args: Prisma.ReportScheduleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload>
+          }
+          deleteMany: {
+            args: Prisma.ReportScheduleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReportScheduleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReportScheduleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload>[]
+          }
+          upsert: {
+            args: Prisma.ReportScheduleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReportSchedulePayload>
+          }
+          aggregate: {
+            args: Prisma.ReportScheduleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReportSchedule>
+          }
+          groupBy: {
+            args: Prisma.ReportScheduleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReportScheduleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReportScheduleCountArgs<ExtArgs>
+            result: $Utils.Optional<ReportScheduleCountAggregateOutputType> | number
+          }
+        }
+      }
       SearchKeyword: {
         payload: Prisma.$SearchKeywordPayload<ExtArgs>
         fields: Prisma.SearchKeywordFieldRefs
@@ -2292,6 +2406,7 @@ export namespace Prisma {
     locationReplySettings?: LocationReplySettingsOmit
     insight?: InsightOmit
     report?: ReportOmit
+    reportSchedule?: ReportScheduleOmit
     searchKeyword?: SearchKeywordOmit
     rankTrackingResult?: RankTrackingResultOmit
   }
@@ -2542,6 +2657,7 @@ export namespace Prisma {
     insights: number
     posts: number
     reports: number
+    reportSchedules: number
     reviews: number
     users: number
     searchKeywords: number
@@ -2553,6 +2669,7 @@ export namespace Prisma {
     insights?: boolean | LocationCountOutputTypeCountInsightsArgs
     posts?: boolean | LocationCountOutputTypeCountPostsArgs
     reports?: boolean | LocationCountOutputTypeCountReportsArgs
+    reportSchedules?: boolean | LocationCountOutputTypeCountReportSchedulesArgs
     reviews?: boolean | LocationCountOutputTypeCountReviewsArgs
     users?: boolean | LocationCountOutputTypeCountUsersArgs
     searchKeywords?: boolean | LocationCountOutputTypeCountSearchKeywordsArgs
@@ -2590,6 +2707,13 @@ export namespace Prisma {
    */
   export type LocationCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReportWhereInput
+  }
+
+  /**
+   * LocationCountOutputType without action
+   */
+  export type LocationCountOutputTypeCountReportSchedulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportScheduleWhereInput
   }
 
   /**
@@ -2687,6 +2811,37 @@ export namespace Prisma {
    */
   export type AIReplyTemplateCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReviewReplyWhereInput
+  }
+
+
+  /**
+   * Count Type ReportScheduleCountOutputType
+   */
+
+  export type ReportScheduleCountOutputType = {
+    reports: number
+  }
+
+  export type ReportScheduleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reports?: boolean | ReportScheduleCountOutputTypeCountReportsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ReportScheduleCountOutputType without action
+   */
+  export type ReportScheduleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportScheduleCountOutputType
+     */
+    select?: ReportScheduleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ReportScheduleCountOutputType without action
+   */
+  export type ReportScheduleCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportWhereInput
   }
 
 
@@ -8877,6 +9032,7 @@ export namespace Prisma {
     latitude: number | null
     longitude: number | null
     timezone: string | null
+    reportEmail: string | null
     isVerified: boolean | null
     lastSyncedAt: Date | null
     lastFetchedTimestamp: Date | null
@@ -8901,6 +9057,7 @@ export namespace Prisma {
     latitude: number | null
     longitude: number | null
     timezone: string | null
+    reportEmail: string | null
     isVerified: boolean | null
     lastSyncedAt: Date | null
     lastFetchedTimestamp: Date | null
@@ -8925,6 +9082,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     timezone: number
+    reportEmail: number
     isVerified: number
     lastSyncedAt: number
     lastFetchedTimestamp: number
@@ -8961,6 +9119,7 @@ export namespace Prisma {
     latitude?: true
     longitude?: true
     timezone?: true
+    reportEmail?: true
     isVerified?: true
     lastSyncedAt?: true
     lastFetchedTimestamp?: true
@@ -8985,6 +9144,7 @@ export namespace Prisma {
     latitude?: true
     longitude?: true
     timezone?: true
+    reportEmail?: true
     isVerified?: true
     lastSyncedAt?: true
     lastFetchedTimestamp?: true
@@ -9009,6 +9169,7 @@ export namespace Prisma {
     latitude?: true
     longitude?: true
     timezone?: true
+    reportEmail?: true
     isVerified?: true
     lastSyncedAt?: true
     lastFetchedTimestamp?: true
@@ -9120,6 +9281,7 @@ export namespace Prisma {
     latitude: number | null
     longitude: number | null
     timezone: string
+    reportEmail: string | null
     isVerified: boolean
     lastSyncedAt: Date
     lastFetchedTimestamp: Date | null
@@ -9163,6 +9325,7 @@ export namespace Prisma {
     latitude?: boolean
     longitude?: boolean
     timezone?: boolean
+    reportEmail?: boolean
     isVerified?: boolean
     lastSyncedAt?: boolean
     lastFetchedTimestamp?: boolean
@@ -9177,6 +9340,7 @@ export namespace Prisma {
     insights?: boolean | Location$insightsArgs<ExtArgs>
     posts?: boolean | Location$postsArgs<ExtArgs>
     reports?: boolean | Location$reportsArgs<ExtArgs>
+    reportSchedules?: boolean | Location$reportSchedulesArgs<ExtArgs>
     reviews?: boolean | Location$reviewsArgs<ExtArgs>
     users?: boolean | Location$usersArgs<ExtArgs>
     searchKeywords?: boolean | Location$searchKeywordsArgs<ExtArgs>
@@ -9197,6 +9361,7 @@ export namespace Prisma {
     latitude?: boolean
     longitude?: boolean
     timezone?: boolean
+    reportEmail?: boolean
     isVerified?: boolean
     lastSyncedAt?: boolean
     lastFetchedTimestamp?: boolean
@@ -9222,6 +9387,7 @@ export namespace Prisma {
     latitude?: boolean
     longitude?: boolean
     timezone?: boolean
+    reportEmail?: boolean
     isVerified?: boolean
     lastSyncedAt?: boolean
     lastFetchedTimestamp?: boolean
@@ -9247,6 +9413,7 @@ export namespace Prisma {
     latitude?: boolean
     longitude?: boolean
     timezone?: boolean
+    reportEmail?: boolean
     isVerified?: boolean
     lastSyncedAt?: boolean
     lastFetchedTimestamp?: boolean
@@ -9260,11 +9427,12 @@ export namespace Prisma {
     gmbAccountId?: boolean
   }
 
-  export type LocationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "gmbLocationId" | "gmbLocationName" | "address" | "phone" | "websiteUrl" | "latitude" | "longitude" | "timezone" | "isVerified" | "lastSyncedAt" | "lastFetchedTimestamp" | "autoReplyEnabled" | "autoPostEnabled" | "replyTonePreference" | "googleAccountId" | "createdAt" | "updatedAt" | "logoUrl" | "gmbAccountId", ExtArgs["result"]["location"]>
+  export type LocationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "gmbLocationId" | "gmbLocationName" | "address" | "phone" | "websiteUrl" | "latitude" | "longitude" | "timezone" | "reportEmail" | "isVerified" | "lastSyncedAt" | "lastFetchedTimestamp" | "autoReplyEnabled" | "autoPostEnabled" | "replyTonePreference" | "googleAccountId" | "createdAt" | "updatedAt" | "logoUrl" | "gmbAccountId", ExtArgs["result"]["location"]>
   export type LocationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     insights?: boolean | Location$insightsArgs<ExtArgs>
     posts?: boolean | Location$postsArgs<ExtArgs>
     reports?: boolean | Location$reportsArgs<ExtArgs>
+    reportSchedules?: boolean | Location$reportSchedulesArgs<ExtArgs>
     reviews?: boolean | Location$reviewsArgs<ExtArgs>
     users?: boolean | Location$usersArgs<ExtArgs>
     searchKeywords?: boolean | Location$searchKeywordsArgs<ExtArgs>
@@ -9286,6 +9454,7 @@ export namespace Prisma {
       insights: Prisma.$InsightPayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
       reports: Prisma.$ReportPayload<ExtArgs>[]
+      reportSchedules: Prisma.$ReportSchedulePayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
       users: Prisma.$UserPayload<ExtArgs>[]
       searchKeywords: Prisma.$SearchKeywordPayload<ExtArgs>[]
@@ -9304,6 +9473,7 @@ export namespace Prisma {
       latitude: number | null
       longitude: number | null
       timezone: string
+      reportEmail: string | null
       isVerified: boolean
       lastSyncedAt: Date
       lastFetchedTimestamp: Date | null
@@ -9712,6 +9882,7 @@ export namespace Prisma {
     insights<T extends Location$insightsArgs<ExtArgs> = {}>(args?: Subset<T, Location$insightsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InsightPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends Location$postsArgs<ExtArgs> = {}>(args?: Subset<T, Location$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reports<T extends Location$reportsArgs<ExtArgs> = {}>(args?: Subset<T, Location$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reportSchedules<T extends Location$reportSchedulesArgs<ExtArgs> = {}>(args?: Subset<T, Location$reportSchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends Location$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Location$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     users<T extends Location$usersArgs<ExtArgs> = {}>(args?: Subset<T, Location$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     searchKeywords<T extends Location$searchKeywordsArgs<ExtArgs> = {}>(args?: Subset<T, Location$searchKeywordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchKeywordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -9757,6 +9928,7 @@ export namespace Prisma {
     readonly latitude: FieldRef<"Location", 'Float'>
     readonly longitude: FieldRef<"Location", 'Float'>
     readonly timezone: FieldRef<"Location", 'String'>
+    readonly reportEmail: FieldRef<"Location", 'String'>
     readonly isVerified: FieldRef<"Location", 'Boolean'>
     readonly lastSyncedAt: FieldRef<"Location", 'DateTime'>
     readonly lastFetchedTimestamp: FieldRef<"Location", 'DateTime'>
@@ -10233,6 +10405,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
+   * Location.reportSchedules
+   */
+  export type Location$reportSchedulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    where?: ReportScheduleWhereInput
+    orderBy?: ReportScheduleOrderByWithRelationInput | ReportScheduleOrderByWithRelationInput[]
+    cursor?: ReportScheduleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReportScheduleScalarFieldEnum | ReportScheduleScalarFieldEnum[]
   }
 
   /**
@@ -17721,17 +17917,35 @@ export namespace Prisma {
 
   export type AggregateReport = {
     _count: ReportCountAggregateOutputType | null
+    _avg: ReportAvgAggregateOutputType | null
+    _sum: ReportSumAggregateOutputType | null
     _min: ReportMinAggregateOutputType | null
     _max: ReportMaxAggregateOutputType | null
+  }
+
+  export type ReportAvgAggregateOutputType = {
+    attemptCount: number | null
+  }
+
+  export type ReportSumAggregateOutputType = {
+    attemptCount: number | null
   }
 
   export type ReportMinAggregateOutputType = {
     id: string | null
     locationId: string | null
+    scheduleId: string | null
     name: string | null
     startDate: Date | null
     endDate: Date | null
     reportType: $Enums.ReportType | null
+    recipientEmail: string | null
+    scheduledFor: Date | null
+    deliveredAt: Date | null
+    errorMessage: string | null
+    attemptCount: number | null
+    reportPeriodStart: Date | null
+    reportPeriodEnd: Date | null
     fileUrl: string | null
     status: $Enums.ReportStatus | null
     createdAt: Date | null
@@ -17741,10 +17955,18 @@ export namespace Prisma {
   export type ReportMaxAggregateOutputType = {
     id: string | null
     locationId: string | null
+    scheduleId: string | null
     name: string | null
     startDate: Date | null
     endDate: Date | null
     reportType: $Enums.ReportType | null
+    recipientEmail: string | null
+    scheduledFor: Date | null
+    deliveredAt: Date | null
+    errorMessage: string | null
+    attemptCount: number | null
+    reportPeriodStart: Date | null
+    reportPeriodEnd: Date | null
     fileUrl: string | null
     status: $Enums.ReportStatus | null
     createdAt: Date | null
@@ -17754,10 +17976,18 @@ export namespace Prisma {
   export type ReportCountAggregateOutputType = {
     id: number
     locationId: number
+    scheduleId: number
     name: number
     startDate: number
     endDate: number
     reportType: number
+    recipientEmail: number
+    scheduledFor: number
+    deliveredAt: number
+    errorMessage: number
+    attemptCount: number
+    reportPeriodStart: number
+    reportPeriodEnd: number
     fileUrl: number
     status: number
     createdAt: number
@@ -17766,13 +17996,29 @@ export namespace Prisma {
   }
 
 
+  export type ReportAvgAggregateInputType = {
+    attemptCount?: true
+  }
+
+  export type ReportSumAggregateInputType = {
+    attemptCount?: true
+  }
+
   export type ReportMinAggregateInputType = {
     id?: true
     locationId?: true
+    scheduleId?: true
     name?: true
     startDate?: true
     endDate?: true
     reportType?: true
+    recipientEmail?: true
+    scheduledFor?: true
+    deliveredAt?: true
+    errorMessage?: true
+    attemptCount?: true
+    reportPeriodStart?: true
+    reportPeriodEnd?: true
     fileUrl?: true
     status?: true
     createdAt?: true
@@ -17782,10 +18028,18 @@ export namespace Prisma {
   export type ReportMaxAggregateInputType = {
     id?: true
     locationId?: true
+    scheduleId?: true
     name?: true
     startDate?: true
     endDate?: true
     reportType?: true
+    recipientEmail?: true
+    scheduledFor?: true
+    deliveredAt?: true
+    errorMessage?: true
+    attemptCount?: true
+    reportPeriodStart?: true
+    reportPeriodEnd?: true
     fileUrl?: true
     status?: true
     createdAt?: true
@@ -17795,10 +18049,18 @@ export namespace Prisma {
   export type ReportCountAggregateInputType = {
     id?: true
     locationId?: true
+    scheduleId?: true
     name?: true
     startDate?: true
     endDate?: true
     reportType?: true
+    recipientEmail?: true
+    scheduledFor?: true
+    deliveredAt?: true
+    errorMessage?: true
+    attemptCount?: true
+    reportPeriodStart?: true
+    reportPeriodEnd?: true
     fileUrl?: true
     status?: true
     createdAt?: true
@@ -17844,6 +18106,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ReportAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReportSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ReportMinAggregateInputType
@@ -17874,6 +18148,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ReportCountAggregateInputType | true
+    _avg?: ReportAvgAggregateInputType
+    _sum?: ReportSumAggregateInputType
     _min?: ReportMinAggregateInputType
     _max?: ReportMaxAggregateInputType
   }
@@ -17881,15 +18157,25 @@ export namespace Prisma {
   export type ReportGroupByOutputType = {
     id: string
     locationId: string
+    scheduleId: string | null
     name: string
     startDate: Date
     endDate: Date
     reportType: $Enums.ReportType
+    recipientEmail: string | null
+    scheduledFor: Date | null
+    deliveredAt: Date | null
+    errorMessage: string | null
+    attemptCount: number
+    reportPeriodStart: Date | null
+    reportPeriodEnd: Date | null
     fileUrl: string | null
     status: $Enums.ReportStatus
     createdAt: Date
     updatedAt: Date
     _count: ReportCountAggregateOutputType | null
+    _avg: ReportAvgAggregateOutputType | null
+    _sum: ReportSumAggregateOutputType | null
     _min: ReportMinAggregateOutputType | null
     _max: ReportMaxAggregateOutputType | null
   }
@@ -17911,81 +18197,128 @@ export namespace Prisma {
   export type ReportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     locationId?: boolean
+    scheduleId?: boolean
     name?: boolean
     startDate?: boolean
     endDate?: boolean
     reportType?: boolean
+    recipientEmail?: boolean
+    scheduledFor?: boolean
+    deliveredAt?: boolean
+    errorMessage?: boolean
+    attemptCount?: boolean
+    reportPeriodStart?: boolean
+    reportPeriodEnd?: boolean
     fileUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     location?: boolean | LocationDefaultArgs<ExtArgs>
+    schedule?: boolean | Report$scheduleArgs<ExtArgs>
   }, ExtArgs["result"]["report"]>
 
   export type ReportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     locationId?: boolean
+    scheduleId?: boolean
     name?: boolean
     startDate?: boolean
     endDate?: boolean
     reportType?: boolean
+    recipientEmail?: boolean
+    scheduledFor?: boolean
+    deliveredAt?: boolean
+    errorMessage?: boolean
+    attemptCount?: boolean
+    reportPeriodStart?: boolean
+    reportPeriodEnd?: boolean
     fileUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     location?: boolean | LocationDefaultArgs<ExtArgs>
+    schedule?: boolean | Report$scheduleArgs<ExtArgs>
   }, ExtArgs["result"]["report"]>
 
   export type ReportSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     locationId?: boolean
+    scheduleId?: boolean
     name?: boolean
     startDate?: boolean
     endDate?: boolean
     reportType?: boolean
+    recipientEmail?: boolean
+    scheduledFor?: boolean
+    deliveredAt?: boolean
+    errorMessage?: boolean
+    attemptCount?: boolean
+    reportPeriodStart?: boolean
+    reportPeriodEnd?: boolean
     fileUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     location?: boolean | LocationDefaultArgs<ExtArgs>
+    schedule?: boolean | Report$scheduleArgs<ExtArgs>
   }, ExtArgs["result"]["report"]>
 
   export type ReportSelectScalar = {
     id?: boolean
     locationId?: boolean
+    scheduleId?: boolean
     name?: boolean
     startDate?: boolean
     endDate?: boolean
     reportType?: boolean
+    recipientEmail?: boolean
+    scheduledFor?: boolean
+    deliveredAt?: boolean
+    errorMessage?: boolean
+    attemptCount?: boolean
+    reportPeriodStart?: boolean
+    reportPeriodEnd?: boolean
     fileUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "locationId" | "name" | "startDate" | "endDate" | "reportType" | "fileUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["report"]>
+  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "locationId" | "scheduleId" | "name" | "startDate" | "endDate" | "reportType" | "recipientEmail" | "scheduledFor" | "deliveredAt" | "errorMessage" | "attemptCount" | "reportPeriodStart" | "reportPeriodEnd" | "fileUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["report"]>
   export type ReportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     location?: boolean | LocationDefaultArgs<ExtArgs>
+    schedule?: boolean | Report$scheduleArgs<ExtArgs>
   }
   export type ReportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     location?: boolean | LocationDefaultArgs<ExtArgs>
+    schedule?: boolean | Report$scheduleArgs<ExtArgs>
   }
   export type ReportIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     location?: boolean | LocationDefaultArgs<ExtArgs>
+    schedule?: boolean | Report$scheduleArgs<ExtArgs>
   }
 
   export type $ReportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Report"
     objects: {
       location: Prisma.$LocationPayload<ExtArgs>
+      schedule: Prisma.$ReportSchedulePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       locationId: string
+      scheduleId: string | null
       name: string
       startDate: Date
       endDate: Date
       reportType: $Enums.ReportType
+      recipientEmail: string | null
+      scheduledFor: Date | null
+      deliveredAt: Date | null
+      errorMessage: string | null
+      attemptCount: number
+      reportPeriodStart: Date | null
+      reportPeriodEnd: Date | null
       fileUrl: string | null
       status: $Enums.ReportStatus
       createdAt: Date
@@ -18385,6 +18718,7 @@ export namespace Prisma {
   export interface Prisma__ReportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     location<T extends LocationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LocationDefaultArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    schedule<T extends Report$scheduleArgs<ExtArgs> = {}>(args?: Subset<T, Report$scheduleArgs<ExtArgs>>): Prisma__ReportScheduleClient<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18416,10 +18750,18 @@ export namespace Prisma {
   interface ReportFieldRefs {
     readonly id: FieldRef<"Report", 'String'>
     readonly locationId: FieldRef<"Report", 'String'>
+    readonly scheduleId: FieldRef<"Report", 'String'>
     readonly name: FieldRef<"Report", 'String'>
     readonly startDate: FieldRef<"Report", 'DateTime'>
     readonly endDate: FieldRef<"Report", 'DateTime'>
     readonly reportType: FieldRef<"Report", 'ReportType'>
+    readonly recipientEmail: FieldRef<"Report", 'String'>
+    readonly scheduledFor: FieldRef<"Report", 'DateTime'>
+    readonly deliveredAt: FieldRef<"Report", 'DateTime'>
+    readonly errorMessage: FieldRef<"Report", 'String'>
+    readonly attemptCount: FieldRef<"Report", 'Int'>
+    readonly reportPeriodStart: FieldRef<"Report", 'DateTime'>
+    readonly reportPeriodEnd: FieldRef<"Report", 'DateTime'>
     readonly fileUrl: FieldRef<"Report", 'String'>
     readonly status: FieldRef<"Report", 'ReportStatus'>
     readonly createdAt: FieldRef<"Report", 'DateTime'>
@@ -18820,6 +19162,25 @@ export namespace Prisma {
   }
 
   /**
+   * Report.schedule
+   */
+  export type Report$scheduleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    where?: ReportScheduleWhereInput
+  }
+
+  /**
    * Report without action
    */
   export type ReportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18835,6 +19196,1258 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ReportInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ReportSchedule
+   */
+
+  export type AggregateReportSchedule = {
+    _count: ReportScheduleCountAggregateOutputType | null
+    _avg: ReportScheduleAvgAggregateOutputType | null
+    _sum: ReportScheduleSumAggregateOutputType | null
+    _min: ReportScheduleMinAggregateOutputType | null
+    _max: ReportScheduleMaxAggregateOutputType | null
+  }
+
+  export type ReportScheduleAvgAggregateOutputType = {
+    dayOfMonth: number | null
+  }
+
+  export type ReportScheduleSumAggregateOutputType = {
+    dayOfMonth: number | null
+  }
+
+  export type ReportScheduleMinAggregateOutputType = {
+    id: string | null
+    locationId: string | null
+    type: $Enums.ReportScheduleType | null
+    enabled: boolean | null
+    timezone: string | null
+    dayOfMonth: number | null
+    sendTimeLocal: string | null
+    runAt: Date | null
+    customPeriodType: $Enums.CustomReportPeriodType | null
+    customStartDate: Date | null
+    customEndDate: Date | null
+    nextRunAt: Date | null
+    lastRunAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReportScheduleMaxAggregateOutputType = {
+    id: string | null
+    locationId: string | null
+    type: $Enums.ReportScheduleType | null
+    enabled: boolean | null
+    timezone: string | null
+    dayOfMonth: number | null
+    sendTimeLocal: string | null
+    runAt: Date | null
+    customPeriodType: $Enums.CustomReportPeriodType | null
+    customStartDate: Date | null
+    customEndDate: Date | null
+    nextRunAt: Date | null
+    lastRunAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReportScheduleCountAggregateOutputType = {
+    id: number
+    locationId: number
+    type: number
+    enabled: number
+    timezone: number
+    dayOfMonth: number
+    sendTimeLocal: number
+    runAt: number
+    customPeriodType: number
+    customStartDate: number
+    customEndDate: number
+    nextRunAt: number
+    lastRunAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ReportScheduleAvgAggregateInputType = {
+    dayOfMonth?: true
+  }
+
+  export type ReportScheduleSumAggregateInputType = {
+    dayOfMonth?: true
+  }
+
+  export type ReportScheduleMinAggregateInputType = {
+    id?: true
+    locationId?: true
+    type?: true
+    enabled?: true
+    timezone?: true
+    dayOfMonth?: true
+    sendTimeLocal?: true
+    runAt?: true
+    customPeriodType?: true
+    customStartDate?: true
+    customEndDate?: true
+    nextRunAt?: true
+    lastRunAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReportScheduleMaxAggregateInputType = {
+    id?: true
+    locationId?: true
+    type?: true
+    enabled?: true
+    timezone?: true
+    dayOfMonth?: true
+    sendTimeLocal?: true
+    runAt?: true
+    customPeriodType?: true
+    customStartDate?: true
+    customEndDate?: true
+    nextRunAt?: true
+    lastRunAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReportScheduleCountAggregateInputType = {
+    id?: true
+    locationId?: true
+    type?: true
+    enabled?: true
+    timezone?: true
+    dayOfMonth?: true
+    sendTimeLocal?: true
+    runAt?: true
+    customPeriodType?: true
+    customStartDate?: true
+    customEndDate?: true
+    nextRunAt?: true
+    lastRunAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ReportScheduleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReportSchedule to aggregate.
+     */
+    where?: ReportScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReportSchedules to fetch.
+     */
+    orderBy?: ReportScheduleOrderByWithRelationInput | ReportScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReportScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReportSchedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReportSchedules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReportSchedules
+    **/
+    _count?: true | ReportScheduleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReportScheduleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReportScheduleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReportScheduleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReportScheduleMaxAggregateInputType
+  }
+
+  export type GetReportScheduleAggregateType<T extends ReportScheduleAggregateArgs> = {
+        [P in keyof T & keyof AggregateReportSchedule]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReportSchedule[P]>
+      : GetScalarType<T[P], AggregateReportSchedule[P]>
+  }
+
+
+
+
+  export type ReportScheduleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportScheduleWhereInput
+    orderBy?: ReportScheduleOrderByWithAggregationInput | ReportScheduleOrderByWithAggregationInput[]
+    by: ReportScheduleScalarFieldEnum[] | ReportScheduleScalarFieldEnum
+    having?: ReportScheduleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReportScheduleCountAggregateInputType | true
+    _avg?: ReportScheduleAvgAggregateInputType
+    _sum?: ReportScheduleSumAggregateInputType
+    _min?: ReportScheduleMinAggregateInputType
+    _max?: ReportScheduleMaxAggregateInputType
+  }
+
+  export type ReportScheduleGroupByOutputType = {
+    id: string
+    locationId: string
+    type: $Enums.ReportScheduleType
+    enabled: boolean
+    timezone: string
+    dayOfMonth: number | null
+    sendTimeLocal: string | null
+    runAt: Date | null
+    customPeriodType: $Enums.CustomReportPeriodType | null
+    customStartDate: Date | null
+    customEndDate: Date | null
+    nextRunAt: Date | null
+    lastRunAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ReportScheduleCountAggregateOutputType | null
+    _avg: ReportScheduleAvgAggregateOutputType | null
+    _sum: ReportScheduleSumAggregateOutputType | null
+    _min: ReportScheduleMinAggregateOutputType | null
+    _max: ReportScheduleMaxAggregateOutputType | null
+  }
+
+  type GetReportScheduleGroupByPayload<T extends ReportScheduleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReportScheduleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReportScheduleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReportScheduleGroupByOutputType[P]>
+            : GetScalarType<T[P], ReportScheduleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReportScheduleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    locationId?: boolean
+    type?: boolean
+    enabled?: boolean
+    timezone?: boolean
+    dayOfMonth?: boolean
+    sendTimeLocal?: boolean
+    runAt?: boolean
+    customPeriodType?: boolean
+    customStartDate?: boolean
+    customEndDate?: boolean
+    nextRunAt?: boolean
+    lastRunAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+    reports?: boolean | ReportSchedule$reportsArgs<ExtArgs>
+    _count?: boolean | ReportScheduleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reportSchedule"]>
+
+  export type ReportScheduleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    locationId?: boolean
+    type?: boolean
+    enabled?: boolean
+    timezone?: boolean
+    dayOfMonth?: boolean
+    sendTimeLocal?: boolean
+    runAt?: boolean
+    customPeriodType?: boolean
+    customStartDate?: boolean
+    customEndDate?: boolean
+    nextRunAt?: boolean
+    lastRunAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reportSchedule"]>
+
+  export type ReportScheduleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    locationId?: boolean
+    type?: boolean
+    enabled?: boolean
+    timezone?: boolean
+    dayOfMonth?: boolean
+    sendTimeLocal?: boolean
+    runAt?: boolean
+    customPeriodType?: boolean
+    customStartDate?: boolean
+    customEndDate?: boolean
+    nextRunAt?: boolean
+    lastRunAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reportSchedule"]>
+
+  export type ReportScheduleSelectScalar = {
+    id?: boolean
+    locationId?: boolean
+    type?: boolean
+    enabled?: boolean
+    timezone?: boolean
+    dayOfMonth?: boolean
+    sendTimeLocal?: boolean
+    runAt?: boolean
+    customPeriodType?: boolean
+    customStartDate?: boolean
+    customEndDate?: boolean
+    nextRunAt?: boolean
+    lastRunAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ReportScheduleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "locationId" | "type" | "enabled" | "timezone" | "dayOfMonth" | "sendTimeLocal" | "runAt" | "customPeriodType" | "customStartDate" | "customEndDate" | "nextRunAt" | "lastRunAt" | "createdAt" | "updatedAt", ExtArgs["result"]["reportSchedule"]>
+  export type ReportScheduleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+    reports?: boolean | ReportSchedule$reportsArgs<ExtArgs>
+    _count?: boolean | ReportScheduleCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ReportScheduleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+  }
+  export type ReportScheduleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+  }
+
+  export type $ReportSchedulePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReportSchedule"
+    objects: {
+      location: Prisma.$LocationPayload<ExtArgs>
+      reports: Prisma.$ReportPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      locationId: string
+      type: $Enums.ReportScheduleType
+      enabled: boolean
+      timezone: string
+      dayOfMonth: number | null
+      sendTimeLocal: string | null
+      runAt: Date | null
+      customPeriodType: $Enums.CustomReportPeriodType | null
+      customStartDate: Date | null
+      customEndDate: Date | null
+      nextRunAt: Date | null
+      lastRunAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["reportSchedule"]>
+    composites: {}
+  }
+
+  type ReportScheduleGetPayload<S extends boolean | null | undefined | ReportScheduleDefaultArgs> = $Result.GetResult<Prisma.$ReportSchedulePayload, S>
+
+  type ReportScheduleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReportScheduleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReportScheduleCountAggregateInputType | true
+    }
+
+  export interface ReportScheduleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReportSchedule'], meta: { name: 'ReportSchedule' } }
+    /**
+     * Find zero or one ReportSchedule that matches the filter.
+     * @param {ReportScheduleFindUniqueArgs} args - Arguments to find a ReportSchedule
+     * @example
+     * // Get one ReportSchedule
+     * const reportSchedule = await prisma.reportSchedule.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReportScheduleFindUniqueArgs>(args: SelectSubset<T, ReportScheduleFindUniqueArgs<ExtArgs>>): Prisma__ReportScheduleClient<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ReportSchedule that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReportScheduleFindUniqueOrThrowArgs} args - Arguments to find a ReportSchedule
+     * @example
+     * // Get one ReportSchedule
+     * const reportSchedule = await prisma.reportSchedule.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReportScheduleFindUniqueOrThrowArgs>(args: SelectSubset<T, ReportScheduleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReportScheduleClient<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReportSchedule that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportScheduleFindFirstArgs} args - Arguments to find a ReportSchedule
+     * @example
+     * // Get one ReportSchedule
+     * const reportSchedule = await prisma.reportSchedule.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReportScheduleFindFirstArgs>(args?: SelectSubset<T, ReportScheduleFindFirstArgs<ExtArgs>>): Prisma__ReportScheduleClient<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReportSchedule that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportScheduleFindFirstOrThrowArgs} args - Arguments to find a ReportSchedule
+     * @example
+     * // Get one ReportSchedule
+     * const reportSchedule = await prisma.reportSchedule.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReportScheduleFindFirstOrThrowArgs>(args?: SelectSubset<T, ReportScheduleFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReportScheduleClient<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ReportSchedules that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportScheduleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReportSchedules
+     * const reportSchedules = await prisma.reportSchedule.findMany()
+     * 
+     * // Get first 10 ReportSchedules
+     * const reportSchedules = await prisma.reportSchedule.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reportScheduleWithIdOnly = await prisma.reportSchedule.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReportScheduleFindManyArgs>(args?: SelectSubset<T, ReportScheduleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ReportSchedule.
+     * @param {ReportScheduleCreateArgs} args - Arguments to create a ReportSchedule.
+     * @example
+     * // Create one ReportSchedule
+     * const ReportSchedule = await prisma.reportSchedule.create({
+     *   data: {
+     *     // ... data to create a ReportSchedule
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReportScheduleCreateArgs>(args: SelectSubset<T, ReportScheduleCreateArgs<ExtArgs>>): Prisma__ReportScheduleClient<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ReportSchedules.
+     * @param {ReportScheduleCreateManyArgs} args - Arguments to create many ReportSchedules.
+     * @example
+     * // Create many ReportSchedules
+     * const reportSchedule = await prisma.reportSchedule.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReportScheduleCreateManyArgs>(args?: SelectSubset<T, ReportScheduleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReportSchedules and returns the data saved in the database.
+     * @param {ReportScheduleCreateManyAndReturnArgs} args - Arguments to create many ReportSchedules.
+     * @example
+     * // Create many ReportSchedules
+     * const reportSchedule = await prisma.reportSchedule.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReportSchedules and only return the `id`
+     * const reportScheduleWithIdOnly = await prisma.reportSchedule.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReportScheduleCreateManyAndReturnArgs>(args?: SelectSubset<T, ReportScheduleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ReportSchedule.
+     * @param {ReportScheduleDeleteArgs} args - Arguments to delete one ReportSchedule.
+     * @example
+     * // Delete one ReportSchedule
+     * const ReportSchedule = await prisma.reportSchedule.delete({
+     *   where: {
+     *     // ... filter to delete one ReportSchedule
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReportScheduleDeleteArgs>(args: SelectSubset<T, ReportScheduleDeleteArgs<ExtArgs>>): Prisma__ReportScheduleClient<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ReportSchedule.
+     * @param {ReportScheduleUpdateArgs} args - Arguments to update one ReportSchedule.
+     * @example
+     * // Update one ReportSchedule
+     * const reportSchedule = await prisma.reportSchedule.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReportScheduleUpdateArgs>(args: SelectSubset<T, ReportScheduleUpdateArgs<ExtArgs>>): Prisma__ReportScheduleClient<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ReportSchedules.
+     * @param {ReportScheduleDeleteManyArgs} args - Arguments to filter ReportSchedules to delete.
+     * @example
+     * // Delete a few ReportSchedules
+     * const { count } = await prisma.reportSchedule.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReportScheduleDeleteManyArgs>(args?: SelectSubset<T, ReportScheduleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReportSchedules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportScheduleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReportSchedules
+     * const reportSchedule = await prisma.reportSchedule.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReportScheduleUpdateManyArgs>(args: SelectSubset<T, ReportScheduleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReportSchedules and returns the data updated in the database.
+     * @param {ReportScheduleUpdateManyAndReturnArgs} args - Arguments to update many ReportSchedules.
+     * @example
+     * // Update many ReportSchedules
+     * const reportSchedule = await prisma.reportSchedule.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ReportSchedules and only return the `id`
+     * const reportScheduleWithIdOnly = await prisma.reportSchedule.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReportScheduleUpdateManyAndReturnArgs>(args: SelectSubset<T, ReportScheduleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ReportSchedule.
+     * @param {ReportScheduleUpsertArgs} args - Arguments to update or create a ReportSchedule.
+     * @example
+     * // Update or create a ReportSchedule
+     * const reportSchedule = await prisma.reportSchedule.upsert({
+     *   create: {
+     *     // ... data to create a ReportSchedule
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReportSchedule we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReportScheduleUpsertArgs>(args: SelectSubset<T, ReportScheduleUpsertArgs<ExtArgs>>): Prisma__ReportScheduleClient<$Result.GetResult<Prisma.$ReportSchedulePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ReportSchedules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportScheduleCountArgs} args - Arguments to filter ReportSchedules to count.
+     * @example
+     * // Count the number of ReportSchedules
+     * const count = await prisma.reportSchedule.count({
+     *   where: {
+     *     // ... the filter for the ReportSchedules we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReportScheduleCountArgs>(
+      args?: Subset<T, ReportScheduleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReportScheduleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReportSchedule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportScheduleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReportScheduleAggregateArgs>(args: Subset<T, ReportScheduleAggregateArgs>): Prisma.PrismaPromise<GetReportScheduleAggregateType<T>>
+
+    /**
+     * Group by ReportSchedule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReportScheduleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReportScheduleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReportScheduleGroupByArgs['orderBy'] }
+        : { orderBy?: ReportScheduleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReportScheduleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReportScheduleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReportSchedule model
+   */
+  readonly fields: ReportScheduleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReportSchedule.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReportScheduleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    location<T extends LocationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LocationDefaultArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reports<T extends ReportSchedule$reportsArgs<ExtArgs> = {}>(args?: Subset<T, ReportSchedule$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReportSchedule model
+   */
+  interface ReportScheduleFieldRefs {
+    readonly id: FieldRef<"ReportSchedule", 'String'>
+    readonly locationId: FieldRef<"ReportSchedule", 'String'>
+    readonly type: FieldRef<"ReportSchedule", 'ReportScheduleType'>
+    readonly enabled: FieldRef<"ReportSchedule", 'Boolean'>
+    readonly timezone: FieldRef<"ReportSchedule", 'String'>
+    readonly dayOfMonth: FieldRef<"ReportSchedule", 'Int'>
+    readonly sendTimeLocal: FieldRef<"ReportSchedule", 'String'>
+    readonly runAt: FieldRef<"ReportSchedule", 'DateTime'>
+    readonly customPeriodType: FieldRef<"ReportSchedule", 'CustomReportPeriodType'>
+    readonly customStartDate: FieldRef<"ReportSchedule", 'DateTime'>
+    readonly customEndDate: FieldRef<"ReportSchedule", 'DateTime'>
+    readonly nextRunAt: FieldRef<"ReportSchedule", 'DateTime'>
+    readonly lastRunAt: FieldRef<"ReportSchedule", 'DateTime'>
+    readonly createdAt: FieldRef<"ReportSchedule", 'DateTime'>
+    readonly updatedAt: FieldRef<"ReportSchedule", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReportSchedule findUnique
+   */
+  export type ReportScheduleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which ReportSchedule to fetch.
+     */
+    where: ReportScheduleWhereUniqueInput
+  }
+
+  /**
+   * ReportSchedule findUniqueOrThrow
+   */
+  export type ReportScheduleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which ReportSchedule to fetch.
+     */
+    where: ReportScheduleWhereUniqueInput
+  }
+
+  /**
+   * ReportSchedule findFirst
+   */
+  export type ReportScheduleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which ReportSchedule to fetch.
+     */
+    where?: ReportScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReportSchedules to fetch.
+     */
+    orderBy?: ReportScheduleOrderByWithRelationInput | ReportScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReportSchedules.
+     */
+    cursor?: ReportScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReportSchedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReportSchedules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReportSchedules.
+     */
+    distinct?: ReportScheduleScalarFieldEnum | ReportScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * ReportSchedule findFirstOrThrow
+   */
+  export type ReportScheduleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which ReportSchedule to fetch.
+     */
+    where?: ReportScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReportSchedules to fetch.
+     */
+    orderBy?: ReportScheduleOrderByWithRelationInput | ReportScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReportSchedules.
+     */
+    cursor?: ReportScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReportSchedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReportSchedules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReportSchedules.
+     */
+    distinct?: ReportScheduleScalarFieldEnum | ReportScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * ReportSchedule findMany
+   */
+  export type ReportScheduleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which ReportSchedules to fetch.
+     */
+    where?: ReportScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReportSchedules to fetch.
+     */
+    orderBy?: ReportScheduleOrderByWithRelationInput | ReportScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReportSchedules.
+     */
+    cursor?: ReportScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReportSchedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReportSchedules.
+     */
+    skip?: number
+    distinct?: ReportScheduleScalarFieldEnum | ReportScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * ReportSchedule create
+   */
+  export type ReportScheduleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ReportSchedule.
+     */
+    data: XOR<ReportScheduleCreateInput, ReportScheduleUncheckedCreateInput>
+  }
+
+  /**
+   * ReportSchedule createMany
+   */
+  export type ReportScheduleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReportSchedules.
+     */
+    data: ReportScheduleCreateManyInput | ReportScheduleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReportSchedule createManyAndReturn
+   */
+  export type ReportScheduleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * The data used to create many ReportSchedules.
+     */
+    data: ReportScheduleCreateManyInput | ReportScheduleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReportSchedule update
+   */
+  export type ReportScheduleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ReportSchedule.
+     */
+    data: XOR<ReportScheduleUpdateInput, ReportScheduleUncheckedUpdateInput>
+    /**
+     * Choose, which ReportSchedule to update.
+     */
+    where: ReportScheduleWhereUniqueInput
+  }
+
+  /**
+   * ReportSchedule updateMany
+   */
+  export type ReportScheduleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReportSchedules.
+     */
+    data: XOR<ReportScheduleUpdateManyMutationInput, ReportScheduleUncheckedUpdateManyInput>
+    /**
+     * Filter which ReportSchedules to update
+     */
+    where?: ReportScheduleWhereInput
+    /**
+     * Limit how many ReportSchedules to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReportSchedule updateManyAndReturn
+   */
+  export type ReportScheduleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * The data used to update ReportSchedules.
+     */
+    data: XOR<ReportScheduleUpdateManyMutationInput, ReportScheduleUncheckedUpdateManyInput>
+    /**
+     * Filter which ReportSchedules to update
+     */
+    where?: ReportScheduleWhereInput
+    /**
+     * Limit how many ReportSchedules to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReportSchedule upsert
+   */
+  export type ReportScheduleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ReportSchedule to update in case it exists.
+     */
+    where: ReportScheduleWhereUniqueInput
+    /**
+     * In case the ReportSchedule found by the `where` argument doesn't exist, create a new ReportSchedule with this data.
+     */
+    create: XOR<ReportScheduleCreateInput, ReportScheduleUncheckedCreateInput>
+    /**
+     * In case the ReportSchedule was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReportScheduleUpdateInput, ReportScheduleUncheckedUpdateInput>
+  }
+
+  /**
+   * ReportSchedule delete
+   */
+  export type ReportScheduleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
+    /**
+     * Filter which ReportSchedule to delete.
+     */
+    where: ReportScheduleWhereUniqueInput
+  }
+
+  /**
+   * ReportSchedule deleteMany
+   */
+  export type ReportScheduleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReportSchedules to delete
+     */
+    where?: ReportScheduleWhereInput
+    /**
+     * Limit how many ReportSchedules to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReportSchedule.reports
+   */
+  export type ReportSchedule$reportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    where?: ReportWhereInput
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    cursor?: ReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
+   * ReportSchedule without action
+   */
+  export type ReportScheduleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReportSchedule
+     */
+    select?: ReportScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReportSchedule
+     */
+    omit?: ReportScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportScheduleInclude<ExtArgs> | null
   }
 
 
@@ -21250,6 +22863,7 @@ export namespace Prisma {
     latitude: 'latitude',
     longitude: 'longitude',
     timezone: 'timezone',
+    reportEmail: 'reportEmail',
     isVerified: 'isVerified',
     lastSyncedAt: 'lastSyncedAt',
     lastFetchedTimestamp: 'lastFetchedTimestamp',
@@ -21388,10 +23002,18 @@ export namespace Prisma {
   export const ReportScalarFieldEnum: {
     id: 'id',
     locationId: 'locationId',
+    scheduleId: 'scheduleId',
     name: 'name',
     startDate: 'startDate',
     endDate: 'endDate',
     reportType: 'reportType',
+    recipientEmail: 'recipientEmail',
+    scheduledFor: 'scheduledFor',
+    deliveredAt: 'deliveredAt',
+    errorMessage: 'errorMessage',
+    attemptCount: 'attemptCount',
+    reportPeriodStart: 'reportPeriodStart',
+    reportPeriodEnd: 'reportPeriodEnd',
     fileUrl: 'fileUrl',
     status: 'status',
     createdAt: 'createdAt',
@@ -21399,6 +23021,27 @@ export namespace Prisma {
   };
 
   export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
+
+
+  export const ReportScheduleScalarFieldEnum: {
+    id: 'id',
+    locationId: 'locationId',
+    type: 'type',
+    enabled: 'enabled',
+    timezone: 'timezone',
+    dayOfMonth: 'dayOfMonth',
+    sendTimeLocal: 'sendTimeLocal',
+    runAt: 'runAt',
+    customPeriodType: 'customPeriodType',
+    customStartDate: 'customStartDate',
+    customEndDate: 'customEndDate',
+    nextRunAt: 'nextRunAt',
+    lastRunAt: 'lastRunAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ReportScheduleScalarFieldEnum = (typeof ReportScheduleScalarFieldEnum)[keyof typeof ReportScheduleScalarFieldEnum]
 
 
   export const SearchKeywordScalarFieldEnum: {
@@ -21728,6 +23371,34 @@ export namespace Prisma {
    * Reference to a field of type 'ReportStatus[]'
    */
   export type ListEnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReportScheduleType'
+   */
+  export type EnumReportScheduleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportScheduleType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReportScheduleType[]'
+   */
+  export type ListEnumReportScheduleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportScheduleType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CustomReportPeriodType'
+   */
+  export type EnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomReportPeriodType'>
+    
+
+
+  /**
+   * Reference to a field of type 'CustomReportPeriodType[]'
+   */
+  export type ListEnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomReportPeriodType[]'>
     
   /**
    * Deep Input Types
@@ -22238,6 +23909,7 @@ export namespace Prisma {
     latitude?: FloatNullableFilter<"Location"> | number | null
     longitude?: FloatNullableFilter<"Location"> | number | null
     timezone?: StringFilter<"Location"> | string
+    reportEmail?: StringNullableFilter<"Location"> | string | null
     isVerified?: BoolFilter<"Location"> | boolean
     lastSyncedAt?: DateTimeFilter<"Location"> | Date | string
     lastFetchedTimestamp?: DateTimeNullableFilter<"Location"> | Date | string | null
@@ -22252,6 +23924,7 @@ export namespace Prisma {
     insights?: InsightListRelationFilter
     posts?: PostListRelationFilter
     reports?: ReportListRelationFilter
+    reportSchedules?: ReportScheduleListRelationFilter
     reviews?: ReviewListRelationFilter
     users?: UserListRelationFilter
     searchKeywords?: SearchKeywordListRelationFilter
@@ -22271,6 +23944,7 @@ export namespace Prisma {
     latitude?: SortOrderInput | SortOrder
     longitude?: SortOrderInput | SortOrder
     timezone?: SortOrder
+    reportEmail?: SortOrderInput | SortOrder
     isVerified?: SortOrder
     lastSyncedAt?: SortOrder
     lastFetchedTimestamp?: SortOrderInput | SortOrder
@@ -22285,6 +23959,7 @@ export namespace Prisma {
     insights?: InsightOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
     reports?: ReportOrderByRelationAggregateInput
+    reportSchedules?: ReportScheduleOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
     users?: UserOrderByRelationAggregateInput
     searchKeywords?: SearchKeywordOrderByRelationAggregateInput
@@ -22307,6 +23982,7 @@ export namespace Prisma {
     latitude?: FloatNullableFilter<"Location"> | number | null
     longitude?: FloatNullableFilter<"Location"> | number | null
     timezone?: StringFilter<"Location"> | string
+    reportEmail?: StringNullableFilter<"Location"> | string | null
     isVerified?: BoolFilter<"Location"> | boolean
     lastSyncedAt?: DateTimeFilter<"Location"> | Date | string
     lastFetchedTimestamp?: DateTimeNullableFilter<"Location"> | Date | string | null
@@ -22321,6 +23997,7 @@ export namespace Prisma {
     insights?: InsightListRelationFilter
     posts?: PostListRelationFilter
     reports?: ReportListRelationFilter
+    reportSchedules?: ReportScheduleListRelationFilter
     reviews?: ReviewListRelationFilter
     users?: UserListRelationFilter
     searchKeywords?: SearchKeywordListRelationFilter
@@ -22340,6 +24017,7 @@ export namespace Prisma {
     latitude?: SortOrderInput | SortOrder
     longitude?: SortOrderInput | SortOrder
     timezone?: SortOrder
+    reportEmail?: SortOrderInput | SortOrder
     isVerified?: SortOrder
     lastSyncedAt?: SortOrder
     lastFetchedTimestamp?: SortOrderInput | SortOrder
@@ -22372,6 +24050,7 @@ export namespace Prisma {
     latitude?: FloatNullableWithAggregatesFilter<"Location"> | number | null
     longitude?: FloatNullableWithAggregatesFilter<"Location"> | number | null
     timezone?: StringWithAggregatesFilter<"Location"> | string
+    reportEmail?: StringNullableWithAggregatesFilter<"Location"> | string | null
     isVerified?: BoolWithAggregatesFilter<"Location"> | boolean
     lastSyncedAt?: DateTimeWithAggregatesFilter<"Location"> | Date | string
     lastFetchedTimestamp?: DateTimeNullableWithAggregatesFilter<"Location"> | Date | string | null
@@ -23017,29 +24696,47 @@ export namespace Prisma {
     NOT?: ReportWhereInput | ReportWhereInput[]
     id?: StringFilter<"Report"> | string
     locationId?: StringFilter<"Report"> | string
+    scheduleId?: StringNullableFilter<"Report"> | string | null
     name?: StringFilter<"Report"> | string
     startDate?: DateTimeFilter<"Report"> | Date | string
     endDate?: DateTimeFilter<"Report"> | Date | string
     reportType?: EnumReportTypeFilter<"Report"> | $Enums.ReportType
+    recipientEmail?: StringNullableFilter<"Report"> | string | null
+    scheduledFor?: DateTimeNullableFilter<"Report"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    errorMessage?: StringNullableFilter<"Report"> | string | null
+    attemptCount?: IntFilter<"Report"> | number
+    reportPeriodStart?: DateTimeNullableFilter<"Report"> | Date | string | null
+    reportPeriodEnd?: DateTimeNullableFilter<"Report"> | Date | string | null
     fileUrl?: StringNullableFilter<"Report"> | string | null
     status?: EnumReportStatusFilter<"Report"> | $Enums.ReportStatus
     createdAt?: DateTimeFilter<"Report"> | Date | string
     updatedAt?: DateTimeFilter<"Report"> | Date | string
     location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
+    schedule?: XOR<ReportScheduleNullableScalarRelationFilter, ReportScheduleWhereInput> | null
   }
 
   export type ReportOrderByWithRelationInput = {
     id?: SortOrder
     locationId?: SortOrder
+    scheduleId?: SortOrderInput | SortOrder
     name?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     reportType?: SortOrder
+    recipientEmail?: SortOrderInput | SortOrder
+    scheduledFor?: SortOrderInput | SortOrder
+    deliveredAt?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    attemptCount?: SortOrder
+    reportPeriodStart?: SortOrderInput | SortOrder
+    reportPeriodEnd?: SortOrderInput | SortOrder
     fileUrl?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     location?: LocationOrderByWithRelationInput
+    schedule?: ReportScheduleOrderByWithRelationInput
   }
 
   export type ReportWhereUniqueInput = Prisma.AtLeast<{
@@ -23048,31 +24745,50 @@ export namespace Prisma {
     OR?: ReportWhereInput[]
     NOT?: ReportWhereInput | ReportWhereInput[]
     locationId?: StringFilter<"Report"> | string
+    scheduleId?: StringNullableFilter<"Report"> | string | null
     name?: StringFilter<"Report"> | string
     startDate?: DateTimeFilter<"Report"> | Date | string
     endDate?: DateTimeFilter<"Report"> | Date | string
     reportType?: EnumReportTypeFilter<"Report"> | $Enums.ReportType
+    recipientEmail?: StringNullableFilter<"Report"> | string | null
+    scheduledFor?: DateTimeNullableFilter<"Report"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    errorMessage?: StringNullableFilter<"Report"> | string | null
+    attemptCount?: IntFilter<"Report"> | number
+    reportPeriodStart?: DateTimeNullableFilter<"Report"> | Date | string | null
+    reportPeriodEnd?: DateTimeNullableFilter<"Report"> | Date | string | null
     fileUrl?: StringNullableFilter<"Report"> | string | null
     status?: EnumReportStatusFilter<"Report"> | $Enums.ReportStatus
     createdAt?: DateTimeFilter<"Report"> | Date | string
     updatedAt?: DateTimeFilter<"Report"> | Date | string
     location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
+    schedule?: XOR<ReportScheduleNullableScalarRelationFilter, ReportScheduleWhereInput> | null
   }, "id">
 
   export type ReportOrderByWithAggregationInput = {
     id?: SortOrder
     locationId?: SortOrder
+    scheduleId?: SortOrderInput | SortOrder
     name?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     reportType?: SortOrder
+    recipientEmail?: SortOrderInput | SortOrder
+    scheduledFor?: SortOrderInput | SortOrder
+    deliveredAt?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    attemptCount?: SortOrder
+    reportPeriodStart?: SortOrderInput | SortOrder
+    reportPeriodEnd?: SortOrderInput | SortOrder
     fileUrl?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ReportCountOrderByAggregateInput
+    _avg?: ReportAvgOrderByAggregateInput
     _max?: ReportMaxOrderByAggregateInput
     _min?: ReportMinOrderByAggregateInput
+    _sum?: ReportSumOrderByAggregateInput
   }
 
   export type ReportScalarWhereWithAggregatesInput = {
@@ -23081,14 +24797,132 @@ export namespace Prisma {
     NOT?: ReportScalarWhereWithAggregatesInput | ReportScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Report"> | string
     locationId?: StringWithAggregatesFilter<"Report"> | string
+    scheduleId?: StringNullableWithAggregatesFilter<"Report"> | string | null
     name?: StringWithAggregatesFilter<"Report"> | string
     startDate?: DateTimeWithAggregatesFilter<"Report"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"Report"> | Date | string
     reportType?: EnumReportTypeWithAggregatesFilter<"Report"> | $Enums.ReportType
+    recipientEmail?: StringNullableWithAggregatesFilter<"Report"> | string | null
+    scheduledFor?: DateTimeNullableWithAggregatesFilter<"Report"> | Date | string | null
+    deliveredAt?: DateTimeNullableWithAggregatesFilter<"Report"> | Date | string | null
+    errorMessage?: StringNullableWithAggregatesFilter<"Report"> | string | null
+    attemptCount?: IntWithAggregatesFilter<"Report"> | number
+    reportPeriodStart?: DateTimeNullableWithAggregatesFilter<"Report"> | Date | string | null
+    reportPeriodEnd?: DateTimeNullableWithAggregatesFilter<"Report"> | Date | string | null
     fileUrl?: StringNullableWithAggregatesFilter<"Report"> | string | null
     status?: EnumReportStatusWithAggregatesFilter<"Report"> | $Enums.ReportStatus
     createdAt?: DateTimeWithAggregatesFilter<"Report"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Report"> | Date | string
+  }
+
+  export type ReportScheduleWhereInput = {
+    AND?: ReportScheduleWhereInput | ReportScheduleWhereInput[]
+    OR?: ReportScheduleWhereInput[]
+    NOT?: ReportScheduleWhereInput | ReportScheduleWhereInput[]
+    id?: StringFilter<"ReportSchedule"> | string
+    locationId?: StringFilter<"ReportSchedule"> | string
+    type?: EnumReportScheduleTypeFilter<"ReportSchedule"> | $Enums.ReportScheduleType
+    enabled?: BoolFilter<"ReportSchedule"> | boolean
+    timezone?: StringFilter<"ReportSchedule"> | string
+    dayOfMonth?: IntNullableFilter<"ReportSchedule"> | number | null
+    sendTimeLocal?: StringNullableFilter<"ReportSchedule"> | string | null
+    runAt?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    customPeriodType?: EnumCustomReportPeriodTypeNullableFilter<"ReportSchedule"> | $Enums.CustomReportPeriodType | null
+    customStartDate?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    customEndDate?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    nextRunAt?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    lastRunAt?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    createdAt?: DateTimeFilter<"ReportSchedule"> | Date | string
+    updatedAt?: DateTimeFilter<"ReportSchedule"> | Date | string
+    location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
+    reports?: ReportListRelationFilter
+  }
+
+  export type ReportScheduleOrderByWithRelationInput = {
+    id?: SortOrder
+    locationId?: SortOrder
+    type?: SortOrder
+    enabled?: SortOrder
+    timezone?: SortOrder
+    dayOfMonth?: SortOrderInput | SortOrder
+    sendTimeLocal?: SortOrderInput | SortOrder
+    runAt?: SortOrderInput | SortOrder
+    customPeriodType?: SortOrderInput | SortOrder
+    customStartDate?: SortOrderInput | SortOrder
+    customEndDate?: SortOrderInput | SortOrder
+    nextRunAt?: SortOrderInput | SortOrder
+    lastRunAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    location?: LocationOrderByWithRelationInput
+    reports?: ReportOrderByRelationAggregateInput
+  }
+
+  export type ReportScheduleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReportScheduleWhereInput | ReportScheduleWhereInput[]
+    OR?: ReportScheduleWhereInput[]
+    NOT?: ReportScheduleWhereInput | ReportScheduleWhereInput[]
+    locationId?: StringFilter<"ReportSchedule"> | string
+    type?: EnumReportScheduleTypeFilter<"ReportSchedule"> | $Enums.ReportScheduleType
+    enabled?: BoolFilter<"ReportSchedule"> | boolean
+    timezone?: StringFilter<"ReportSchedule"> | string
+    dayOfMonth?: IntNullableFilter<"ReportSchedule"> | number | null
+    sendTimeLocal?: StringNullableFilter<"ReportSchedule"> | string | null
+    runAt?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    customPeriodType?: EnumCustomReportPeriodTypeNullableFilter<"ReportSchedule"> | $Enums.CustomReportPeriodType | null
+    customStartDate?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    customEndDate?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    nextRunAt?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    lastRunAt?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    createdAt?: DateTimeFilter<"ReportSchedule"> | Date | string
+    updatedAt?: DateTimeFilter<"ReportSchedule"> | Date | string
+    location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
+    reports?: ReportListRelationFilter
+  }, "id">
+
+  export type ReportScheduleOrderByWithAggregationInput = {
+    id?: SortOrder
+    locationId?: SortOrder
+    type?: SortOrder
+    enabled?: SortOrder
+    timezone?: SortOrder
+    dayOfMonth?: SortOrderInput | SortOrder
+    sendTimeLocal?: SortOrderInput | SortOrder
+    runAt?: SortOrderInput | SortOrder
+    customPeriodType?: SortOrderInput | SortOrder
+    customStartDate?: SortOrderInput | SortOrder
+    customEndDate?: SortOrderInput | SortOrder
+    nextRunAt?: SortOrderInput | SortOrder
+    lastRunAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ReportScheduleCountOrderByAggregateInput
+    _avg?: ReportScheduleAvgOrderByAggregateInput
+    _max?: ReportScheduleMaxOrderByAggregateInput
+    _min?: ReportScheduleMinOrderByAggregateInput
+    _sum?: ReportScheduleSumOrderByAggregateInput
+  }
+
+  export type ReportScheduleScalarWhereWithAggregatesInput = {
+    AND?: ReportScheduleScalarWhereWithAggregatesInput | ReportScheduleScalarWhereWithAggregatesInput[]
+    OR?: ReportScheduleScalarWhereWithAggregatesInput[]
+    NOT?: ReportScheduleScalarWhereWithAggregatesInput | ReportScheduleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReportSchedule"> | string
+    locationId?: StringWithAggregatesFilter<"ReportSchedule"> | string
+    type?: EnumReportScheduleTypeWithAggregatesFilter<"ReportSchedule"> | $Enums.ReportScheduleType
+    enabled?: BoolWithAggregatesFilter<"ReportSchedule"> | boolean
+    timezone?: StringWithAggregatesFilter<"ReportSchedule"> | string
+    dayOfMonth?: IntNullableWithAggregatesFilter<"ReportSchedule"> | number | null
+    sendTimeLocal?: StringNullableWithAggregatesFilter<"ReportSchedule"> | string | null
+    runAt?: DateTimeNullableWithAggregatesFilter<"ReportSchedule"> | Date | string | null
+    customPeriodType?: EnumCustomReportPeriodTypeNullableWithAggregatesFilter<"ReportSchedule"> | $Enums.CustomReportPeriodType | null
+    customStartDate?: DateTimeNullableWithAggregatesFilter<"ReportSchedule"> | Date | string | null
+    customEndDate?: DateTimeNullableWithAggregatesFilter<"ReportSchedule"> | Date | string | null
+    nextRunAt?: DateTimeNullableWithAggregatesFilter<"ReportSchedule"> | Date | string | null
+    lastRunAt?: DateTimeNullableWithAggregatesFilter<"ReportSchedule"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ReportSchedule"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ReportSchedule"> | Date | string
   }
 
   export type SearchKeywordWhereInput = {
@@ -23821,6 +25655,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -23834,6 +25669,7 @@ export namespace Prisma {
     insights?: InsightCreateNestedManyWithoutLocationInput
     posts?: PostCreateNestedManyWithoutLocationInput
     reports?: ReportCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleCreateNestedManyWithoutLocationInput
     reviews?: ReviewCreateNestedManyWithoutLocationInput
     users?: UserCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordCreateNestedManyWithoutLocationInput
@@ -23853,6 +25689,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -23867,6 +25704,7 @@ export namespace Prisma {
     insights?: InsightUncheckedCreateNestedManyWithoutLocationInput
     posts?: PostUncheckedCreateNestedManyWithoutLocationInput
     reports?: ReportUncheckedCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleUncheckedCreateNestedManyWithoutLocationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutLocationInput
     users?: UserUncheckedCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordUncheckedCreateNestedManyWithoutLocationInput
@@ -23885,6 +25723,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23898,6 +25737,7 @@ export namespace Prisma {
     insights?: InsightUpdateManyWithoutLocationNestedInput
     posts?: PostUpdateManyWithoutLocationNestedInput
     reports?: ReportUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUpdateManyWithoutLocationNestedInput
     users?: UserUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUpdateManyWithoutLocationNestedInput
@@ -23917,6 +25757,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23931,6 +25772,7 @@ export namespace Prisma {
     insights?: InsightUncheckedUpdateManyWithoutLocationNestedInput
     posts?: PostUncheckedUpdateManyWithoutLocationNestedInput
     reports?: ReportUncheckedUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutLocationNestedInput
     users?: UserUncheckedUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUncheckedUpdateManyWithoutLocationNestedInput
@@ -23949,6 +25791,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -23973,6 +25816,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23996,6 +25840,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24719,20 +26564,36 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     reportType: $Enums.ReportType
+    recipientEmail?: string | null
+    scheduledFor?: Date | string | null
+    deliveredAt?: Date | string | null
+    errorMessage?: string | null
+    attemptCount?: number
+    reportPeriodStart?: Date | string | null
+    reportPeriodEnd?: Date | string | null
     fileUrl?: string | null
     status?: $Enums.ReportStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     location: LocationCreateNestedOneWithoutReportsInput
+    schedule?: ReportScheduleCreateNestedOneWithoutReportsInput
   }
 
   export type ReportUncheckedCreateInput = {
     id?: string
     locationId: string
+    scheduleId?: string | null
     name: string
     startDate: Date | string
     endDate: Date | string
     reportType: $Enums.ReportType
+    recipientEmail?: string | null
+    scheduledFor?: Date | string | null
+    deliveredAt?: Date | string | null
+    errorMessage?: string | null
+    attemptCount?: number
+    reportPeriodStart?: Date | string | null
+    reportPeriodEnd?: Date | string | null
     fileUrl?: string | null
     status?: $Enums.ReportStatus
     createdAt?: Date | string
@@ -24745,20 +26606,36 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     reportType?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    recipientEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    attemptCount?: IntFieldUpdateOperationsInput | number
+    reportPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reportPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     location?: LocationUpdateOneRequiredWithoutReportsNestedInput
+    schedule?: ReportScheduleUpdateOneWithoutReportsNestedInput
   }
 
   export type ReportUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     locationId?: StringFieldUpdateOperationsInput | string
+    scheduleId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     reportType?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    recipientEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    attemptCount?: IntFieldUpdateOperationsInput | number
+    reportPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reportPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24768,10 +26645,18 @@ export namespace Prisma {
   export type ReportCreateManyInput = {
     id?: string
     locationId: string
+    scheduleId?: string | null
     name: string
     startDate: Date | string
     endDate: Date | string
     reportType: $Enums.ReportType
+    recipientEmail?: string | null
+    scheduledFor?: Date | string | null
+    deliveredAt?: Date | string | null
+    errorMessage?: string | null
+    attemptCount?: number
+    reportPeriodStart?: Date | string | null
+    reportPeriodEnd?: Date | string | null
     fileUrl?: string | null
     status?: $Enums.ReportStatus
     createdAt?: Date | string
@@ -24784,6 +26669,13 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     reportType?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    recipientEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    attemptCount?: IntFieldUpdateOperationsInput | number
+    reportPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reportPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24793,12 +26685,149 @@ export namespace Prisma {
   export type ReportUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     locationId?: StringFieldUpdateOperationsInput | string
+    scheduleId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     reportType?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    recipientEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    attemptCount?: IntFieldUpdateOperationsInput | number
+    reportPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reportPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReportScheduleCreateInput = {
+    id?: string
+    type: $Enums.ReportScheduleType
+    enabled?: boolean
+    timezone?: string
+    dayOfMonth?: number | null
+    sendTimeLocal?: string | null
+    runAt?: Date | string | null
+    customPeriodType?: $Enums.CustomReportPeriodType | null
+    customStartDate?: Date | string | null
+    customEndDate?: Date | string | null
+    nextRunAt?: Date | string | null
+    lastRunAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    location: LocationCreateNestedOneWithoutReportSchedulesInput
+    reports?: ReportCreateNestedManyWithoutScheduleInput
+  }
+
+  export type ReportScheduleUncheckedCreateInput = {
+    id?: string
+    locationId: string
+    type: $Enums.ReportScheduleType
+    enabled?: boolean
+    timezone?: string
+    dayOfMonth?: number | null
+    sendTimeLocal?: string | null
+    runAt?: Date | string | null
+    customPeriodType?: $Enums.CustomReportPeriodType | null
+    customStartDate?: Date | string | null
+    customEndDate?: Date | string | null
+    nextRunAt?: Date | string | null
+    lastRunAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutScheduleInput
+  }
+
+  export type ReportScheduleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportScheduleTypeFieldUpdateOperationsInput | $Enums.ReportScheduleType
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: StringFieldUpdateOperationsInput | string
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    sendTimeLocal?: NullableStringFieldUpdateOperationsInput | string | null
+    runAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customPeriodType?: NullableEnumCustomReportPeriodTypeFieldUpdateOperationsInput | $Enums.CustomReportPeriodType | null
+    customStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    location?: LocationUpdateOneRequiredWithoutReportSchedulesNestedInput
+    reports?: ReportUpdateManyWithoutScheduleNestedInput
+  }
+
+  export type ReportScheduleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    locationId?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportScheduleTypeFieldUpdateOperationsInput | $Enums.ReportScheduleType
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: StringFieldUpdateOperationsInput | string
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    sendTimeLocal?: NullableStringFieldUpdateOperationsInput | string | null
+    runAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customPeriodType?: NullableEnumCustomReportPeriodTypeFieldUpdateOperationsInput | $Enums.CustomReportPeriodType | null
+    customStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutScheduleNestedInput
+  }
+
+  export type ReportScheduleCreateManyInput = {
+    id?: string
+    locationId: string
+    type: $Enums.ReportScheduleType
+    enabled?: boolean
+    timezone?: string
+    dayOfMonth?: number | null
+    sendTimeLocal?: string | null
+    runAt?: Date | string | null
+    customPeriodType?: $Enums.CustomReportPeriodType | null
+    customStartDate?: Date | string | null
+    customEndDate?: Date | string | null
+    nextRunAt?: Date | string | null
+    lastRunAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReportScheduleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportScheduleTypeFieldUpdateOperationsInput | $Enums.ReportScheduleType
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: StringFieldUpdateOperationsInput | string
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    sendTimeLocal?: NullableStringFieldUpdateOperationsInput | string | null
+    runAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customPeriodType?: NullableEnumCustomReportPeriodTypeFieldUpdateOperationsInput | $Enums.CustomReportPeriodType | null
+    customStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReportScheduleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    locationId?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportScheduleTypeFieldUpdateOperationsInput | $Enums.ReportScheduleType
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: StringFieldUpdateOperationsInput | string
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    sendTimeLocal?: NullableStringFieldUpdateOperationsInput | string | null
+    runAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customPeriodType?: NullableEnumCustomReportPeriodTypeFieldUpdateOperationsInput | $Enums.CustomReportPeriodType | null
+    customStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25539,6 +27568,12 @@ export namespace Prisma {
     none?: ReportWhereInput
   }
 
+  export type ReportScheduleListRelationFilter = {
+    every?: ReportScheduleWhereInput
+    some?: ReportScheduleWhereInput
+    none?: ReportScheduleWhereInput
+  }
+
   export type ReviewListRelationFilter = {
     every?: ReviewWhereInput
     some?: ReviewWhereInput
@@ -25570,6 +27605,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type ReportScheduleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ReviewOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -25593,6 +27632,7 @@ export namespace Prisma {
     latitude?: SortOrder
     longitude?: SortOrder
     timezone?: SortOrder
+    reportEmail?: SortOrder
     isVerified?: SortOrder
     lastSyncedAt?: SortOrder
     lastFetchedTimestamp?: SortOrder
@@ -25622,6 +27662,7 @@ export namespace Prisma {
     latitude?: SortOrder
     longitude?: SortOrder
     timezone?: SortOrder
+    reportEmail?: SortOrder
     isVerified?: SortOrder
     lastSyncedAt?: SortOrder
     lastFetchedTimestamp?: SortOrder
@@ -25646,6 +27687,7 @@ export namespace Prisma {
     latitude?: SortOrder
     longitude?: SortOrder
     timezone?: SortOrder
+    reportEmail?: SortOrder
     isVerified?: SortOrder
     lastSyncedAt?: SortOrder
     lastFetchedTimestamp?: SortOrder
@@ -26267,26 +28309,51 @@ export namespace Prisma {
     not?: NestedEnumReportStatusFilter<$PrismaModel> | $Enums.ReportStatus
   }
 
+  export type ReportScheduleNullableScalarRelationFilter = {
+    is?: ReportScheduleWhereInput | null
+    isNot?: ReportScheduleWhereInput | null
+  }
+
   export type ReportCountOrderByAggregateInput = {
     id?: SortOrder
     locationId?: SortOrder
+    scheduleId?: SortOrder
     name?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     reportType?: SortOrder
+    recipientEmail?: SortOrder
+    scheduledFor?: SortOrder
+    deliveredAt?: SortOrder
+    errorMessage?: SortOrder
+    attemptCount?: SortOrder
+    reportPeriodStart?: SortOrder
+    reportPeriodEnd?: SortOrder
     fileUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
+  export type ReportAvgOrderByAggregateInput = {
+    attemptCount?: SortOrder
+  }
+
   export type ReportMaxOrderByAggregateInput = {
     id?: SortOrder
     locationId?: SortOrder
+    scheduleId?: SortOrder
     name?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     reportType?: SortOrder
+    recipientEmail?: SortOrder
+    scheduledFor?: SortOrder
+    deliveredAt?: SortOrder
+    errorMessage?: SortOrder
+    attemptCount?: SortOrder
+    reportPeriodStart?: SortOrder
+    reportPeriodEnd?: SortOrder
     fileUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -26296,14 +28363,26 @@ export namespace Prisma {
   export type ReportMinOrderByAggregateInput = {
     id?: SortOrder
     locationId?: SortOrder
+    scheduleId?: SortOrder
     name?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     reportType?: SortOrder
+    recipientEmail?: SortOrder
+    scheduledFor?: SortOrder
+    deliveredAt?: SortOrder
+    errorMessage?: SortOrder
+    attemptCount?: SortOrder
+    reportPeriodStart?: SortOrder
+    reportPeriodEnd?: SortOrder
     fileUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ReportSumOrderByAggregateInput = {
+    attemptCount?: SortOrder
   }
 
   export type EnumReportTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -26324,6 +28403,102 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumReportStatusFilter<$PrismaModel>
     _max?: NestedEnumReportStatusFilter<$PrismaModel>
+  }
+
+  export type EnumReportScheduleTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportScheduleType | EnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportScheduleType[] | ListEnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportScheduleType[] | ListEnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportScheduleTypeFilter<$PrismaModel> | $Enums.ReportScheduleType
+  }
+
+  export type EnumCustomReportPeriodTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomReportPeriodType | EnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CustomReportPeriodType[] | ListEnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CustomReportPeriodType[] | ListEnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCustomReportPeriodTypeNullableFilter<$PrismaModel> | $Enums.CustomReportPeriodType | null
+  }
+
+  export type ReportScheduleCountOrderByAggregateInput = {
+    id?: SortOrder
+    locationId?: SortOrder
+    type?: SortOrder
+    enabled?: SortOrder
+    timezone?: SortOrder
+    dayOfMonth?: SortOrder
+    sendTimeLocal?: SortOrder
+    runAt?: SortOrder
+    customPeriodType?: SortOrder
+    customStartDate?: SortOrder
+    customEndDate?: SortOrder
+    nextRunAt?: SortOrder
+    lastRunAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReportScheduleAvgOrderByAggregateInput = {
+    dayOfMonth?: SortOrder
+  }
+
+  export type ReportScheduleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    locationId?: SortOrder
+    type?: SortOrder
+    enabled?: SortOrder
+    timezone?: SortOrder
+    dayOfMonth?: SortOrder
+    sendTimeLocal?: SortOrder
+    runAt?: SortOrder
+    customPeriodType?: SortOrder
+    customStartDate?: SortOrder
+    customEndDate?: SortOrder
+    nextRunAt?: SortOrder
+    lastRunAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReportScheduleMinOrderByAggregateInput = {
+    id?: SortOrder
+    locationId?: SortOrder
+    type?: SortOrder
+    enabled?: SortOrder
+    timezone?: SortOrder
+    dayOfMonth?: SortOrder
+    sendTimeLocal?: SortOrder
+    runAt?: SortOrder
+    customPeriodType?: SortOrder
+    customStartDate?: SortOrder
+    customEndDate?: SortOrder
+    nextRunAt?: SortOrder
+    lastRunAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReportScheduleSumOrderByAggregateInput = {
+    dayOfMonth?: SortOrder
+  }
+
+  export type EnumReportScheduleTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportScheduleType | EnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportScheduleType[] | ListEnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportScheduleType[] | ListEnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportScheduleTypeWithAggregatesFilter<$PrismaModel> | $Enums.ReportScheduleType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReportScheduleTypeFilter<$PrismaModel>
+    _max?: NestedEnumReportScheduleTypeFilter<$PrismaModel>
+  }
+
+  export type EnumCustomReportPeriodTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomReportPeriodType | EnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CustomReportPeriodType[] | ListEnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CustomReportPeriodType[] | ListEnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCustomReportPeriodTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.CustomReportPeriodType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumCustomReportPeriodTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumCustomReportPeriodTypeNullableFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -27048,6 +29223,13 @@ export namespace Prisma {
     connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
+  export type ReportScheduleCreateNestedManyWithoutLocationInput = {
+    create?: XOR<ReportScheduleCreateWithoutLocationInput, ReportScheduleUncheckedCreateWithoutLocationInput> | ReportScheduleCreateWithoutLocationInput[] | ReportScheduleUncheckedCreateWithoutLocationInput[]
+    connectOrCreate?: ReportScheduleCreateOrConnectWithoutLocationInput | ReportScheduleCreateOrConnectWithoutLocationInput[]
+    createMany?: ReportScheduleCreateManyLocationInputEnvelope
+    connect?: ReportScheduleWhereUniqueInput | ReportScheduleWhereUniqueInput[]
+  }
+
   export type ReviewCreateNestedManyWithoutLocationInput = {
     create?: XOR<ReviewCreateWithoutLocationInput, ReviewUncheckedCreateWithoutLocationInput> | ReviewCreateWithoutLocationInput[] | ReviewUncheckedCreateWithoutLocationInput[]
     connectOrCreate?: ReviewCreateOrConnectWithoutLocationInput | ReviewCreateOrConnectWithoutLocationInput[]
@@ -27107,6 +29289,13 @@ export namespace Prisma {
     connectOrCreate?: ReportCreateOrConnectWithoutLocationInput | ReportCreateOrConnectWithoutLocationInput[]
     createMany?: ReportCreateManyLocationInputEnvelope
     connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
+  export type ReportScheduleUncheckedCreateNestedManyWithoutLocationInput = {
+    create?: XOR<ReportScheduleCreateWithoutLocationInput, ReportScheduleUncheckedCreateWithoutLocationInput> | ReportScheduleCreateWithoutLocationInput[] | ReportScheduleUncheckedCreateWithoutLocationInput[]
+    connectOrCreate?: ReportScheduleCreateOrConnectWithoutLocationInput | ReportScheduleCreateOrConnectWithoutLocationInput[]
+    createMany?: ReportScheduleCreateManyLocationInputEnvelope
+    connect?: ReportScheduleWhereUniqueInput | ReportScheduleWhereUniqueInput[]
   }
 
   export type ReviewUncheckedCreateNestedManyWithoutLocationInput = {
@@ -27195,6 +29384,20 @@ export namespace Prisma {
     update?: ReportUpdateWithWhereUniqueWithoutLocationInput | ReportUpdateWithWhereUniqueWithoutLocationInput[]
     updateMany?: ReportUpdateManyWithWhereWithoutLocationInput | ReportUpdateManyWithWhereWithoutLocationInput[]
     deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
+  export type ReportScheduleUpdateManyWithoutLocationNestedInput = {
+    create?: XOR<ReportScheduleCreateWithoutLocationInput, ReportScheduleUncheckedCreateWithoutLocationInput> | ReportScheduleCreateWithoutLocationInput[] | ReportScheduleUncheckedCreateWithoutLocationInput[]
+    connectOrCreate?: ReportScheduleCreateOrConnectWithoutLocationInput | ReportScheduleCreateOrConnectWithoutLocationInput[]
+    upsert?: ReportScheduleUpsertWithWhereUniqueWithoutLocationInput | ReportScheduleUpsertWithWhereUniqueWithoutLocationInput[]
+    createMany?: ReportScheduleCreateManyLocationInputEnvelope
+    set?: ReportScheduleWhereUniqueInput | ReportScheduleWhereUniqueInput[]
+    disconnect?: ReportScheduleWhereUniqueInput | ReportScheduleWhereUniqueInput[]
+    delete?: ReportScheduleWhereUniqueInput | ReportScheduleWhereUniqueInput[]
+    connect?: ReportScheduleWhereUniqueInput | ReportScheduleWhereUniqueInput[]
+    update?: ReportScheduleUpdateWithWhereUniqueWithoutLocationInput | ReportScheduleUpdateWithWhereUniqueWithoutLocationInput[]
+    updateMany?: ReportScheduleUpdateManyWithWhereWithoutLocationInput | ReportScheduleUpdateManyWithWhereWithoutLocationInput[]
+    deleteMany?: ReportScheduleScalarWhereInput | ReportScheduleScalarWhereInput[]
   }
 
   export type ReviewUpdateManyWithoutLocationNestedInput = {
@@ -27316,6 +29519,20 @@ export namespace Prisma {
     update?: ReportUpdateWithWhereUniqueWithoutLocationInput | ReportUpdateWithWhereUniqueWithoutLocationInput[]
     updateMany?: ReportUpdateManyWithWhereWithoutLocationInput | ReportUpdateManyWithWhereWithoutLocationInput[]
     deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
+  export type ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput = {
+    create?: XOR<ReportScheduleCreateWithoutLocationInput, ReportScheduleUncheckedCreateWithoutLocationInput> | ReportScheduleCreateWithoutLocationInput[] | ReportScheduleUncheckedCreateWithoutLocationInput[]
+    connectOrCreate?: ReportScheduleCreateOrConnectWithoutLocationInput | ReportScheduleCreateOrConnectWithoutLocationInput[]
+    upsert?: ReportScheduleUpsertWithWhereUniqueWithoutLocationInput | ReportScheduleUpsertWithWhereUniqueWithoutLocationInput[]
+    createMany?: ReportScheduleCreateManyLocationInputEnvelope
+    set?: ReportScheduleWhereUniqueInput | ReportScheduleWhereUniqueInput[]
+    disconnect?: ReportScheduleWhereUniqueInput | ReportScheduleWhereUniqueInput[]
+    delete?: ReportScheduleWhereUniqueInput | ReportScheduleWhereUniqueInput[]
+    connect?: ReportScheduleWhereUniqueInput | ReportScheduleWhereUniqueInput[]
+    update?: ReportScheduleUpdateWithWhereUniqueWithoutLocationInput | ReportScheduleUpdateWithWhereUniqueWithoutLocationInput[]
+    updateMany?: ReportScheduleUpdateManyWithWhereWithoutLocationInput | ReportScheduleUpdateManyWithWhereWithoutLocationInput[]
+    deleteMany?: ReportScheduleScalarWhereInput | ReportScheduleScalarWhereInput[]
   }
 
   export type ReviewUncheckedUpdateManyWithoutLocationNestedInput = {
@@ -27692,6 +29909,12 @@ export namespace Prisma {
     connect?: LocationWhereUniqueInput
   }
 
+  export type ReportScheduleCreateNestedOneWithoutReportsInput = {
+    create?: XOR<ReportScheduleCreateWithoutReportsInput, ReportScheduleUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: ReportScheduleCreateOrConnectWithoutReportsInput
+    connect?: ReportScheduleWhereUniqueInput
+  }
+
   export type EnumReportTypeFieldUpdateOperationsInput = {
     set?: $Enums.ReportType
   }
@@ -27706,6 +29929,80 @@ export namespace Prisma {
     upsert?: LocationUpsertWithoutReportsInput
     connect?: LocationWhereUniqueInput
     update?: XOR<XOR<LocationUpdateToOneWithWhereWithoutReportsInput, LocationUpdateWithoutReportsInput>, LocationUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type ReportScheduleUpdateOneWithoutReportsNestedInput = {
+    create?: XOR<ReportScheduleCreateWithoutReportsInput, ReportScheduleUncheckedCreateWithoutReportsInput>
+    connectOrCreate?: ReportScheduleCreateOrConnectWithoutReportsInput
+    upsert?: ReportScheduleUpsertWithoutReportsInput
+    disconnect?: ReportScheduleWhereInput | boolean
+    delete?: ReportScheduleWhereInput | boolean
+    connect?: ReportScheduleWhereUniqueInput
+    update?: XOR<XOR<ReportScheduleUpdateToOneWithWhereWithoutReportsInput, ReportScheduleUpdateWithoutReportsInput>, ReportScheduleUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type LocationCreateNestedOneWithoutReportSchedulesInput = {
+    create?: XOR<LocationCreateWithoutReportSchedulesInput, LocationUncheckedCreateWithoutReportSchedulesInput>
+    connectOrCreate?: LocationCreateOrConnectWithoutReportSchedulesInput
+    connect?: LocationWhereUniqueInput
+  }
+
+  export type ReportCreateNestedManyWithoutScheduleInput = {
+    create?: XOR<ReportCreateWithoutScheduleInput, ReportUncheckedCreateWithoutScheduleInput> | ReportCreateWithoutScheduleInput[] | ReportUncheckedCreateWithoutScheduleInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutScheduleInput | ReportCreateOrConnectWithoutScheduleInput[]
+    createMany?: ReportCreateManyScheduleInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
+  export type ReportUncheckedCreateNestedManyWithoutScheduleInput = {
+    create?: XOR<ReportCreateWithoutScheduleInput, ReportUncheckedCreateWithoutScheduleInput> | ReportCreateWithoutScheduleInput[] | ReportUncheckedCreateWithoutScheduleInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutScheduleInput | ReportCreateOrConnectWithoutScheduleInput[]
+    createMany?: ReportCreateManyScheduleInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
+  export type EnumReportScheduleTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ReportScheduleType
+  }
+
+  export type NullableEnumCustomReportPeriodTypeFieldUpdateOperationsInput = {
+    set?: $Enums.CustomReportPeriodType | null
+  }
+
+  export type LocationUpdateOneRequiredWithoutReportSchedulesNestedInput = {
+    create?: XOR<LocationCreateWithoutReportSchedulesInput, LocationUncheckedCreateWithoutReportSchedulesInput>
+    connectOrCreate?: LocationCreateOrConnectWithoutReportSchedulesInput
+    upsert?: LocationUpsertWithoutReportSchedulesInput
+    connect?: LocationWhereUniqueInput
+    update?: XOR<XOR<LocationUpdateToOneWithWhereWithoutReportSchedulesInput, LocationUpdateWithoutReportSchedulesInput>, LocationUncheckedUpdateWithoutReportSchedulesInput>
+  }
+
+  export type ReportUpdateManyWithoutScheduleNestedInput = {
+    create?: XOR<ReportCreateWithoutScheduleInput, ReportUncheckedCreateWithoutScheduleInput> | ReportCreateWithoutScheduleInput[] | ReportUncheckedCreateWithoutScheduleInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutScheduleInput | ReportCreateOrConnectWithoutScheduleInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutScheduleInput | ReportUpsertWithWhereUniqueWithoutScheduleInput[]
+    createMany?: ReportCreateManyScheduleInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutScheduleInput | ReportUpdateWithWhereUniqueWithoutScheduleInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutScheduleInput | ReportUpdateManyWithWhereWithoutScheduleInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
+  export type ReportUncheckedUpdateManyWithoutScheduleNestedInput = {
+    create?: XOR<ReportCreateWithoutScheduleInput, ReportUncheckedCreateWithoutScheduleInput> | ReportCreateWithoutScheduleInput[] | ReportUncheckedCreateWithoutScheduleInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutScheduleInput | ReportCreateOrConnectWithoutScheduleInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutScheduleInput | ReportUpsertWithWhereUniqueWithoutScheduleInput[]
+    createMany?: ReportCreateManyScheduleInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutScheduleInput | ReportUpdateWithWhereUniqueWithoutScheduleInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutScheduleInput | ReportUpdateManyWithWhereWithoutScheduleInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
   }
 
   export type LocationCreateNestedOneWithoutSearchKeywordsInput = {
@@ -28258,6 +30555,40 @@ export namespace Prisma {
     _max?: NestedEnumReportStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumReportScheduleTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportScheduleType | EnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportScheduleType[] | ListEnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportScheduleType[] | ListEnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportScheduleTypeFilter<$PrismaModel> | $Enums.ReportScheduleType
+  }
+
+  export type NestedEnumCustomReportPeriodTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomReportPeriodType | EnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CustomReportPeriodType[] | ListEnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CustomReportPeriodType[] | ListEnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCustomReportPeriodTypeNullableFilter<$PrismaModel> | $Enums.CustomReportPeriodType | null
+  }
+
+  export type NestedEnumReportScheduleTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReportScheduleType | EnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReportScheduleType[] | ListEnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReportScheduleType[] | ListEnumReportScheduleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReportScheduleTypeWithAggregatesFilter<$PrismaModel> | $Enums.ReportScheduleType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReportScheduleTypeFilter<$PrismaModel>
+    _max?: NestedEnumReportScheduleTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCustomReportPeriodTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomReportPeriodType | EnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.CustomReportPeriodType[] | ListEnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.CustomReportPeriodType[] | ListEnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCustomReportPeriodTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.CustomReportPeriodType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumCustomReportPeriodTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumCustomReportPeriodTypeNullableFilter<$PrismaModel>
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -28409,6 +30740,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -28422,6 +30754,7 @@ export namespace Prisma {
     insights?: InsightCreateNestedManyWithoutLocationInput
     posts?: PostCreateNestedManyWithoutLocationInput
     reports?: ReportCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleCreateNestedManyWithoutLocationInput
     reviews?: ReviewCreateNestedManyWithoutLocationInput
     searchKeywords?: SearchKeywordCreateNestedManyWithoutLocationInput
     googleAccount?: GoogleAccountCreateNestedOneWithoutLocationsInput
@@ -28440,6 +30773,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -28454,6 +30788,7 @@ export namespace Prisma {
     insights?: InsightUncheckedCreateNestedManyWithoutLocationInput
     posts?: PostUncheckedCreateNestedManyWithoutLocationInput
     reports?: ReportUncheckedCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleUncheckedCreateNestedManyWithoutLocationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutLocationInput
     searchKeywords?: SearchKeywordUncheckedCreateNestedManyWithoutLocationInput
     aiTemplates?: AIReplyTemplateUncheckedCreateNestedManyWithoutLocationInput
@@ -28810,6 +31145,7 @@ export namespace Prisma {
     latitude?: FloatNullableFilter<"Location"> | number | null
     longitude?: FloatNullableFilter<"Location"> | number | null
     timezone?: StringFilter<"Location"> | string
+    reportEmail?: StringNullableFilter<"Location"> | string | null
     isVerified?: BoolFilter<"Location"> | boolean
     lastSyncedAt?: DateTimeFilter<"Location"> | Date | string
     lastFetchedTimestamp?: DateTimeNullableFilter<"Location"> | Date | string | null
@@ -29579,6 +31915,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -29592,6 +31929,7 @@ export namespace Prisma {
     insights?: InsightCreateNestedManyWithoutLocationInput
     posts?: PostCreateNestedManyWithoutLocationInput
     reports?: ReportCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleCreateNestedManyWithoutLocationInput
     reviews?: ReviewCreateNestedManyWithoutLocationInput
     users?: UserCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordCreateNestedManyWithoutLocationInput
@@ -29610,6 +31948,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -29623,6 +31962,7 @@ export namespace Prisma {
     insights?: InsightUncheckedCreateNestedManyWithoutLocationInput
     posts?: PostUncheckedCreateNestedManyWithoutLocationInput
     reports?: ReportUncheckedCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleUncheckedCreateNestedManyWithoutLocationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutLocationInput
     users?: UserUncheckedCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordUncheckedCreateNestedManyWithoutLocationInput
@@ -29819,18 +32159,34 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     reportType: $Enums.ReportType
+    recipientEmail?: string | null
+    scheduledFor?: Date | string | null
+    deliveredAt?: Date | string | null
+    errorMessage?: string | null
+    attemptCount?: number
+    reportPeriodStart?: Date | string | null
+    reportPeriodEnd?: Date | string | null
     fileUrl?: string | null
     status?: $Enums.ReportStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    schedule?: ReportScheduleCreateNestedOneWithoutReportsInput
   }
 
   export type ReportUncheckedCreateWithoutLocationInput = {
     id?: string
+    scheduleId?: string | null
     name: string
     startDate: Date | string
     endDate: Date | string
     reportType: $Enums.ReportType
+    recipientEmail?: string | null
+    scheduledFor?: Date | string | null
+    deliveredAt?: Date | string | null
+    errorMessage?: string | null
+    attemptCount?: number
+    reportPeriodStart?: Date | string | null
+    reportPeriodEnd?: Date | string | null
     fileUrl?: string | null
     status?: $Enums.ReportStatus
     createdAt?: Date | string
@@ -29844,6 +32200,52 @@ export namespace Prisma {
 
   export type ReportCreateManyLocationInputEnvelope = {
     data: ReportCreateManyLocationInput | ReportCreateManyLocationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReportScheduleCreateWithoutLocationInput = {
+    id?: string
+    type: $Enums.ReportScheduleType
+    enabled?: boolean
+    timezone?: string
+    dayOfMonth?: number | null
+    sendTimeLocal?: string | null
+    runAt?: Date | string | null
+    customPeriodType?: $Enums.CustomReportPeriodType | null
+    customStartDate?: Date | string | null
+    customEndDate?: Date | string | null
+    nextRunAt?: Date | string | null
+    lastRunAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportCreateNestedManyWithoutScheduleInput
+  }
+
+  export type ReportScheduleUncheckedCreateWithoutLocationInput = {
+    id?: string
+    type: $Enums.ReportScheduleType
+    enabled?: boolean
+    timezone?: string
+    dayOfMonth?: number | null
+    sendTimeLocal?: string | null
+    runAt?: Date | string | null
+    customPeriodType?: $Enums.CustomReportPeriodType | null
+    customStartDate?: Date | string | null
+    customEndDate?: Date | string | null
+    nextRunAt?: Date | string | null
+    lastRunAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutScheduleInput
+  }
+
+  export type ReportScheduleCreateOrConnectWithoutLocationInput = {
+    where: ReportScheduleWhereUniqueInput
+    create: XOR<ReportScheduleCreateWithoutLocationInput, ReportScheduleUncheckedCreateWithoutLocationInput>
+  }
+
+  export type ReportScheduleCreateManyLocationInputEnvelope = {
+    data: ReportScheduleCreateManyLocationInput | ReportScheduleCreateManyLocationInput[]
     skipDuplicates?: boolean
   }
 
@@ -30163,14 +32565,59 @@ export namespace Prisma {
     NOT?: ReportScalarWhereInput | ReportScalarWhereInput[]
     id?: StringFilter<"Report"> | string
     locationId?: StringFilter<"Report"> | string
+    scheduleId?: StringNullableFilter<"Report"> | string | null
     name?: StringFilter<"Report"> | string
     startDate?: DateTimeFilter<"Report"> | Date | string
     endDate?: DateTimeFilter<"Report"> | Date | string
     reportType?: EnumReportTypeFilter<"Report"> | $Enums.ReportType
+    recipientEmail?: StringNullableFilter<"Report"> | string | null
+    scheduledFor?: DateTimeNullableFilter<"Report"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    errorMessage?: StringNullableFilter<"Report"> | string | null
+    attemptCount?: IntFilter<"Report"> | number
+    reportPeriodStart?: DateTimeNullableFilter<"Report"> | Date | string | null
+    reportPeriodEnd?: DateTimeNullableFilter<"Report"> | Date | string | null
     fileUrl?: StringNullableFilter<"Report"> | string | null
     status?: EnumReportStatusFilter<"Report"> | $Enums.ReportStatus
     createdAt?: DateTimeFilter<"Report"> | Date | string
     updatedAt?: DateTimeFilter<"Report"> | Date | string
+  }
+
+  export type ReportScheduleUpsertWithWhereUniqueWithoutLocationInput = {
+    where: ReportScheduleWhereUniqueInput
+    update: XOR<ReportScheduleUpdateWithoutLocationInput, ReportScheduleUncheckedUpdateWithoutLocationInput>
+    create: XOR<ReportScheduleCreateWithoutLocationInput, ReportScheduleUncheckedCreateWithoutLocationInput>
+  }
+
+  export type ReportScheduleUpdateWithWhereUniqueWithoutLocationInput = {
+    where: ReportScheduleWhereUniqueInput
+    data: XOR<ReportScheduleUpdateWithoutLocationInput, ReportScheduleUncheckedUpdateWithoutLocationInput>
+  }
+
+  export type ReportScheduleUpdateManyWithWhereWithoutLocationInput = {
+    where: ReportScheduleScalarWhereInput
+    data: XOR<ReportScheduleUpdateManyMutationInput, ReportScheduleUncheckedUpdateManyWithoutLocationInput>
+  }
+
+  export type ReportScheduleScalarWhereInput = {
+    AND?: ReportScheduleScalarWhereInput | ReportScheduleScalarWhereInput[]
+    OR?: ReportScheduleScalarWhereInput[]
+    NOT?: ReportScheduleScalarWhereInput | ReportScheduleScalarWhereInput[]
+    id?: StringFilter<"ReportSchedule"> | string
+    locationId?: StringFilter<"ReportSchedule"> | string
+    type?: EnumReportScheduleTypeFilter<"ReportSchedule"> | $Enums.ReportScheduleType
+    enabled?: BoolFilter<"ReportSchedule"> | boolean
+    timezone?: StringFilter<"ReportSchedule"> | string
+    dayOfMonth?: IntNullableFilter<"ReportSchedule"> | number | null
+    sendTimeLocal?: StringNullableFilter<"ReportSchedule"> | string | null
+    runAt?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    customPeriodType?: EnumCustomReportPeriodTypeNullableFilter<"ReportSchedule"> | $Enums.CustomReportPeriodType | null
+    customStartDate?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    customEndDate?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    nextRunAt?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    lastRunAt?: DateTimeNullableFilter<"ReportSchedule"> | Date | string | null
+    createdAt?: DateTimeFilter<"ReportSchedule"> | Date | string
+    updatedAt?: DateTimeFilter<"ReportSchedule"> | Date | string
   }
 
   export type ReviewUpsertWithWhereUniqueWithoutLocationInput = {
@@ -30363,6 +32810,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -30375,6 +32823,7 @@ export namespace Prisma {
     gmbAccountId?: string | null
     insights?: InsightCreateNestedManyWithoutLocationInput
     reports?: ReportCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleCreateNestedManyWithoutLocationInput
     reviews?: ReviewCreateNestedManyWithoutLocationInput
     users?: UserCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordCreateNestedManyWithoutLocationInput
@@ -30394,6 +32843,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -30407,6 +32857,7 @@ export namespace Prisma {
     gmbAccountId?: string | null
     insights?: InsightUncheckedCreateNestedManyWithoutLocationInput
     reports?: ReportUncheckedCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleUncheckedCreateNestedManyWithoutLocationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutLocationInput
     users?: UserUncheckedCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordUncheckedCreateNestedManyWithoutLocationInput
@@ -30498,6 +32949,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30510,6 +32962,7 @@ export namespace Prisma {
     gmbAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     insights?: InsightUpdateManyWithoutLocationNestedInput
     reports?: ReportUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUpdateManyWithoutLocationNestedInput
     users?: UserUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUpdateManyWithoutLocationNestedInput
@@ -30529,6 +32982,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30542,6 +32996,7 @@ export namespace Prisma {
     gmbAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     insights?: InsightUncheckedUpdateManyWithoutLocationNestedInput
     reports?: ReportUncheckedUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutLocationNestedInput
     users?: UserUncheckedUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUncheckedUpdateManyWithoutLocationNestedInput
@@ -30623,6 +33078,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -30636,6 +33092,7 @@ export namespace Prisma {
     insights?: InsightCreateNestedManyWithoutLocationInput
     posts?: PostCreateNestedManyWithoutLocationInput
     reports?: ReportCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleCreateNestedManyWithoutLocationInput
     users?: UserCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordCreateNestedManyWithoutLocationInput
     googleAccount?: GoogleAccountCreateNestedOneWithoutLocationsInput
@@ -30654,6 +33111,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -30668,6 +33126,7 @@ export namespace Prisma {
     insights?: InsightUncheckedCreateNestedManyWithoutLocationInput
     posts?: PostUncheckedCreateNestedManyWithoutLocationInput
     reports?: ReportUncheckedCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleUncheckedCreateNestedManyWithoutLocationInput
     users?: UserUncheckedCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordUncheckedCreateNestedManyWithoutLocationInput
     aiTemplates?: AIReplyTemplateUncheckedCreateNestedManyWithoutLocationInput
@@ -30735,6 +33194,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30748,6 +33208,7 @@ export namespace Prisma {
     insights?: InsightUpdateManyWithoutLocationNestedInput
     posts?: PostUpdateManyWithoutLocationNestedInput
     reports?: ReportUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUpdateManyWithoutLocationNestedInput
     users?: UserUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUpdateManyWithoutLocationNestedInput
     googleAccount?: GoogleAccountUpdateOneWithoutLocationsNestedInput
@@ -30766,6 +33227,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30780,6 +33242,7 @@ export namespace Prisma {
     insights?: InsightUncheckedUpdateManyWithoutLocationNestedInput
     posts?: PostUncheckedUpdateManyWithoutLocationNestedInput
     reports?: ReportUncheckedUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput
     users?: UserUncheckedUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUncheckedUpdateManyWithoutLocationNestedInput
     aiTemplates?: AIReplyTemplateUncheckedUpdateManyWithoutLocationNestedInput
@@ -31166,6 +33629,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -31179,6 +33643,7 @@ export namespace Prisma {
     insights?: InsightCreateNestedManyWithoutLocationInput
     posts?: PostCreateNestedManyWithoutLocationInput
     reports?: ReportCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleCreateNestedManyWithoutLocationInput
     reviews?: ReviewCreateNestedManyWithoutLocationInput
     users?: UserCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordCreateNestedManyWithoutLocationInput
@@ -31197,6 +33662,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -31211,6 +33677,7 @@ export namespace Prisma {
     insights?: InsightUncheckedCreateNestedManyWithoutLocationInput
     posts?: PostUncheckedCreateNestedManyWithoutLocationInput
     reports?: ReportUncheckedCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleUncheckedCreateNestedManyWithoutLocationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutLocationInput
     users?: UserUncheckedCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordUncheckedCreateNestedManyWithoutLocationInput
@@ -31341,6 +33808,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31354,6 +33822,7 @@ export namespace Prisma {
     insights?: InsightUpdateManyWithoutLocationNestedInput
     posts?: PostUpdateManyWithoutLocationNestedInput
     reports?: ReportUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUpdateManyWithoutLocationNestedInput
     users?: UserUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUpdateManyWithoutLocationNestedInput
@@ -31372,6 +33841,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31386,6 +33856,7 @@ export namespace Prisma {
     insights?: InsightUncheckedUpdateManyWithoutLocationNestedInput
     posts?: PostUncheckedUpdateManyWithoutLocationNestedInput
     reports?: ReportUncheckedUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutLocationNestedInput
     users?: UserUncheckedUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUncheckedUpdateManyWithoutLocationNestedInput
@@ -31476,6 +33947,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -31489,6 +33961,7 @@ export namespace Prisma {
     insights?: InsightCreateNestedManyWithoutLocationInput
     posts?: PostCreateNestedManyWithoutLocationInput
     reports?: ReportCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleCreateNestedManyWithoutLocationInput
     reviews?: ReviewCreateNestedManyWithoutLocationInput
     users?: UserCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordCreateNestedManyWithoutLocationInput
@@ -31507,6 +33980,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -31521,6 +33995,7 @@ export namespace Prisma {
     insights?: InsightUncheckedCreateNestedManyWithoutLocationInput
     posts?: PostUncheckedCreateNestedManyWithoutLocationInput
     reports?: ReportUncheckedCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleUncheckedCreateNestedManyWithoutLocationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutLocationInput
     users?: UserUncheckedCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordUncheckedCreateNestedManyWithoutLocationInput
@@ -31617,6 +34092,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31630,6 +34106,7 @@ export namespace Prisma {
     insights?: InsightUpdateManyWithoutLocationNestedInput
     posts?: PostUpdateManyWithoutLocationNestedInput
     reports?: ReportUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUpdateManyWithoutLocationNestedInput
     users?: UserUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUpdateManyWithoutLocationNestedInput
@@ -31648,6 +34125,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31662,6 +34140,7 @@ export namespace Prisma {
     insights?: InsightUncheckedUpdateManyWithoutLocationNestedInput
     posts?: PostUncheckedUpdateManyWithoutLocationNestedInput
     reports?: ReportUncheckedUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutLocationNestedInput
     users?: UserUncheckedUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUncheckedUpdateManyWithoutLocationNestedInput
@@ -31679,6 +34158,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -31691,6 +34171,7 @@ export namespace Prisma {
     gmbAccountId?: string | null
     posts?: PostCreateNestedManyWithoutLocationInput
     reports?: ReportCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleCreateNestedManyWithoutLocationInput
     reviews?: ReviewCreateNestedManyWithoutLocationInput
     users?: UserCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordCreateNestedManyWithoutLocationInput
@@ -31710,6 +34191,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -31723,6 +34205,7 @@ export namespace Prisma {
     gmbAccountId?: string | null
     posts?: PostUncheckedCreateNestedManyWithoutLocationInput
     reports?: ReportUncheckedCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleUncheckedCreateNestedManyWithoutLocationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutLocationInput
     users?: UserUncheckedCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordUncheckedCreateNestedManyWithoutLocationInput
@@ -31757,6 +34240,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31769,6 +34253,7 @@ export namespace Prisma {
     gmbAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     posts?: PostUpdateManyWithoutLocationNestedInput
     reports?: ReportUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUpdateManyWithoutLocationNestedInput
     users?: UserUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUpdateManyWithoutLocationNestedInput
@@ -31788,6 +34273,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31801,6 +34287,7 @@ export namespace Prisma {
     gmbAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     posts?: PostUncheckedUpdateManyWithoutLocationNestedInput
     reports?: ReportUncheckedUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutLocationNestedInput
     users?: UserUncheckedUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUncheckedUpdateManyWithoutLocationNestedInput
@@ -31819,6 +34306,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -31831,6 +34319,7 @@ export namespace Prisma {
     gmbAccountId?: string | null
     insights?: InsightCreateNestedManyWithoutLocationInput
     posts?: PostCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleCreateNestedManyWithoutLocationInput
     reviews?: ReviewCreateNestedManyWithoutLocationInput
     users?: UserCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordCreateNestedManyWithoutLocationInput
@@ -31850,6 +34339,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -31863,6 +34353,7 @@ export namespace Prisma {
     gmbAccountId?: string | null
     insights?: InsightUncheckedCreateNestedManyWithoutLocationInput
     posts?: PostUncheckedCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleUncheckedCreateNestedManyWithoutLocationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutLocationInput
     users?: UserUncheckedCreateNestedManyWithoutLocationsInput
     searchKeywords?: SearchKeywordUncheckedCreateNestedManyWithoutLocationInput
@@ -31873,6 +34364,47 @@ export namespace Prisma {
   export type LocationCreateOrConnectWithoutReportsInput = {
     where: LocationWhereUniqueInput
     create: XOR<LocationCreateWithoutReportsInput, LocationUncheckedCreateWithoutReportsInput>
+  }
+
+  export type ReportScheduleCreateWithoutReportsInput = {
+    id?: string
+    type: $Enums.ReportScheduleType
+    enabled?: boolean
+    timezone?: string
+    dayOfMonth?: number | null
+    sendTimeLocal?: string | null
+    runAt?: Date | string | null
+    customPeriodType?: $Enums.CustomReportPeriodType | null
+    customStartDate?: Date | string | null
+    customEndDate?: Date | string | null
+    nextRunAt?: Date | string | null
+    lastRunAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    location: LocationCreateNestedOneWithoutReportSchedulesInput
+  }
+
+  export type ReportScheduleUncheckedCreateWithoutReportsInput = {
+    id?: string
+    locationId: string
+    type: $Enums.ReportScheduleType
+    enabled?: boolean
+    timezone?: string
+    dayOfMonth?: number | null
+    sendTimeLocal?: string | null
+    runAt?: Date | string | null
+    customPeriodType?: $Enums.CustomReportPeriodType | null
+    customStartDate?: Date | string | null
+    customEndDate?: Date | string | null
+    nextRunAt?: Date | string | null
+    lastRunAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReportScheduleCreateOrConnectWithoutReportsInput = {
+    where: ReportScheduleWhereUniqueInput
+    create: XOR<ReportScheduleCreateWithoutReportsInput, ReportScheduleUncheckedCreateWithoutReportsInput>
   }
 
   export type LocationUpsertWithoutReportsInput = {
@@ -31897,6 +34429,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31909,6 +34442,7 @@ export namespace Prisma {
     gmbAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     insights?: InsightUpdateManyWithoutLocationNestedInput
     posts?: PostUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUpdateManyWithoutLocationNestedInput
     users?: UserUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUpdateManyWithoutLocationNestedInput
@@ -31928,6 +34462,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31941,6 +34476,7 @@ export namespace Prisma {
     gmbAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     insights?: InsightUncheckedUpdateManyWithoutLocationNestedInput
     posts?: PostUncheckedUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutLocationNestedInput
     users?: UserUncheckedUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUncheckedUpdateManyWithoutLocationNestedInput
@@ -31948,7 +34484,54 @@ export namespace Prisma {
     replySettings?: LocationReplySettingsUncheckedUpdateManyWithoutLocationNestedInput
   }
 
-  export type LocationCreateWithoutSearchKeywordsInput = {
+  export type ReportScheduleUpsertWithoutReportsInput = {
+    update: XOR<ReportScheduleUpdateWithoutReportsInput, ReportScheduleUncheckedUpdateWithoutReportsInput>
+    create: XOR<ReportScheduleCreateWithoutReportsInput, ReportScheduleUncheckedCreateWithoutReportsInput>
+    where?: ReportScheduleWhereInput
+  }
+
+  export type ReportScheduleUpdateToOneWithWhereWithoutReportsInput = {
+    where?: ReportScheduleWhereInput
+    data: XOR<ReportScheduleUpdateWithoutReportsInput, ReportScheduleUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type ReportScheduleUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportScheduleTypeFieldUpdateOperationsInput | $Enums.ReportScheduleType
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: StringFieldUpdateOperationsInput | string
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    sendTimeLocal?: NullableStringFieldUpdateOperationsInput | string | null
+    runAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customPeriodType?: NullableEnumCustomReportPeriodTypeFieldUpdateOperationsInput | $Enums.CustomReportPeriodType | null
+    customStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    location?: LocationUpdateOneRequiredWithoutReportSchedulesNestedInput
+  }
+
+  export type ReportScheduleUncheckedUpdateWithoutReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    locationId?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportScheduleTypeFieldUpdateOperationsInput | $Enums.ReportScheduleType
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: StringFieldUpdateOperationsInput | string
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    sendTimeLocal?: NullableStringFieldUpdateOperationsInput | string | null
+    runAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customPeriodType?: NullableEnumCustomReportPeriodTypeFieldUpdateOperationsInput | $Enums.CustomReportPeriodType | null
+    customStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LocationCreateWithoutReportSchedulesInput = {
     id?: string
     name: string
     gmbLocationId: string
@@ -31959,6 +34542,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -31972,6 +34556,221 @@ export namespace Prisma {
     insights?: InsightCreateNestedManyWithoutLocationInput
     posts?: PostCreateNestedManyWithoutLocationInput
     reports?: ReportCreateNestedManyWithoutLocationInput
+    reviews?: ReviewCreateNestedManyWithoutLocationInput
+    users?: UserCreateNestedManyWithoutLocationsInput
+    searchKeywords?: SearchKeywordCreateNestedManyWithoutLocationInput
+    googleAccount?: GoogleAccountCreateNestedOneWithoutLocationsInput
+    aiTemplates?: AIReplyTemplateCreateNestedManyWithoutLocationInput
+    replySettings?: LocationReplySettingsCreateNestedManyWithoutLocationInput
+  }
+
+  export type LocationUncheckedCreateWithoutReportSchedulesInput = {
+    id?: string
+    name: string
+    gmbLocationId: string
+    gmbLocationName: string
+    address?: string | null
+    phone?: string | null
+    websiteUrl?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    timezone?: string
+    reportEmail?: string | null
+    isVerified?: boolean
+    lastSyncedAt?: Date | string
+    lastFetchedTimestamp?: Date | string | null
+    autoReplyEnabled?: boolean
+    autoPostEnabled?: boolean
+    replyTonePreference?: $Enums.ReplyTone | null
+    googleAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    logoUrl?: string | null
+    gmbAccountId?: string | null
+    insights?: InsightUncheckedCreateNestedManyWithoutLocationInput
+    posts?: PostUncheckedCreateNestedManyWithoutLocationInput
+    reports?: ReportUncheckedCreateNestedManyWithoutLocationInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutLocationInput
+    users?: UserUncheckedCreateNestedManyWithoutLocationsInput
+    searchKeywords?: SearchKeywordUncheckedCreateNestedManyWithoutLocationInput
+    aiTemplates?: AIReplyTemplateUncheckedCreateNestedManyWithoutLocationInput
+    replySettings?: LocationReplySettingsUncheckedCreateNestedManyWithoutLocationInput
+  }
+
+  export type LocationCreateOrConnectWithoutReportSchedulesInput = {
+    where: LocationWhereUniqueInput
+    create: XOR<LocationCreateWithoutReportSchedulesInput, LocationUncheckedCreateWithoutReportSchedulesInput>
+  }
+
+  export type ReportCreateWithoutScheduleInput = {
+    id?: string
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    reportType: $Enums.ReportType
+    recipientEmail?: string | null
+    scheduledFor?: Date | string | null
+    deliveredAt?: Date | string | null
+    errorMessage?: string | null
+    attemptCount?: number
+    reportPeriodStart?: Date | string | null
+    reportPeriodEnd?: Date | string | null
+    fileUrl?: string | null
+    status?: $Enums.ReportStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    location: LocationCreateNestedOneWithoutReportsInput
+  }
+
+  export type ReportUncheckedCreateWithoutScheduleInput = {
+    id?: string
+    locationId: string
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    reportType: $Enums.ReportType
+    recipientEmail?: string | null
+    scheduledFor?: Date | string | null
+    deliveredAt?: Date | string | null
+    errorMessage?: string | null
+    attemptCount?: number
+    reportPeriodStart?: Date | string | null
+    reportPeriodEnd?: Date | string | null
+    fileUrl?: string | null
+    status?: $Enums.ReportStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReportCreateOrConnectWithoutScheduleInput = {
+    where: ReportWhereUniqueInput
+    create: XOR<ReportCreateWithoutScheduleInput, ReportUncheckedCreateWithoutScheduleInput>
+  }
+
+  export type ReportCreateManyScheduleInputEnvelope = {
+    data: ReportCreateManyScheduleInput | ReportCreateManyScheduleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LocationUpsertWithoutReportSchedulesInput = {
+    update: XOR<LocationUpdateWithoutReportSchedulesInput, LocationUncheckedUpdateWithoutReportSchedulesInput>
+    create: XOR<LocationCreateWithoutReportSchedulesInput, LocationUncheckedCreateWithoutReportSchedulesInput>
+    where?: LocationWhereInput
+  }
+
+  export type LocationUpdateToOneWithWhereWithoutReportSchedulesInput = {
+    where?: LocationWhereInput
+    data: XOR<LocationUpdateWithoutReportSchedulesInput, LocationUncheckedUpdateWithoutReportSchedulesInput>
+  }
+
+  export type LocationUpdateWithoutReportSchedulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    gmbLocationId?: StringFieldUpdateOperationsInput | string
+    gmbLocationName?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    websiteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReplyEnabled?: BoolFieldUpdateOperationsInput | boolean
+    autoPostEnabled?: BoolFieldUpdateOperationsInput | boolean
+    replyTonePreference?: NullableEnumReplyToneFieldUpdateOperationsInput | $Enums.ReplyTone | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    insights?: InsightUpdateManyWithoutLocationNestedInput
+    posts?: PostUpdateManyWithoutLocationNestedInput
+    reports?: ReportUpdateManyWithoutLocationNestedInput
+    reviews?: ReviewUpdateManyWithoutLocationNestedInput
+    users?: UserUpdateManyWithoutLocationsNestedInput
+    searchKeywords?: SearchKeywordUpdateManyWithoutLocationNestedInput
+    googleAccount?: GoogleAccountUpdateOneWithoutLocationsNestedInput
+    aiTemplates?: AIReplyTemplateUpdateManyWithoutLocationNestedInput
+    replySettings?: LocationReplySettingsUpdateManyWithoutLocationNestedInput
+  }
+
+  export type LocationUncheckedUpdateWithoutReportSchedulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    gmbLocationId?: StringFieldUpdateOperationsInput | string
+    gmbLocationName?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    websiteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReplyEnabled?: BoolFieldUpdateOperationsInput | boolean
+    autoPostEnabled?: BoolFieldUpdateOperationsInput | boolean
+    replyTonePreference?: NullableEnumReplyToneFieldUpdateOperationsInput | $Enums.ReplyTone | null
+    googleAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gmbAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    insights?: InsightUncheckedUpdateManyWithoutLocationNestedInput
+    posts?: PostUncheckedUpdateManyWithoutLocationNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutLocationNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutLocationNestedInput
+    users?: UserUncheckedUpdateManyWithoutLocationsNestedInput
+    searchKeywords?: SearchKeywordUncheckedUpdateManyWithoutLocationNestedInput
+    aiTemplates?: AIReplyTemplateUncheckedUpdateManyWithoutLocationNestedInput
+    replySettings?: LocationReplySettingsUncheckedUpdateManyWithoutLocationNestedInput
+  }
+
+  export type ReportUpsertWithWhereUniqueWithoutScheduleInput = {
+    where: ReportWhereUniqueInput
+    update: XOR<ReportUpdateWithoutScheduleInput, ReportUncheckedUpdateWithoutScheduleInput>
+    create: XOR<ReportCreateWithoutScheduleInput, ReportUncheckedCreateWithoutScheduleInput>
+  }
+
+  export type ReportUpdateWithWhereUniqueWithoutScheduleInput = {
+    where: ReportWhereUniqueInput
+    data: XOR<ReportUpdateWithoutScheduleInput, ReportUncheckedUpdateWithoutScheduleInput>
+  }
+
+  export type ReportUpdateManyWithWhereWithoutScheduleInput = {
+    where: ReportScalarWhereInput
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutScheduleInput>
+  }
+
+  export type LocationCreateWithoutSearchKeywordsInput = {
+    id?: string
+    name: string
+    gmbLocationId: string
+    gmbLocationName: string
+    address?: string | null
+    phone?: string | null
+    websiteUrl?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    timezone?: string
+    reportEmail?: string | null
+    isVerified?: boolean
+    lastSyncedAt?: Date | string
+    lastFetchedTimestamp?: Date | string | null
+    autoReplyEnabled?: boolean
+    autoPostEnabled?: boolean
+    replyTonePreference?: $Enums.ReplyTone | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    logoUrl?: string | null
+    gmbAccountId?: string | null
+    insights?: InsightCreateNestedManyWithoutLocationInput
+    posts?: PostCreateNestedManyWithoutLocationInput
+    reports?: ReportCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleCreateNestedManyWithoutLocationInput
     reviews?: ReviewCreateNestedManyWithoutLocationInput
     users?: UserCreateNestedManyWithoutLocationsInput
     googleAccount?: GoogleAccountCreateNestedOneWithoutLocationsInput
@@ -31990,6 +34789,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -32004,6 +34804,7 @@ export namespace Prisma {
     insights?: InsightUncheckedCreateNestedManyWithoutLocationInput
     posts?: PostUncheckedCreateNestedManyWithoutLocationInput
     reports?: ReportUncheckedCreateNestedManyWithoutLocationInput
+    reportSchedules?: ReportScheduleUncheckedCreateNestedManyWithoutLocationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutLocationInput
     users?: UserUncheckedCreateNestedManyWithoutLocationsInput
     aiTemplates?: AIReplyTemplateUncheckedCreateNestedManyWithoutLocationInput
@@ -32069,6 +34870,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32082,6 +34884,7 @@ export namespace Prisma {
     insights?: InsightUpdateManyWithoutLocationNestedInput
     posts?: PostUpdateManyWithoutLocationNestedInput
     reports?: ReportUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUpdateManyWithoutLocationNestedInput
     users?: UserUpdateManyWithoutLocationsNestedInput
     googleAccount?: GoogleAccountUpdateOneWithoutLocationsNestedInput
@@ -32100,6 +34903,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32114,6 +34918,7 @@ export namespace Prisma {
     insights?: InsightUncheckedUpdateManyWithoutLocationNestedInput
     posts?: PostUncheckedUpdateManyWithoutLocationNestedInput
     reports?: ReportUncheckedUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutLocationNestedInput
     users?: UserUncheckedUpdateManyWithoutLocationsNestedInput
     aiTemplates?: AIReplyTemplateUncheckedUpdateManyWithoutLocationNestedInput
@@ -32482,6 +35287,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32495,6 +35301,7 @@ export namespace Prisma {
     insights?: InsightUpdateManyWithoutLocationNestedInput
     posts?: PostUpdateManyWithoutLocationNestedInput
     reports?: ReportUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUpdateManyWithoutLocationNestedInput
     searchKeywords?: SearchKeywordUpdateManyWithoutLocationNestedInput
     googleAccount?: GoogleAccountUpdateOneWithoutLocationsNestedInput
@@ -32513,6 +35320,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32527,6 +35335,7 @@ export namespace Prisma {
     insights?: InsightUncheckedUpdateManyWithoutLocationNestedInput
     posts?: PostUncheckedUpdateManyWithoutLocationNestedInput
     reports?: ReportUncheckedUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutLocationNestedInput
     searchKeywords?: SearchKeywordUncheckedUpdateManyWithoutLocationNestedInput
     aiTemplates?: AIReplyTemplateUncheckedUpdateManyWithoutLocationNestedInput
@@ -32544,6 +35353,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32854,6 +35664,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     timezone?: string
+    reportEmail?: string | null
     isVerified?: boolean
     lastSyncedAt?: Date | string
     lastFetchedTimestamp?: Date | string | null
@@ -32877,6 +35688,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32890,6 +35702,7 @@ export namespace Prisma {
     insights?: InsightUpdateManyWithoutLocationNestedInput
     posts?: PostUpdateManyWithoutLocationNestedInput
     reports?: ReportUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUpdateManyWithoutLocationNestedInput
     users?: UserUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUpdateManyWithoutLocationNestedInput
@@ -32908,6 +35721,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32921,6 +35735,7 @@ export namespace Prisma {
     insights?: InsightUncheckedUpdateManyWithoutLocationNestedInput
     posts?: PostUncheckedUpdateManyWithoutLocationNestedInput
     reports?: ReportUncheckedUpdateManyWithoutLocationNestedInput
+    reportSchedules?: ReportScheduleUncheckedUpdateManyWithoutLocationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutLocationNestedInput
     users?: UserUncheckedUpdateManyWithoutLocationsNestedInput
     searchKeywords?: SearchKeywordUncheckedUpdateManyWithoutLocationNestedInput
@@ -32939,6 +35754,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: StringFieldUpdateOperationsInput | string
+    reportEmail?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastSyncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastFetchedTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32990,12 +35806,37 @@ export namespace Prisma {
 
   export type ReportCreateManyLocationInput = {
     id?: string
+    scheduleId?: string | null
     name: string
     startDate: Date | string
     endDate: Date | string
     reportType: $Enums.ReportType
+    recipientEmail?: string | null
+    scheduledFor?: Date | string | null
+    deliveredAt?: Date | string | null
+    errorMessage?: string | null
+    attemptCount?: number
+    reportPeriodStart?: Date | string | null
+    reportPeriodEnd?: Date | string | null
     fileUrl?: string | null
     status?: $Enums.ReportStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReportScheduleCreateManyLocationInput = {
+    id?: string
+    type: $Enums.ReportScheduleType
+    enabled?: boolean
+    timezone?: string
+    dayOfMonth?: number | null
+    sendTimeLocal?: string | null
+    runAt?: Date | string | null
+    customPeriodType?: $Enums.CustomReportPeriodType | null
+    customStartDate?: Date | string | null
+    customEndDate?: Date | string | null
+    nextRunAt?: Date | string | null
+    lastRunAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33172,18 +36013,34 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     reportType?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    recipientEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    attemptCount?: IntFieldUpdateOperationsInput | number
+    reportPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reportPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    schedule?: ReportScheduleUpdateOneWithoutReportsNestedInput
   }
 
   export type ReportUncheckedUpdateWithoutLocationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    scheduleId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     reportType?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    recipientEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    attemptCount?: IntFieldUpdateOperationsInput | number
+    reportPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reportPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33192,12 +36049,73 @@ export namespace Prisma {
 
   export type ReportUncheckedUpdateManyWithoutLocationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    scheduleId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     reportType?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    recipientEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    attemptCount?: IntFieldUpdateOperationsInput | number
+    reportPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reportPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReportScheduleUpdateWithoutLocationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportScheduleTypeFieldUpdateOperationsInput | $Enums.ReportScheduleType
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: StringFieldUpdateOperationsInput | string
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    sendTimeLocal?: NullableStringFieldUpdateOperationsInput | string | null
+    runAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customPeriodType?: NullableEnumCustomReportPeriodTypeFieldUpdateOperationsInput | $Enums.CustomReportPeriodType | null
+    customStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUpdateManyWithoutScheduleNestedInput
+  }
+
+  export type ReportScheduleUncheckedUpdateWithoutLocationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportScheduleTypeFieldUpdateOperationsInput | $Enums.ReportScheduleType
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: StringFieldUpdateOperationsInput | string
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    sendTimeLocal?: NullableStringFieldUpdateOperationsInput | string | null
+    runAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customPeriodType?: NullableEnumCustomReportPeriodTypeFieldUpdateOperationsInput | $Enums.CustomReportPeriodType | null
+    customStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutScheduleNestedInput
+  }
+
+  export type ReportScheduleUncheckedUpdateManyWithoutLocationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumReportScheduleTypeFieldUpdateOperationsInput | $Enums.ReportScheduleType
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: StringFieldUpdateOperationsInput | string
+    dayOfMonth?: NullableIntFieldUpdateOperationsInput | number | null
+    sendTimeLocal?: NullableStringFieldUpdateOperationsInput | string | null
+    runAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customPeriodType?: NullableEnumCustomReportPeriodTypeFieldUpdateOperationsInput | $Enums.CustomReportPeriodType | null
+    customStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33535,6 +36453,86 @@ export namespace Prisma {
     source?: EnumReplySourceFieldUpdateOperationsInput | $Enums.ReplySource
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReportCreateManyScheduleInput = {
+    id?: string
+    locationId: string
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    reportType: $Enums.ReportType
+    recipientEmail?: string | null
+    scheduledFor?: Date | string | null
+    deliveredAt?: Date | string | null
+    errorMessage?: string | null
+    attemptCount?: number
+    reportPeriodStart?: Date | string | null
+    reportPeriodEnd?: Date | string | null
+    fileUrl?: string | null
+    status?: $Enums.ReportStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReportUpdateWithoutScheduleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportType?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    recipientEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    attemptCount?: IntFieldUpdateOperationsInput | number
+    reportPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reportPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    location?: LocationUpdateOneRequiredWithoutReportsNestedInput
+  }
+
+  export type ReportUncheckedUpdateWithoutScheduleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    locationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportType?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    recipientEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    attemptCount?: IntFieldUpdateOperationsInput | number
+    reportPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reportPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReportUncheckedUpdateManyWithoutScheduleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    locationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportType?: EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
+    recipientEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    attemptCount?: IntFieldUpdateOperationsInput | number
+    reportPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reportPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
