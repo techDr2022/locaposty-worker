@@ -2898,6 +2898,8 @@ export namespace Prisma {
     emailVerificationToken: string | null
     password: string | null
     image: string | null
+    reportBrandName: string | null
+    reportBrandLogoUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
     googleAccessToken: string | null
@@ -2916,6 +2918,8 @@ export namespace Prisma {
     emailVerificationToken: string | null
     password: string | null
     image: string | null
+    reportBrandName: string | null
+    reportBrandLogoUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
     googleAccessToken: string | null
@@ -2934,6 +2938,8 @@ export namespace Prisma {
     emailVerificationToken: number
     password: number
     image: number
+    reportBrandName: number
+    reportBrandLogoUrl: number
     createdAt: number
     updatedAt: number
     googleAccessToken: number
@@ -2954,6 +2960,8 @@ export namespace Prisma {
     emailVerificationToken?: true
     password?: true
     image?: true
+    reportBrandName?: true
+    reportBrandLogoUrl?: true
     createdAt?: true
     updatedAt?: true
     googleAccessToken?: true
@@ -2972,6 +2980,8 @@ export namespace Prisma {
     emailVerificationToken?: true
     password?: true
     image?: true
+    reportBrandName?: true
+    reportBrandLogoUrl?: true
     createdAt?: true
     updatedAt?: true
     googleAccessToken?: true
@@ -2990,6 +3000,8 @@ export namespace Prisma {
     emailVerificationToken?: true
     password?: true
     image?: true
+    reportBrandName?: true
+    reportBrandLogoUrl?: true
     createdAt?: true
     updatedAt?: true
     googleAccessToken?: true
@@ -3081,6 +3093,8 @@ export namespace Prisma {
     emailVerificationToken: string | null
     password: string
     image: string | null
+    reportBrandName: string | null
+    reportBrandLogoUrl: string | null
     createdAt: Date
     updatedAt: Date
     googleAccessToken: string | null
@@ -3116,6 +3130,8 @@ export namespace Prisma {
     emailVerificationToken?: boolean
     password?: boolean
     image?: boolean
+    reportBrandName?: boolean
+    reportBrandLogoUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     googleAccessToken?: boolean
@@ -3144,6 +3160,8 @@ export namespace Prisma {
     emailVerificationToken?: boolean
     password?: boolean
     image?: boolean
+    reportBrandName?: boolean
+    reportBrandLogoUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     googleAccessToken?: boolean
@@ -3162,6 +3180,8 @@ export namespace Prisma {
     emailVerificationToken?: boolean
     password?: boolean
     image?: boolean
+    reportBrandName?: boolean
+    reportBrandLogoUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     googleAccessToken?: boolean
@@ -3180,6 +3200,8 @@ export namespace Prisma {
     emailVerificationToken?: boolean
     password?: boolean
     image?: boolean
+    reportBrandName?: boolean
+    reportBrandLogoUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     googleAccessToken?: boolean
@@ -3190,7 +3212,7 @@ export namespace Prisma {
     onboardingCompletedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "emailVerificationToken" | "password" | "image" | "createdAt" | "updatedAt" | "googleAccessToken" | "googleRefreshToken" | "googleTokenExpiresAt" | "hasCompletedLocationSetup" | "hasCompletedReviewSetup" | "onboardingCompletedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "emailVerificationToken" | "password" | "image" | "reportBrandName" | "reportBrandLogoUrl" | "createdAt" | "updatedAt" | "googleAccessToken" | "googleRefreshToken" | "googleTokenExpiresAt" | "hasCompletedLocationSetup" | "hasCompletedReviewSetup" | "onboardingCompletedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     posts?: boolean | User$postsArgs<ExtArgs>
     reviewReplies?: boolean | User$reviewRepliesArgs<ExtArgs>
@@ -3227,6 +3249,8 @@ export namespace Prisma {
       emailVerificationToken: string | null
       password: string
       image: string | null
+      reportBrandName: string | null
+      reportBrandLogoUrl: string | null
       createdAt: Date
       updatedAt: Date
       googleAccessToken: string | null
@@ -3674,6 +3698,8 @@ export namespace Prisma {
     readonly emailVerificationToken: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly image: FieldRef<"User", 'String'>
+    readonly reportBrandName: FieldRef<"User", 'String'>
+    readonly reportBrandLogoUrl: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly googleAccessToken: FieldRef<"User", 'String'>
@@ -22769,6 +22795,8 @@ export namespace Prisma {
     emailVerificationToken: 'emailVerificationToken',
     password: 'password',
     image: 'image',
+    reportBrandName: 'reportBrandName',
+    reportBrandLogoUrl: 'reportBrandLogoUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     googleAccessToken: 'googleAccessToken',
@@ -23416,6 +23444,8 @@ export namespace Prisma {
     emailVerificationToken?: StringNullableFilter<"User"> | string | null
     password?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
+    reportBrandName?: StringNullableFilter<"User"> | string | null
+    reportBrandLogoUrl?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     googleAccessToken?: StringNullableFilter<"User"> | string | null
@@ -23443,6 +23473,8 @@ export namespace Prisma {
     emailVerificationToken?: SortOrderInput | SortOrder
     password?: SortOrder
     image?: SortOrderInput | SortOrder
+    reportBrandName?: SortOrderInput | SortOrder
+    reportBrandLogoUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     googleAccessToken?: SortOrderInput | SortOrder
@@ -23473,6 +23505,8 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     password?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
+    reportBrandName?: StringNullableFilter<"User"> | string | null
+    reportBrandLogoUrl?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     googleAccessToken?: StringNullableFilter<"User"> | string | null
@@ -23500,6 +23534,8 @@ export namespace Prisma {
     emailVerificationToken?: SortOrderInput | SortOrder
     password?: SortOrder
     image?: SortOrderInput | SortOrder
+    reportBrandName?: SortOrderInput | SortOrder
+    reportBrandLogoUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     googleAccessToken?: SortOrderInput | SortOrder
@@ -23524,6 +23560,8 @@ export namespace Prisma {
     emailVerificationToken?: StringNullableWithAggregatesFilter<"User"> | string | null
     password?: StringWithAggregatesFilter<"User"> | string
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    reportBrandName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    reportBrandLogoUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     googleAccessToken?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -25081,6 +25119,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -25108,6 +25148,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -25135,6 +25177,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25162,6 +25206,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25189,6 +25235,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -25207,6 +25255,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25225,6 +25275,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27148,6 +27200,8 @@ export namespace Prisma {
     emailVerificationToken?: SortOrder
     password?: SortOrder
     image?: SortOrder
+    reportBrandName?: SortOrder
+    reportBrandLogoUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     googleAccessToken?: SortOrder
@@ -27166,6 +27220,8 @@ export namespace Prisma {
     emailVerificationToken?: SortOrder
     password?: SortOrder
     image?: SortOrder
+    reportBrandName?: SortOrder
+    reportBrandLogoUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     googleAccessToken?: SortOrder
@@ -27184,6 +27240,8 @@ export namespace Prisma {
     emailVerificationToken?: SortOrder
     password?: SortOrder
     image?: SortOrder
+    reportBrandName?: SortOrder
+    reportBrandLogoUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     googleAccessToken?: SortOrder
@@ -31343,6 +31401,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -31369,6 +31429,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -31447,6 +31509,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31473,6 +31537,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31515,6 +31581,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -31541,6 +31609,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -31630,6 +31700,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31656,6 +31728,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31735,6 +31809,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -31761,6 +31837,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -31803,6 +31881,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31829,6 +31909,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31855,6 +31937,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -31881,6 +31965,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -31999,6 +32085,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32025,6 +32113,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32305,6 +32395,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -32331,6 +32423,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -32685,6 +32779,8 @@ export namespace Prisma {
     emailVerificationToken?: StringNullableFilter<"User"> | string | null
     password?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
+    reportBrandName?: StringNullableFilter<"User"> | string | null
+    reportBrandLogoUrl?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     googleAccessToken?: StringNullableFilter<"User"> | string | null
@@ -32878,6 +32974,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -32904,6 +33002,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -33023,6 +33123,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33049,6 +33151,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33355,6 +33459,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -33381,6 +33487,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -33517,6 +33625,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33543,6 +33653,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33569,6 +33681,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -33595,6 +33709,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -33742,6 +33858,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33768,6 +33886,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33887,6 +34007,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -33913,6 +34035,8 @@ export namespace Prisma {
     emailVerificationToken?: string | null
     password: string
     image?: string | null
+    reportBrandName?: string | null
+    reportBrandLogoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -34026,6 +34150,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34052,6 +34178,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36184,6 +36312,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36210,6 +36340,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36236,6 +36368,8 @@ export namespace Prisma {
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandName?: NullableStringFieldUpdateOperationsInput | string | null
+    reportBrandLogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null

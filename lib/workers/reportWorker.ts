@@ -23,7 +23,11 @@ import {
 } from "../reports/scheduleUtils";
 import { uploadBufferToS3 } from "../s3";
 import { sendReportEmailWithPdf } from "../sendReportEmail";
-import { ReportType } from "../generated/prisma/index.js";
+import {
+  ReportType,
+  SubscriptionPlan,
+  SubscriptionStatus,
+} from "../generated/prisma/index.js";
 
 async function processScheduleTriggerJob(
   job: Job<ReportScheduleTriggerJobData>
@@ -205,8 +209,15 @@ async function processScheduleTriggerJob(
 }
 
 async function processReportJob(job: Job<ReportJobData>): Promise<void> {
-  const { reportId, locationId, userId, scheduleId, startDate, endDate, recipientEmail } =
-    job.data;
+  const {
+    reportId,
+    locationId,
+    userId,
+    scheduleId,
+    startDate,
+    endDate,
+    recipientEmail,
+  } = job.data;
 
   const start = new Date(startDate);
   const end = new Date(endDate);
@@ -226,11 +237,59 @@ async function processReportJob(job: Job<ReportJobData>): Promise<void> {
         id: locationId,
         users: { some: { id: userId } },
       },
-      select: { name: true, gmbLocationName: true, address: true },
+      select: {
+        name: true,
+        gmbLocationName: true,
+        address: true,
+        logoUrl: true,
+      },
     });
 
-    const locationName = location?.gmbLocationName || location?.name || "Location";
+    const locationName =
+      location?.gmbLocationName || location?.name || "Location";
     const locationAddress = location?.address || "";
+    const locationLogoUrl = location?.logoUrl || undefined;
+
+    const activeSubscription = await prisma.subscription.findFirst({
+      where: {
+        userId,
+        status: {
+          in: [
+            SubscriptionStatus.ACTIVE,
+            SubscriptionStatus.TRIALING,
+            SubscriptionStatus.CANCELED,
+          ],
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      select: {
+        plan: true,
+        status: true,
+        currentPeriodEnd: true,
+      },
+    });
+
+    const hasCanceledAccess =
+      activeSubscription?.status === SubscriptionStatus.CANCELED &&
+      !!activeSubscription.currentPeriodEnd &&
+      new Date() <= new Date(activeSubscription.currentPeriodEnd);
+
+    const canUseWhiteLabel =
+      (activeSubscription?.status === SubscriptionStatus.ACTIVE ||
+        activeSubscription?.status === SubscriptionStatus.TRIALING ||
+        hasCanceledAccess) &&
+      (activeSubscription?.plan === SubscriptionPlan.PREMIUM ||
+        activeSubscription?.plan === SubscriptionPlan.ENTERPRISE);
+
+    const userBranding = canUseWhiteLabel
+      ? await prisma.user.findUnique({
+          where: { id: userId },
+          select: {
+            reportBrandName: true,
+            reportBrandLogoUrl: true,
+          },
+        })
+      : null;
 
     const { performanceData, reviewData, searchKeywords } =
       await buildReportDataForLocation(locationId, start, end);
@@ -241,8 +300,11 @@ async function processReportJob(job: Job<ReportJobData>): Promise<void> {
       searchKeywords: searchKeywords as SearchKeywordForPdf[],
       locationName,
       locationAddress,
+      locationLogoUrl,
       startDate: start,
       endDate: end,
+      brandName: userBranding?.reportBrandName || undefined,
+      brandLogoUrl: userBranding?.reportBrandLogoUrl || undefined,
     });
 
     const pdfBuffer = await renderHtmlToPdfBuffer(html);
@@ -286,12 +348,18 @@ async function processReportJob(job: Job<ReportJobData>): Promise<void> {
         data: { lastRunAt: new Date() },
       });
     }
+    console.log(
+      `[reports-worker] generate-report success reportId=${reportId} deliveredTo=${recipientEmail}`
+    );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     await prisma.report.update({
       where: { id: reportId },
       data: { status: "FAILED", errorMessage: message },
     });
+    console.error(
+      `[reports-worker] generate-report failed reportId=${reportId}: ${message}`
+    );
     throw err;
   }
 }
@@ -309,6 +377,10 @@ export async function reconcileScheduleTriggers(): Promise<void> {
       nextRunAt: schedule.nextRunAt,
     });
   }
+
+  console.log(
+    `[reports-worker] Reconciled ${schedules.length} active schedule trigger jobs`
+  );
 }
 
 export function createReportWorker(): Worker<

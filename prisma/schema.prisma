@@ -16,6 +16,8 @@ model User {
   emailVerificationToken String?        @unique
   password               String
   image                  String?
+  reportBrandName        String?
+  reportBrandLogoUrl     String?
   createdAt              DateTime       @default(now())
   updatedAt              DateTime       @updatedAt
   googleAccessToken      String?
