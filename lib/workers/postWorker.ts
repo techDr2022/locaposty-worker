@@ -4,6 +4,7 @@ import { prisma } from "../prisma";
 import { connection } from "../queue";
 import { refreshLocationToken } from "../refreshLocationToken";
 import { createLocationPhotoFromSourceUrl } from "../gmb/createLocationPhotoMedia";
+import { safeDb } from "../safeDb";
 
 export interface PostJobData {
   postId: string;
@@ -190,12 +191,14 @@ function buildPostBody(post: {
 async function processPostJob(job: Job<PostJobData>): Promise<unknown> {
   const { postId } = job.data;
 
-  const post = await prisma.post.findUnique({
-    where: { id: postId },
-    include: {
-      location: { include: { googleAccount: true } },
-    },
-  });
+  const post = await safeDb(() =>
+    prisma.post.findUnique({
+      where: { id: postId },
+      include: {
+        location: { include: { googleAccount: true } },
+      },
+    })
+  );
 
   if (!post) throw new Error(`Post ${postId} not found`);
   if (post.status !== "SCHEDULED" && post.status !== "PUBLISHED") {
@@ -211,10 +214,12 @@ async function processPostJob(job: Job<PostJobData>): Promise<unknown> {
     throw new Error(`No GMB account ID for location ${location.id}`);
   }
   if (!location.googleAccountId) {
-    await prisma.post.update({
-      where: { id: postId },
-      data: { status: "FAILED" },
-    });
+    await safeDb(() =>
+      prisma.post.update({
+        where: { id: postId },
+        data: { status: "FAILED" },
+      })
+    );
     throw new Error(
       `Location ${location.id} not linked to GoogleAccount. Please reconnect.`
     );
@@ -225,10 +230,12 @@ async function processPostJob(job: Job<PostJobData>): Promise<unknown> {
     accessToken = await refreshLocationToken(location.id);
   } catch (tokenError) {
     console.error("[post-worker] Token refresh failed:", tokenError);
-    await prisma.post.update({
-      where: { id: postId },
-      data: { status: "FAILED" },
-    });
+    await safeDb(() =>
+      prisma.post.update({
+        where: { id: postId },
+        data: { status: "FAILED" },
+      })
+    );
     throw new Error(
       `Authentication failed for location ${location.id}. Reconnect required.`
     );
@@ -270,14 +277,16 @@ async function processPostJob(job: Job<PostJobData>): Promise<unknown> {
       mediaFormat,
     });
 
-    await prisma.post.update({
-      where: { id: postId },
-      data: {
-        status: "PUBLISHED",
-        publishedAt: new Date(),
-        gmbPhotoMediaName: mediaResponse.name ?? null,
-      } as unknown as Parameters<typeof prisma.post.update>[0]["data"],
-    });
+    await safeDb(() =>
+      prisma.post.update({
+        where: { id: postId },
+        data: {
+          status: "PUBLISHED",
+          publishedAt: new Date(),
+          gmbPhotoMediaName: mediaResponse.name ?? null,
+        } as unknown as Parameters<typeof prisma.post.update>[0]["data"],
+      })
+    );
 
     console.log(`[post-worker] Photo ${postId} published successfully`);
     return mediaResponse;
@@ -293,14 +302,16 @@ async function processPostJob(job: Job<PostJobData>): Promise<unknown> {
     },
   });
 
-  await prisma.post.update({
-    where: { id: postId },
-    data: {
-      status: "PUBLISHED",
-      publishedAt: new Date(),
-      gmbPostName: response.data.name,
-    },
-  });
+  await safeDb(() =>
+    prisma.post.update({
+      where: { id: postId },
+      data: {
+        status: "PUBLISHED",
+        publishedAt: new Date(),
+        gmbPostName: response.data.name,
+      },
+    })
+  );
 
   console.log(`[post-worker] Post ${postId} published successfully`);
   return response.data;
@@ -327,10 +338,12 @@ async function handlePostJobError(job: Job<PostJobData>, error: unknown) {
 
   console.error(`[post-worker] ${errorMessage} (${errorCode})`);
   try {
-    await prisma.post.update({
-      where: { id: job.data.postId },
-      data: { status: "FAILED" },
-    });
+    await safeDb(() =>
+      prisma.post.update({
+        where: { id: job.data.postId },
+        data: { status: "FAILED" },
+      })
+    );
   } catch (dbError) {
     console.error("[post-worker] Failed to update post status:", dbError);
   }

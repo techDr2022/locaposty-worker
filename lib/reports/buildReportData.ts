@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { fetchSearchKeywordsData } from "./google-service";
 import { refreshLocationToken } from "../refreshLocationToken";
 import { prisma } from "../prisma";
+import { safeDb } from "../safeDb";
 
 type GoogleMetricType =
   | "WEBSITE_CLICKS"
@@ -521,10 +522,12 @@ export async function buildReportDataForLocation(
   searchKeywords: Array<{ keyword: string; impressions: number }>;
 }> {
   const token = await refreshLocationToken(locationId);
-  const location = await prisma.location.findUnique({
-    where: { id: locationId },
-    select: { gmbLocationId: true, gmbAccountId: true },
-  });
+  const location = await safeDb(() =>
+    prisma.location.findUnique({
+      where: { id: locationId },
+      select: { gmbLocationId: true, gmbAccountId: true },
+    })
+  );
 
   if (!location?.gmbLocationId || !location.gmbAccountId) {
     throw new Error("Location not found or missing GMB IDs");

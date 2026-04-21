@@ -1,12 +1,15 @@
 import { OAuth2Client } from "google-auth-library";
 import { prisma } from "./prisma";
+import { safeDb } from "./safeDb";
 
 export async function refreshGoogleAccountToken(
   googleAccountId: string
 ): Promise<string> {
-  const googleAccount = await prisma.googleAccount.findUnique({
-    where: { id: googleAccountId },
-  });
+  const googleAccount = await safeDb(() =>
+    prisma.googleAccount.findUnique({
+      where: { id: googleAccountId },
+    })
+  );
 
   if (!googleAccount) {
     throw new Error(`GoogleAccount ${googleAccountId} not found`);
@@ -43,21 +46,25 @@ export async function refreshGoogleAccountToken(
       credentials.expiry_date ?? Date.now() + 60 * 60 * 1000
     );
 
-    await prisma.googleAccount.update({
-      where: { id: googleAccountId },
-      data: {
-        accessToken: credentials.access_token,
-        tokenExpiresAt: expiryTime,
-        updatedAt: new Date(),
-      },
-    });
+    await safeDb(() =>
+      prisma.googleAccount.update({
+        where: { id: googleAccountId },
+        data: {
+          accessToken: credentials.access_token ?? "",
+          tokenExpiresAt: expiryTime,
+          updatedAt: new Date(),
+        },
+      })
+    );
 
     return credentials.access_token;
   } catch (error) {
-    await prisma.googleAccount.update({
-      where: { id: googleAccountId },
-      data: { accessToken: "", tokenExpiresAt: null },
-    });
+    await safeDb(() =>
+      prisma.googleAccount.update({
+        where: { id: googleAccountId },
+        data: { accessToken: "", tokenExpiresAt: null },
+      })
+    );
     throw error;
   }
 }
@@ -66,10 +73,12 @@ export async function refreshLocationToken(locationId: string): Promise<string> 
   try {
     console.log(`[TOKEN] Fetching tokens for location ${locationId}`);
 
-    const location = await prisma.location.findUnique({
-      where: { id: locationId },
-      include: { googleAccount: true },
-    });
+    const location = await safeDb(() =>
+      prisma.location.findUnique({
+        where: { id: locationId },
+        include: { googleAccount: true },
+      })
+    );
 
     if (!location) {
       throw new Error(`Location ${locationId} not found`);

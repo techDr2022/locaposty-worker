@@ -23,6 +23,7 @@ import {
 } from "../reports/scheduleUtils";
 import { uploadBufferToS3 } from "../s3";
 import { sendReportEmailWithPdf } from "../sendReportEmail";
+import { safeDb } from "../safeDb";
 import {
   ReportType,
   SubscriptionPlan,
@@ -30,26 +31,28 @@ import {
 } from "../generated/prisma/index.js";
 
 async function processScheduleTriggerJob(
-  job: Job<ReportScheduleTriggerJobData>
+  job: Job<ReportScheduleTriggerJobData>,
 ): Promise<void> {
   const { scheduleId } = job.data;
   console.log(
-    `[reports-worker] schedule-trigger start job=${job.id} scheduleId=${scheduleId}`
+    `[reports-worker] schedule-trigger start job=${job.id} scheduleId=${scheduleId}`,
   );
 
-  const schedule = await prisma.reportSchedule.findUnique({
-    where: { id: scheduleId },
-    include: {
-      location: {
-        select: {
-          id: true,
-          timezone: true,
-          reportEmail: true,
-          users: { select: { id: true }, take: 1 },
+  const schedule = await safeDb(() =>
+    prisma.reportSchedule.findUnique({
+      where: { id: scheduleId },
+      include: {
+        location: {
+          select: {
+            id: true,
+            timezone: true,
+            reportEmail: true,
+            users: { select: { id: true }, take: 1 },
+          },
         },
       },
-    },
-  });
+    })
+  );
 
   if (!schedule || !schedule.enabled || !schedule.nextRunAt) {
     await removeReportScheduleTriggerJob(scheduleId);
@@ -79,20 +82,24 @@ async function processScheduleTriggerJob(
         afterUtc: now,
       });
 
-      await prisma.reportSchedule.update({
-        where: { id: schedule.id },
-        data: { nextRunAt: next },
-      });
+      await safeDb(() =>
+        prisma.reportSchedule.update({
+          where: { id: schedule.id },
+          data: { nextRunAt: next },
+        })
+      );
 
       await upsertReportScheduleTriggerJob({
         scheduleId: schedule.id,
         nextRunAt: next,
       });
     } else {
-      await prisma.reportSchedule.update({
-        where: { id: schedule.id },
-        data: { enabled: false, nextRunAt: null },
-      });
+      await safeDb(() =>
+        prisma.reportSchedule.update({
+          where: { id: schedule.id },
+          data: { enabled: false, nextRunAt: null },
+        })
+      );
       await removeReportScheduleTriggerJob(schedule.id);
     }
     return;
@@ -101,24 +108,26 @@ async function processScheduleTriggerJob(
   if (schedule.type === "MONTHLY") {
     const { start, end } = getPreviousCalendarMonthRangeInTimeZone(
       timezone,
-      schedule.nextRunAt
+      schedule.nextRunAt,
     );
 
-    const report = await prisma.report.create({
-      data: {
-        locationId: location.id,
-        scheduleId: schedule.id,
-        name: `Monthly report ${start.toISOString().slice(0, 7)}`,
-        startDate: start,
-        endDate: end,
-        reportType: ReportType.MONTHLY,
-        reportPeriodStart: start,
-        reportPeriodEnd: end,
-        recipientEmail,
-        scheduledFor: schedule.nextRunAt,
-        status: "GENERATING",
-      },
-    });
+    const report = await safeDb(() =>
+      prisma.report.create({
+        data: {
+          locationId: location.id,
+          scheduleId: schedule.id,
+          name: `Monthly report ${start.toISOString().slice(0, 7)}`,
+          startDate: start,
+          endDate: end,
+          reportType: ReportType.MONTHLY,
+          reportPeriodStart: start,
+          reportPeriodEnd: end,
+          recipientEmail,
+          scheduledFor: schedule.nextRunAt,
+          status: "GENERATING",
+        },
+      })
+    );
 
     await enqueueReportJob(
       {
@@ -130,7 +139,7 @@ async function processScheduleTriggerJob(
         endDate: end.toISOString(),
         recipientEmail,
       },
-      { jobId: `report-${location.id}-${start.toISOString().slice(0, 7)}` }
+      { jobId: `report-${location.id}-${start.toISOString().slice(0, 7)}` },
     );
 
     const next = computeNextMonthlyRunUtc({
@@ -140,10 +149,12 @@ async function processScheduleTriggerJob(
       afterUtc: now,
     });
 
-    await prisma.reportSchedule.update({
-      where: { id: schedule.id },
-      data: { lastRunAt: now, nextRunAt: next },
-    });
+    await safeDb(() =>
+      prisma.reportSchedule.update({
+        where: { id: schedule.id },
+        data: { lastRunAt: now, nextRunAt: next },
+      })
+    );
 
     await upsertReportScheduleTriggerJob({
       scheduleId: schedule.id,
@@ -169,21 +180,23 @@ async function processScheduleTriggerJob(
       ? `Custom range report ${format(start, "yyyy-MM-dd")} to ${format(end, "yyyy-MM-dd")}`
       : `Custom scheduled report ${format(start, "yyyy-MM")}`;
 
-    const report = await prisma.report.create({
-      data: {
-        locationId: location.id,
-        scheduleId: schedule.id,
-        name: reportName,
-        startDate: start,
-        endDate: end,
-        reportType: ReportType.CUSTOM,
-        reportPeriodStart: start,
-        reportPeriodEnd: end,
-        recipientEmail,
-        scheduledFor: schedule.runAt,
-        status: "GENERATING",
-      },
-    });
+    const report = await safeDb(() =>
+      prisma.report.create({
+        data: {
+          locationId: location.id,
+          scheduleId: schedule.id,
+          name: reportName,
+          startDate: start,
+          endDate: end,
+          reportType: ReportType.CUSTOM,
+          reportPeriodStart: start,
+          reportPeriodEnd: end,
+          recipientEmail,
+          scheduledFor: schedule.runAt,
+          status: "GENERATING",
+        },
+      })
+    );
 
     await enqueueReportJob(
       {
@@ -197,13 +210,15 @@ async function processScheduleTriggerJob(
       },
       {
         jobId: `report-${location.id}-custom-${schedule.id}-${schedule.runAt.getTime()}`,
-      }
+      },
     );
 
-    await prisma.reportSchedule.update({
-      where: { id: schedule.id },
-      data: { enabled: false, lastRunAt: now, nextRunAt: null },
-    });
+    await safeDb(() =>
+      prisma.reportSchedule.update({
+        where: { id: schedule.id },
+        data: { enabled: false, lastRunAt: now, nextRunAt: null },
+      })
+    );
     await removeReportScheduleTriggerJob(schedule.id);
   }
 }
@@ -222,52 +237,58 @@ async function processReportJob(job: Job<ReportJobData>): Promise<void> {
   const start = new Date(startDate);
   const end = new Date(endDate);
 
-  await prisma.report.update({
-    where: { id: reportId },
-    data: {
-      status: "GENERATING",
-      attemptCount: { increment: 1 },
-      errorMessage: null,
-    },
-  });
+  await safeDb(() =>
+    prisma.report.update({
+      where: { id: reportId },
+      data: {
+        status: "GENERATING",
+        attemptCount: { increment: 1 },
+        errorMessage: null,
+      },
+    })
+  );
 
   try {
-    const location = await prisma.location.findFirst({
-      where: {
-        id: locationId,
-        users: { some: { id: userId } },
-      },
-      select: {
-        name: true,
-        gmbLocationName: true,
-        address: true,
-        logoUrl: true,
-      },
-    });
+    const location = await safeDb(() =>
+      prisma.location.findFirst({
+        where: {
+          id: locationId,
+          users: { some: { id: userId } },
+        },
+        select: {
+          name: true,
+          gmbLocationName: true,
+          address: true,
+          logoUrl: true,
+        },
+      })
+    );
 
     const locationName =
       location?.gmbLocationName || location?.name || "Location";
     const locationAddress = location?.address || "";
     const locationLogoUrl = location?.logoUrl || undefined;
 
-    const activeSubscription = await prisma.subscription.findFirst({
-      where: {
-        userId,
-        status: {
-          in: [
-            SubscriptionStatus.ACTIVE,
-            SubscriptionStatus.TRIALING,
-            SubscriptionStatus.CANCELED,
-          ],
+    const activeSubscription = await safeDb(() =>
+      prisma.subscription.findFirst({
+        where: {
+          userId,
+          status: {
+            in: [
+              SubscriptionStatus.ACTIVE,
+              SubscriptionStatus.TRIALING,
+              SubscriptionStatus.CANCELED,
+            ],
+          },
         },
-      },
-      orderBy: { createdAt: "desc" },
-      select: {
-        plan: true,
-        status: true,
-        currentPeriodEnd: true,
-      },
-    });
+        orderBy: { createdAt: "desc" },
+        select: {
+          plan: true,
+          status: true,
+          currentPeriodEnd: true,
+        },
+      })
+    );
 
     const hasCanceledAccess =
       activeSubscription?.status === SubscriptionStatus.CANCELED &&
@@ -282,13 +303,15 @@ async function processReportJob(job: Job<ReportJobData>): Promise<void> {
         activeSubscription?.plan === SubscriptionPlan.ENTERPRISE);
 
     const userBranding = canUseWhiteLabel
-      ? await prisma.user.findUnique({
-          where: { id: userId },
-          select: {
-            reportBrandName: true,
-            reportBrandLogoUrl: true,
-          },
-        })
+      ? await safeDb(() =>
+          prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+              reportBrandName: true,
+              reportBrandLogoUrl: true,
+            },
+          })
+        )
       : null;
 
     const { performanceData, reviewData, searchKeywords } =
@@ -332,43 +355,51 @@ async function processReportJob(job: Job<ReportJobData>): Promise<void> {
       throw new Error(emailResult.error || "Failed to send email");
     }
 
-    await prisma.report.update({
-      where: { id: reportId },
-      data: {
-        status: "COMPLETED",
-        fileUrl,
-        deliveredAt: new Date(),
-        errorMessage: null,
-      },
-    });
+    await safeDb(() =>
+      prisma.report.update({
+        where: { id: reportId },
+        data: {
+          status: "COMPLETED",
+          fileUrl,
+          deliveredAt: new Date(),
+          errorMessage: null,
+        },
+      })
+    );
 
     if (scheduleId) {
-      await prisma.reportSchedule.update({
-        where: { id: scheduleId },
-        data: { lastRunAt: new Date() },
-      });
+      await safeDb(() =>
+        prisma.reportSchedule.update({
+          where: { id: scheduleId },
+          data: { lastRunAt: new Date() },
+        })
+      );
     }
     console.log(
-      `[reports-worker] generate-report success reportId=${reportId} deliveredTo=${recipientEmail}`
+      `[reports-worker] generate-report success reportId=${reportId} deliveredTo=${recipientEmail}`,
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    await prisma.report.update({
-      where: { id: reportId },
-      data: { status: "FAILED", errorMessage: message },
-    });
+    await safeDb(() =>
+      prisma.report.update({
+        where: { id: reportId },
+        data: { status: "FAILED", errorMessage: message },
+      })
+    );
     console.error(
-      `[reports-worker] generate-report failed reportId=${reportId}: ${message}`
+      `[reports-worker] generate-report failed reportId=${reportId}: ${message}`,
     );
     throw err;
   }
 }
 
 export async function reconcileScheduleTriggers(): Promise<void> {
-  const schedules = await prisma.reportSchedule.findMany({
-    where: { enabled: true, nextRunAt: { not: null } },
-    select: { id: true, nextRunAt: true },
-  });
+  const schedules = await safeDb(() =>
+    prisma.reportSchedule.findMany({
+      where: { enabled: true, nextRunAt: { not: null } },
+      select: { id: true, nextRunAt: true },
+    })
+  );
 
   for (const schedule of schedules) {
     if (!schedule.nextRunAt) continue;
@@ -379,7 +410,7 @@ export async function reconcileScheduleTriggers(): Promise<void> {
   }
 
   console.log(
-    `[reports-worker] Reconciled ${schedules.length} active schedule trigger jobs`
+    `[reports-worker] Reconciled ${schedules.length} active schedule trigger jobs`,
   );
 }
 
@@ -397,7 +428,9 @@ export function createReportWorker(): Worker<
         (!("reportId" in payload) || !payload.reportId);
 
       if (job.name === "schedule-trigger" || looksLikeScheduleTrigger) {
-        await processScheduleTriggerJob(job as Job<ReportScheduleTriggerJobData>);
+        await processScheduleTriggerJob(
+          job as Job<ReportScheduleTriggerJobData>,
+        );
         return;
       }
 
@@ -408,14 +441,14 @@ export function createReportWorker(): Worker<
 
       throw new Error(`Unknown report job type: ${job.name}`);
     },
-    { connection, concurrency: 2 }
+    { connection, concurrency: 2 },
   );
 
   worker.on("completed", (j) =>
-    console.log(`[reports-worker] Job ${j.id} completed`)
+    console.log(`[reports-worker] Job ${j.id} completed`),
   );
   worker.on("failed", (j, err) =>
-    console.error(`[reports-worker] Job ${j?.id} failed:`, err.message)
+    console.error(`[reports-worker] Job ${j?.id} failed:`, err.message),
   );
 
   return worker;
