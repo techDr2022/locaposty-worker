@@ -3,21 +3,28 @@ dotenv.config();
 import { Queue } from "bullmq";
 import IORedis from "ioredis";
 
-// Create Redis connection using separate host, port, and password
-const connection = new IORedis({
-  host: process.env.REDIS_HOST || "localhost",
-  port: parseInt(process.env.REDIS_PORT || "6379"),
-  password: process.env.REDIS_PASSWORD,
-  maxRetriesPerRequest: null, // Must be null for BullMQ
-  enableReadyCheck: false, // Can help with connection stability
-});
+const redisOptions = {
+  maxRetriesPerRequest: null as null, // Must be null for BullMQ
+  enableReadyCheck: false,
+};
+
+// REDIS_URL (e.g. redis://default:pass@host:51401) or REDIS_HOST + REDIS_PORT + REDIS_PASSWORD
+const connection = process.env.REDIS_URL
+  ? new IORedis(process.env.REDIS_URL, redisOptions)
+  : new IORedis({
+      host: process.env.REDIS_HOST || "localhost",
+      port: parseInt(process.env.REDIS_PORT || "6379", 10),
+      username: process.env.REDIS_USERNAME || undefined,
+      password: process.env.REDIS_PASSWORD,
+      ...redisOptions,
+    });
 
 // Test connection
 connection.on("connect", () => {
-  console.log(
-    "[REDIS] Successfully connected to Redis at",
-    process.env.REDIS_HOST
-  );
+  const target =
+    process.env.REDIS_URL?.replace(/:[^:@/]+@/, ":****@") ||
+    process.env.REDIS_HOST;
+  console.log("[REDIS] Successfully connected to Redis at", target);
 });
 
 connection.on("error", (err) => {

@@ -1,6 +1,5 @@
 import puppeteer from "puppeteer-core";
 import { executablePath as getBundledChromiumPath } from "puppeteer";
-import chromium from "@sparticuz/chromium-min";
 
 export async function renderHtmlToPdfBuffer(html: string): Promise<Buffer> {
   const isProduction = process.env.NODE_ENV === "production";
@@ -10,6 +9,7 @@ export async function renderHtmlToPdfBuffer(html: string): Promise<Buffer> {
     let launchOptions: Parameters<typeof puppeteer.launch>[0];
 
     if (isProduction) {
+      const chromium = (await import("@sparticuz/chromium-min")).default;
       const chromiumPackUrl =
         process.env.CHROMIUM_PACK_URL ||
         "https://github.com/Sparticuz/chromium/releases/download/v119.0.2/chromium-v119.0.2-pack.tar";

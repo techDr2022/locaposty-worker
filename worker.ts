@@ -44,18 +44,27 @@ let reportWorker: Worker<ReportJobData | ReportScheduleTriggerJobData> | null =
   null;
 
 async function waitForDB(retries = dbRetries): Promise<void> {
+  let lastError: unknown;
+
   for (let i = 0; i < retries; i += 1) {
     try {
       await prisma.$queryRaw`SELECT 1`;
       console.log("[worker] DB connected");
       return;
-    } catch {
-      console.log(`[worker] Waiting for DB... attempt ${i + 1}/${retries}`);
+    } catch (error) {
+      lastError = error;
+      const message = error instanceof Error ? error.message : String(error);
+      console.log(
+        `[worker] Waiting for DB... attempt ${i + 1}/${retries}: ${message}`,
+      );
+      await prisma.$disconnect().catch(() => undefined);
       await new Promise((resolve) => setTimeout(resolve, dbRetryDelayMs));
     }
   }
 
-  throw new Error("DB not reachable after retries");
+  const message =
+    lastError instanceof Error ? lastError.message : "DB not reachable after retries";
+  throw new Error(message);
 }
 
 server.listen(port, () => {
