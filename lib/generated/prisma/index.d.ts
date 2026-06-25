@@ -93,6 +93,11 @@ export type SearchKeyword = $Result.DefaultSelection<Prisma.$SearchKeywordPayloa
  * 
  */
 export type RankTrackingResult = $Result.DefaultSelection<Prisma.$RankTrackingResultPayload>
+/**
+ * Model BackgroundJob
+ * 
+ */
+export type BackgroundJob = $Result.DefaultSelection<Prisma.$BackgroundJobPayload>
 
 /**
  * Enums
@@ -254,6 +259,16 @@ export const CustomReportPeriodType: {
 export type CustomReportPeriodType = (typeof CustomReportPeriodType)[keyof typeof CustomReportPeriodType]
 
 
+export const BackgroundJobStatus: {
+  QUEUED: 'QUEUED',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+export type BackgroundJobStatus = (typeof BackgroundJobStatus)[keyof typeof BackgroundJobStatus]
+
+
 export const SubscriptionStatus: {
   INACTIVE: 'INACTIVE',
   TRIALING: 'TRIALING',
@@ -344,6 +359,10 @@ export const ReportScheduleType: typeof $Enums.ReportScheduleType
 export type CustomReportPeriodType = $Enums.CustomReportPeriodType
 
 export const CustomReportPeriodType: typeof $Enums.CustomReportPeriodType
+
+export type BackgroundJobStatus = $Enums.BackgroundJobStatus
+
+export const BackgroundJobStatus: typeof $Enums.BackgroundJobStatus
 
 export type SubscriptionStatus = $Enums.SubscriptionStatus
 
@@ -634,6 +653,16 @@ export class PrismaClient<
     * ```
     */
   get rankTrackingResult(): Prisma.RankTrackingResultDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.backgroundJob`: Exposes CRUD operations for the **BackgroundJob** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BackgroundJobs
+    * const backgroundJobs = await prisma.backgroundJob.findMany()
+    * ```
+    */
+  get backgroundJob(): Prisma.BackgroundJobDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -692,7 +721,7 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.19.2
+   * Prisma Client JS version: 6.19.3
    * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
    */
   export type PrismaVersion = {
@@ -1090,7 +1119,8 @@ export namespace Prisma {
     Report: 'Report',
     ReportSchedule: 'ReportSchedule',
     SearchKeyword: 'SearchKeyword',
-    RankTrackingResult: 'RankTrackingResult'
+    RankTrackingResult: 'RankTrackingResult',
+    BackgroundJob: 'BackgroundJob'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1109,7 +1139,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "subscription" | "billingInvoice" | "session" | "googleAccount" | "location" | "post" | "review" | "reviewReply" | "aIReplyTemplate" | "locationReplySettings" | "insight" | "report" | "reportSchedule" | "searchKeyword" | "rankTrackingResult"
+      modelProps: "user" | "subscription" | "billingInvoice" | "session" | "googleAccount" | "location" | "post" | "review" | "reviewReply" | "aIReplyTemplate" | "locationReplySettings" | "insight" | "report" | "reportSchedule" | "searchKeyword" | "rankTrackingResult" | "backgroundJob"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2297,6 +2327,80 @@ export namespace Prisma {
           }
         }
       }
+      BackgroundJob: {
+        payload: Prisma.$BackgroundJobPayload<ExtArgs>
+        fields: Prisma.BackgroundJobFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BackgroundJobFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BackgroundJobFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload>
+          }
+          findFirst: {
+            args: Prisma.BackgroundJobFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BackgroundJobFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload>
+          }
+          findMany: {
+            args: Prisma.BackgroundJobFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload>[]
+          }
+          create: {
+            args: Prisma.BackgroundJobCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload>
+          }
+          createMany: {
+            args: Prisma.BackgroundJobCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BackgroundJobCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload>[]
+          }
+          delete: {
+            args: Prisma.BackgroundJobDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload>
+          }
+          update: {
+            args: Prisma.BackgroundJobUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload>
+          }
+          deleteMany: {
+            args: Prisma.BackgroundJobDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BackgroundJobUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BackgroundJobUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload>[]
+          }
+          upsert: {
+            args: Prisma.BackgroundJobUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundJobPayload>
+          }
+          aggregate: {
+            args: Prisma.BackgroundJobAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBackgroundJob>
+          }
+          groupBy: {
+            args: Prisma.BackgroundJobGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BackgroundJobGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BackgroundJobCountArgs<ExtArgs>
+            result: $Utils.Optional<BackgroundJobCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2409,6 +2513,7 @@ export namespace Prisma {
     reportSchedule?: ReportScheduleOmit
     searchKeyword?: SearchKeywordOmit
     rankTrackingResult?: RankTrackingResultOmit
+    backgroundJob?: BackgroundJobOmit
   }
 
   /* Types for Logging */
@@ -22774,6 +22879,1045 @@ export namespace Prisma {
 
 
   /**
+   * Model BackgroundJob
+   */
+
+  export type AggregateBackgroundJob = {
+    _count: BackgroundJobCountAggregateOutputType | null
+    _min: BackgroundJobMinAggregateOutputType | null
+    _max: BackgroundJobMaxAggregateOutputType | null
+  }
+
+  export type BackgroundJobMinAggregateOutputType = {
+    id: string | null
+    type: string | null
+    status: $Enums.BackgroundJobStatus | null
+    userId: string | null
+    error: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BackgroundJobMaxAggregateOutputType = {
+    id: string | null
+    type: string | null
+    status: $Enums.BackgroundJobStatus | null
+    userId: string | null
+    error: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BackgroundJobCountAggregateOutputType = {
+    id: number
+    type: number
+    status: number
+    userId: number
+    payload: number
+    result: number
+    error: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BackgroundJobMinAggregateInputType = {
+    id?: true
+    type?: true
+    status?: true
+    userId?: true
+    error?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BackgroundJobMaxAggregateInputType = {
+    id?: true
+    type?: true
+    status?: true
+    userId?: true
+    error?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BackgroundJobCountAggregateInputType = {
+    id?: true
+    type?: true
+    status?: true
+    userId?: true
+    payload?: true
+    result?: true
+    error?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BackgroundJobAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BackgroundJob to aggregate.
+     */
+    where?: BackgroundJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BackgroundJobs to fetch.
+     */
+    orderBy?: BackgroundJobOrderByWithRelationInput | BackgroundJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BackgroundJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BackgroundJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BackgroundJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BackgroundJobs
+    **/
+    _count?: true | BackgroundJobCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BackgroundJobMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BackgroundJobMaxAggregateInputType
+  }
+
+  export type GetBackgroundJobAggregateType<T extends BackgroundJobAggregateArgs> = {
+        [P in keyof T & keyof AggregateBackgroundJob]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBackgroundJob[P]>
+      : GetScalarType<T[P], AggregateBackgroundJob[P]>
+  }
+
+
+
+
+  export type BackgroundJobGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BackgroundJobWhereInput
+    orderBy?: BackgroundJobOrderByWithAggregationInput | BackgroundJobOrderByWithAggregationInput[]
+    by: BackgroundJobScalarFieldEnum[] | BackgroundJobScalarFieldEnum
+    having?: BackgroundJobScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BackgroundJobCountAggregateInputType | true
+    _min?: BackgroundJobMinAggregateInputType
+    _max?: BackgroundJobMaxAggregateInputType
+  }
+
+  export type BackgroundJobGroupByOutputType = {
+    id: string
+    type: string
+    status: $Enums.BackgroundJobStatus
+    userId: string | null
+    payload: JsonValue
+    result: JsonValue | null
+    error: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BackgroundJobCountAggregateOutputType | null
+    _min: BackgroundJobMinAggregateOutputType | null
+    _max: BackgroundJobMaxAggregateOutputType | null
+  }
+
+  type GetBackgroundJobGroupByPayload<T extends BackgroundJobGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BackgroundJobGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BackgroundJobGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BackgroundJobGroupByOutputType[P]>
+            : GetScalarType<T[P], BackgroundJobGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BackgroundJobSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    status?: boolean
+    userId?: boolean
+    payload?: boolean
+    result?: boolean
+    error?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["backgroundJob"]>
+
+  export type BackgroundJobSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    status?: boolean
+    userId?: boolean
+    payload?: boolean
+    result?: boolean
+    error?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["backgroundJob"]>
+
+  export type BackgroundJobSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    status?: boolean
+    userId?: boolean
+    payload?: boolean
+    result?: boolean
+    error?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["backgroundJob"]>
+
+  export type BackgroundJobSelectScalar = {
+    id?: boolean
+    type?: boolean
+    status?: boolean
+    userId?: boolean
+    payload?: boolean
+    result?: boolean
+    error?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BackgroundJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "status" | "userId" | "payload" | "result" | "error" | "createdAt" | "updatedAt", ExtArgs["result"]["backgroundJob"]>
+
+  export type $BackgroundJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BackgroundJob"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      type: string
+      status: $Enums.BackgroundJobStatus
+      userId: string | null
+      payload: Prisma.JsonValue
+      result: Prisma.JsonValue | null
+      error: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["backgroundJob"]>
+    composites: {}
+  }
+
+  type BackgroundJobGetPayload<S extends boolean | null | undefined | BackgroundJobDefaultArgs> = $Result.GetResult<Prisma.$BackgroundJobPayload, S>
+
+  type BackgroundJobCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BackgroundJobFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BackgroundJobCountAggregateInputType | true
+    }
+
+  export interface BackgroundJobDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BackgroundJob'], meta: { name: 'BackgroundJob' } }
+    /**
+     * Find zero or one BackgroundJob that matches the filter.
+     * @param {BackgroundJobFindUniqueArgs} args - Arguments to find a BackgroundJob
+     * @example
+     * // Get one BackgroundJob
+     * const backgroundJob = await prisma.backgroundJob.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BackgroundJobFindUniqueArgs>(args: SelectSubset<T, BackgroundJobFindUniqueArgs<ExtArgs>>): Prisma__BackgroundJobClient<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BackgroundJob that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BackgroundJobFindUniqueOrThrowArgs} args - Arguments to find a BackgroundJob
+     * @example
+     * // Get one BackgroundJob
+     * const backgroundJob = await prisma.backgroundJob.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BackgroundJobFindUniqueOrThrowArgs>(args: SelectSubset<T, BackgroundJobFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BackgroundJobClient<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BackgroundJob that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundJobFindFirstArgs} args - Arguments to find a BackgroundJob
+     * @example
+     * // Get one BackgroundJob
+     * const backgroundJob = await prisma.backgroundJob.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BackgroundJobFindFirstArgs>(args?: SelectSubset<T, BackgroundJobFindFirstArgs<ExtArgs>>): Prisma__BackgroundJobClient<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BackgroundJob that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundJobFindFirstOrThrowArgs} args - Arguments to find a BackgroundJob
+     * @example
+     * // Get one BackgroundJob
+     * const backgroundJob = await prisma.backgroundJob.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BackgroundJobFindFirstOrThrowArgs>(args?: SelectSubset<T, BackgroundJobFindFirstOrThrowArgs<ExtArgs>>): Prisma__BackgroundJobClient<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BackgroundJobs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundJobFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BackgroundJobs
+     * const backgroundJobs = await prisma.backgroundJob.findMany()
+     * 
+     * // Get first 10 BackgroundJobs
+     * const backgroundJobs = await prisma.backgroundJob.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const backgroundJobWithIdOnly = await prisma.backgroundJob.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BackgroundJobFindManyArgs>(args?: SelectSubset<T, BackgroundJobFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BackgroundJob.
+     * @param {BackgroundJobCreateArgs} args - Arguments to create a BackgroundJob.
+     * @example
+     * // Create one BackgroundJob
+     * const BackgroundJob = await prisma.backgroundJob.create({
+     *   data: {
+     *     // ... data to create a BackgroundJob
+     *   }
+     * })
+     * 
+     */
+    create<T extends BackgroundJobCreateArgs>(args: SelectSubset<T, BackgroundJobCreateArgs<ExtArgs>>): Prisma__BackgroundJobClient<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BackgroundJobs.
+     * @param {BackgroundJobCreateManyArgs} args - Arguments to create many BackgroundJobs.
+     * @example
+     * // Create many BackgroundJobs
+     * const backgroundJob = await prisma.backgroundJob.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BackgroundJobCreateManyArgs>(args?: SelectSubset<T, BackgroundJobCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BackgroundJobs and returns the data saved in the database.
+     * @param {BackgroundJobCreateManyAndReturnArgs} args - Arguments to create many BackgroundJobs.
+     * @example
+     * // Create many BackgroundJobs
+     * const backgroundJob = await prisma.backgroundJob.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BackgroundJobs and only return the `id`
+     * const backgroundJobWithIdOnly = await prisma.backgroundJob.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BackgroundJobCreateManyAndReturnArgs>(args?: SelectSubset<T, BackgroundJobCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BackgroundJob.
+     * @param {BackgroundJobDeleteArgs} args - Arguments to delete one BackgroundJob.
+     * @example
+     * // Delete one BackgroundJob
+     * const BackgroundJob = await prisma.backgroundJob.delete({
+     *   where: {
+     *     // ... filter to delete one BackgroundJob
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BackgroundJobDeleteArgs>(args: SelectSubset<T, BackgroundJobDeleteArgs<ExtArgs>>): Prisma__BackgroundJobClient<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BackgroundJob.
+     * @param {BackgroundJobUpdateArgs} args - Arguments to update one BackgroundJob.
+     * @example
+     * // Update one BackgroundJob
+     * const backgroundJob = await prisma.backgroundJob.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BackgroundJobUpdateArgs>(args: SelectSubset<T, BackgroundJobUpdateArgs<ExtArgs>>): Prisma__BackgroundJobClient<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BackgroundJobs.
+     * @param {BackgroundJobDeleteManyArgs} args - Arguments to filter BackgroundJobs to delete.
+     * @example
+     * // Delete a few BackgroundJobs
+     * const { count } = await prisma.backgroundJob.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BackgroundJobDeleteManyArgs>(args?: SelectSubset<T, BackgroundJobDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BackgroundJobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundJobUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BackgroundJobs
+     * const backgroundJob = await prisma.backgroundJob.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BackgroundJobUpdateManyArgs>(args: SelectSubset<T, BackgroundJobUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BackgroundJobs and returns the data updated in the database.
+     * @param {BackgroundJobUpdateManyAndReturnArgs} args - Arguments to update many BackgroundJobs.
+     * @example
+     * // Update many BackgroundJobs
+     * const backgroundJob = await prisma.backgroundJob.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BackgroundJobs and only return the `id`
+     * const backgroundJobWithIdOnly = await prisma.backgroundJob.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BackgroundJobUpdateManyAndReturnArgs>(args: SelectSubset<T, BackgroundJobUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BackgroundJob.
+     * @param {BackgroundJobUpsertArgs} args - Arguments to update or create a BackgroundJob.
+     * @example
+     * // Update or create a BackgroundJob
+     * const backgroundJob = await prisma.backgroundJob.upsert({
+     *   create: {
+     *     // ... data to create a BackgroundJob
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BackgroundJob we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BackgroundJobUpsertArgs>(args: SelectSubset<T, BackgroundJobUpsertArgs<ExtArgs>>): Prisma__BackgroundJobClient<$Result.GetResult<Prisma.$BackgroundJobPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BackgroundJobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundJobCountArgs} args - Arguments to filter BackgroundJobs to count.
+     * @example
+     * // Count the number of BackgroundJobs
+     * const count = await prisma.backgroundJob.count({
+     *   where: {
+     *     // ... the filter for the BackgroundJobs we want to count
+     *   }
+     * })
+    **/
+    count<T extends BackgroundJobCountArgs>(
+      args?: Subset<T, BackgroundJobCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BackgroundJobCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BackgroundJob.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundJobAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BackgroundJobAggregateArgs>(args: Subset<T, BackgroundJobAggregateArgs>): Prisma.PrismaPromise<GetBackgroundJobAggregateType<T>>
+
+    /**
+     * Group by BackgroundJob.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundJobGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BackgroundJobGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BackgroundJobGroupByArgs['orderBy'] }
+        : { orderBy?: BackgroundJobGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BackgroundJobGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBackgroundJobGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BackgroundJob model
+   */
+  readonly fields: BackgroundJobFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BackgroundJob.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BackgroundJobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BackgroundJob model
+   */
+  interface BackgroundJobFieldRefs {
+    readonly id: FieldRef<"BackgroundJob", 'String'>
+    readonly type: FieldRef<"BackgroundJob", 'String'>
+    readonly status: FieldRef<"BackgroundJob", 'BackgroundJobStatus'>
+    readonly userId: FieldRef<"BackgroundJob", 'String'>
+    readonly payload: FieldRef<"BackgroundJob", 'Json'>
+    readonly result: FieldRef<"BackgroundJob", 'Json'>
+    readonly error: FieldRef<"BackgroundJob", 'String'>
+    readonly createdAt: FieldRef<"BackgroundJob", 'DateTime'>
+    readonly updatedAt: FieldRef<"BackgroundJob", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BackgroundJob findUnique
+   */
+  export type BackgroundJobFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * Filter, which BackgroundJob to fetch.
+     */
+    where: BackgroundJobWhereUniqueInput
+  }
+
+  /**
+   * BackgroundJob findUniqueOrThrow
+   */
+  export type BackgroundJobFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * Filter, which BackgroundJob to fetch.
+     */
+    where: BackgroundJobWhereUniqueInput
+  }
+
+  /**
+   * BackgroundJob findFirst
+   */
+  export type BackgroundJobFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * Filter, which BackgroundJob to fetch.
+     */
+    where?: BackgroundJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BackgroundJobs to fetch.
+     */
+    orderBy?: BackgroundJobOrderByWithRelationInput | BackgroundJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BackgroundJobs.
+     */
+    cursor?: BackgroundJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BackgroundJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BackgroundJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BackgroundJobs.
+     */
+    distinct?: BackgroundJobScalarFieldEnum | BackgroundJobScalarFieldEnum[]
+  }
+
+  /**
+   * BackgroundJob findFirstOrThrow
+   */
+  export type BackgroundJobFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * Filter, which BackgroundJob to fetch.
+     */
+    where?: BackgroundJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BackgroundJobs to fetch.
+     */
+    orderBy?: BackgroundJobOrderByWithRelationInput | BackgroundJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BackgroundJobs.
+     */
+    cursor?: BackgroundJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BackgroundJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BackgroundJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BackgroundJobs.
+     */
+    distinct?: BackgroundJobScalarFieldEnum | BackgroundJobScalarFieldEnum[]
+  }
+
+  /**
+   * BackgroundJob findMany
+   */
+  export type BackgroundJobFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * Filter, which BackgroundJobs to fetch.
+     */
+    where?: BackgroundJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BackgroundJobs to fetch.
+     */
+    orderBy?: BackgroundJobOrderByWithRelationInput | BackgroundJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BackgroundJobs.
+     */
+    cursor?: BackgroundJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BackgroundJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BackgroundJobs.
+     */
+    skip?: number
+    distinct?: BackgroundJobScalarFieldEnum | BackgroundJobScalarFieldEnum[]
+  }
+
+  /**
+   * BackgroundJob create
+   */
+  export type BackgroundJobCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * The data needed to create a BackgroundJob.
+     */
+    data: XOR<BackgroundJobCreateInput, BackgroundJobUncheckedCreateInput>
+  }
+
+  /**
+   * BackgroundJob createMany
+   */
+  export type BackgroundJobCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BackgroundJobs.
+     */
+    data: BackgroundJobCreateManyInput | BackgroundJobCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BackgroundJob createManyAndReturn
+   */
+  export type BackgroundJobCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * The data used to create many BackgroundJobs.
+     */
+    data: BackgroundJobCreateManyInput | BackgroundJobCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BackgroundJob update
+   */
+  export type BackgroundJobUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * The data needed to update a BackgroundJob.
+     */
+    data: XOR<BackgroundJobUpdateInput, BackgroundJobUncheckedUpdateInput>
+    /**
+     * Choose, which BackgroundJob to update.
+     */
+    where: BackgroundJobWhereUniqueInput
+  }
+
+  /**
+   * BackgroundJob updateMany
+   */
+  export type BackgroundJobUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BackgroundJobs.
+     */
+    data: XOR<BackgroundJobUpdateManyMutationInput, BackgroundJobUncheckedUpdateManyInput>
+    /**
+     * Filter which BackgroundJobs to update
+     */
+    where?: BackgroundJobWhereInput
+    /**
+     * Limit how many BackgroundJobs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BackgroundJob updateManyAndReturn
+   */
+  export type BackgroundJobUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * The data used to update BackgroundJobs.
+     */
+    data: XOR<BackgroundJobUpdateManyMutationInput, BackgroundJobUncheckedUpdateManyInput>
+    /**
+     * Filter which BackgroundJobs to update
+     */
+    where?: BackgroundJobWhereInput
+    /**
+     * Limit how many BackgroundJobs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BackgroundJob upsert
+   */
+  export type BackgroundJobUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * The filter to search for the BackgroundJob to update in case it exists.
+     */
+    where: BackgroundJobWhereUniqueInput
+    /**
+     * In case the BackgroundJob found by the `where` argument doesn't exist, create a new BackgroundJob with this data.
+     */
+    create: XOR<BackgroundJobCreateInput, BackgroundJobUncheckedCreateInput>
+    /**
+     * In case the BackgroundJob was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BackgroundJobUpdateInput, BackgroundJobUncheckedUpdateInput>
+  }
+
+  /**
+   * BackgroundJob delete
+   */
+  export type BackgroundJobDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+    /**
+     * Filter which BackgroundJob to delete.
+     */
+    where: BackgroundJobWhereUniqueInput
+  }
+
+  /**
+   * BackgroundJob deleteMany
+   */
+  export type BackgroundJobDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BackgroundJobs to delete
+     */
+    where?: BackgroundJobWhereInput
+    /**
+     * Limit how many BackgroundJobs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BackgroundJob without action
+   */
+  export type BackgroundJobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundJob
+     */
+    select?: BackgroundJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundJob
+     */
+    omit?: BackgroundJobOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -23100,12 +24244,42 @@ export namespace Prisma {
   export type RankTrackingResultScalarFieldEnum = (typeof RankTrackingResultScalarFieldEnum)[keyof typeof RankTrackingResultScalarFieldEnum]
 
 
+  export const BackgroundJobScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    status: 'status',
+    userId: 'userId',
+    payload: 'payload',
+    result: 'result',
+    error: 'error',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BackgroundJobScalarFieldEnum = (typeof BackgroundJobScalarFieldEnum)[keyof typeof BackgroundJobScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -23122,6 +24296,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -23427,6 +24610,34 @@ export namespace Prisma {
    * Reference to a field of type 'CustomReportPeriodType[]'
    */
   export type ListEnumCustomReportPeriodTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomReportPeriodType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BackgroundJobStatus'
+   */
+  export type EnumBackgroundJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BackgroundJobStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'BackgroundJobStatus[]'
+   */
+  export type ListEnumBackgroundJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BackgroundJobStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
   /**
    * Deep Input Types
@@ -25109,6 +26320,78 @@ export namespace Prisma {
     businessName?: StringNullableWithAggregatesFilter<"RankTrackingResult"> | string | null
     htmlSnapshot?: StringNullableWithAggregatesFilter<"RankTrackingResult"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"RankTrackingResult"> | Date | string
+  }
+
+  export type BackgroundJobWhereInput = {
+    AND?: BackgroundJobWhereInput | BackgroundJobWhereInput[]
+    OR?: BackgroundJobWhereInput[]
+    NOT?: BackgroundJobWhereInput | BackgroundJobWhereInput[]
+    id?: StringFilter<"BackgroundJob"> | string
+    type?: StringFilter<"BackgroundJob"> | string
+    status?: EnumBackgroundJobStatusFilter<"BackgroundJob"> | $Enums.BackgroundJobStatus
+    userId?: StringNullableFilter<"BackgroundJob"> | string | null
+    payload?: JsonFilter<"BackgroundJob">
+    result?: JsonNullableFilter<"BackgroundJob">
+    error?: StringNullableFilter<"BackgroundJob"> | string | null
+    createdAt?: DateTimeFilter<"BackgroundJob"> | Date | string
+    updatedAt?: DateTimeFilter<"BackgroundJob"> | Date | string
+  }
+
+  export type BackgroundJobOrderByWithRelationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    payload?: SortOrder
+    result?: SortOrderInput | SortOrder
+    error?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BackgroundJobWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BackgroundJobWhereInput | BackgroundJobWhereInput[]
+    OR?: BackgroundJobWhereInput[]
+    NOT?: BackgroundJobWhereInput | BackgroundJobWhereInput[]
+    type?: StringFilter<"BackgroundJob"> | string
+    status?: EnumBackgroundJobStatusFilter<"BackgroundJob"> | $Enums.BackgroundJobStatus
+    userId?: StringNullableFilter<"BackgroundJob"> | string | null
+    payload?: JsonFilter<"BackgroundJob">
+    result?: JsonNullableFilter<"BackgroundJob">
+    error?: StringNullableFilter<"BackgroundJob"> | string | null
+    createdAt?: DateTimeFilter<"BackgroundJob"> | Date | string
+    updatedAt?: DateTimeFilter<"BackgroundJob"> | Date | string
+  }, "id">
+
+  export type BackgroundJobOrderByWithAggregationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    payload?: SortOrder
+    result?: SortOrderInput | SortOrder
+    error?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BackgroundJobCountOrderByAggregateInput
+    _max?: BackgroundJobMaxOrderByAggregateInput
+    _min?: BackgroundJobMinOrderByAggregateInput
+  }
+
+  export type BackgroundJobScalarWhereWithAggregatesInput = {
+    AND?: BackgroundJobScalarWhereWithAggregatesInput | BackgroundJobScalarWhereWithAggregatesInput[]
+    OR?: BackgroundJobScalarWhereWithAggregatesInput[]
+    NOT?: BackgroundJobScalarWhereWithAggregatesInput | BackgroundJobScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BackgroundJob"> | string
+    type?: StringWithAggregatesFilter<"BackgroundJob"> | string
+    status?: EnumBackgroundJobStatusWithAggregatesFilter<"BackgroundJob"> | $Enums.BackgroundJobStatus
+    userId?: StringNullableWithAggregatesFilter<"BackgroundJob"> | string | null
+    payload?: JsonWithAggregatesFilter<"BackgroundJob">
+    result?: JsonNullableWithAggregatesFilter<"BackgroundJob">
+    error?: StringNullableWithAggregatesFilter<"BackgroundJob"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BackgroundJob"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BackgroundJob"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -27040,6 +28323,90 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BackgroundJobCreateInput = {
+    id?: string
+    type: string
+    status?: $Enums.BackgroundJobStatus
+    userId?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BackgroundJobUncheckedCreateInput = {
+    id?: string
+    type: string
+    status?: $Enums.BackgroundJobStatus
+    userId?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BackgroundJobUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: EnumBackgroundJobStatusFieldUpdateOperationsInput | $Enums.BackgroundJobStatus
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BackgroundJobUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: EnumBackgroundJobStatusFieldUpdateOperationsInput | $Enums.BackgroundJobStatus
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BackgroundJobCreateManyInput = {
+    id?: string
+    type: string
+    status?: $Enums.BackgroundJobStatus
+    userId?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BackgroundJobUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: EnumBackgroundJobStatusFieldUpdateOperationsInput | $Enums.BackgroundJobStatus
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BackgroundJobUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: EnumBackgroundJobStatusFieldUpdateOperationsInput | $Enums.BackgroundJobStatus
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -28690,6 +30057,153 @@ export namespace Prisma {
     rankPosition?: SortOrder
   }
 
+  export type EnumBackgroundJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BackgroundJobStatus | EnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BackgroundJobStatus[] | ListEnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BackgroundJobStatus[] | ListEnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBackgroundJobStatusFilter<$PrismaModel> | $Enums.BackgroundJobStatus
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type BackgroundJobCountOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    userId?: SortOrder
+    payload?: SortOrder
+    result?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BackgroundJobMaxOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    userId?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BackgroundJobMinOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    userId?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumBackgroundJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BackgroundJobStatus | EnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BackgroundJobStatus[] | ListEnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BackgroundJobStatus[] | ListEnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBackgroundJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.BackgroundJobStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBackgroundJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumBackgroundJobStatusFilter<$PrismaModel>
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
   export type PostCreateNestedManyWithoutUserInput = {
     create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[]
@@ -30141,6 +31655,10 @@ export namespace Prisma {
     update?: XOR<XOR<SearchKeywordUpdateToOneWithWhereWithoutRankResultsInput, SearchKeywordUpdateWithoutRankResultsInput>, SearchKeywordUncheckedUpdateWithoutRankResultsInput>
   }
 
+  export type EnumBackgroundJobStatusFieldUpdateOperationsInput = {
+    set?: $Enums.BackgroundJobStatus
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -30661,6 +32179,69 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBackgroundJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BackgroundJobStatus | EnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BackgroundJobStatus[] | ListEnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BackgroundJobStatus[] | ListEnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBackgroundJobStatusFilter<$PrismaModel> | $Enums.BackgroundJobStatus
+  }
+
+  export type NestedEnumBackgroundJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BackgroundJobStatus | EnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BackgroundJobStatus[] | ListEnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BackgroundJobStatus[] | ListEnumBackgroundJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBackgroundJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.BackgroundJobStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBackgroundJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumBackgroundJobStatusFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type PostCreateWithoutUserInput = {

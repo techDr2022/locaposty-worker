@@ -9,6 +9,9 @@
     "outDir": "dist",
     "skipLibCheck": true,
     "baseUrl": ".",
+    "paths": {
+      "@/lib/*": ["lib/*"]
+    },
     "resolveJsonModule": true
   },
   "include": ["worker.ts", "lib/**/*"],

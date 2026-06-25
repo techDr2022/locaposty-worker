@@ -3,31 +3,35 @@ dotenv.config();
 import { Queue } from "bullmq";
 import IORedis from "ioredis";
 
-const redisOptions = {
-  maxRetriesPerRequest: null as null, // Must be null for BullMQ
-  enableReadyCheck: false,
-};
+function createRedisConnection(): IORedis {
+  const sharedOptions = {
+    maxRetriesPerRequest: null as null,
+    enableReadyCheck: false,
+  };
 
-// REDIS_URL (e.g. redis://default:pass@host:51401) or REDIS_HOST + REDIS_PORT + REDIS_PASSWORD
-const connection = process.env.REDIS_URL
-  ? new IORedis(process.env.REDIS_URL, redisOptions)
-  : new IORedis({
-      host: process.env.REDIS_HOST || "localhost",
-      port: parseInt(process.env.REDIS_PORT || "6379", 10),
-      username: process.env.REDIS_USERNAME || undefined,
-      password: process.env.REDIS_PASSWORD,
-      ...redisOptions,
-    });
+  if (process.env.REDIS_URL) {
+    return new IORedis(process.env.REDIS_URL, sharedOptions);
+  }
+
+  return new IORedis({
+    host: process.env.REDIS_HOST || "localhost",
+    port: parseInt(process.env.REDIS_PORT || "6379", 10),
+    password: process.env.REDIS_PASSWORD,
+    ...sharedOptions,
+  });
+}
+
+const connection = createRedisConnection();
 
 // Test connection
 connection.on("connect", () => {
-  const target =
-    process.env.REDIS_URL?.replace(/:[^:@/]+@/, ":****@") ||
-    process.env.REDIS_HOST;
-  console.log("[REDIS] Successfully connected to Redis at", target);
+  console.log(
+    "[REDIS] Successfully connected to Redis",
+    process.env.REDIS_URL ? "(REDIS_URL)" : `at ${process.env.REDIS_HOST}`,
+  );
 });
 
-connection.on("error", (err) => {
+connection.on("error", (err: Error) => {
   console.error("[REDIS ERROR]", err);
 });
 
@@ -46,7 +50,7 @@ export const postQueue = new Queue("gmb-locaposty", {
 // Helper function to check if a post has been processed
 export async function isPostProcessed(postId: string): Promise<boolean> {
   const result = Boolean(
-    await connection.sismember(PROCESSED_JOBS_KEY, postId)
+    await connection.sismember(PROCESSED_JOBS_KEY, postId),
   );
   console.log(`[DEBUG] Checking if post ${postId} is processed: ${result}`);
   return result;
@@ -66,7 +70,7 @@ export async function unmarkPostAsProcessed(postId: string): Promise<void> {
 export async function schedulePost(
   postId: string,
   scheduledDate: Date,
-  userEmail: string
+  userEmail: string,
 ): Promise<void> {
   const now = new Date();
   const delay = Math.max(0, scheduledDate.getTime() - now.getTime());
@@ -76,7 +80,7 @@ export async function schedulePost(
     const existingJob = await postQueue.getJob(`post-${postId}`);
     if (existingJob) {
       console.log(
-        `[BullMQ] Post ${postId} already has job ${existingJob.id}, removing it first`
+        `[BullMQ] Post ${postId} already has job ${existingJob.id}, removing it first`,
       );
       await existingJob.remove();
     }
@@ -90,10 +94,12 @@ export async function schedulePost(
       {
         delay,
         jobId: `post-${postId}`,
-      }
+        attempts: 2,
+        backoff: { type: "exponential", delay: 5000 },
+      },
     );
     console.log(
-      `[BullMQ] Job ${job.id} created for post ${postId} scheduled for ${scheduledDate.toISOString()} with delay ${delay}ms`
+      `[BullMQ] Job ${job.id} created for post ${postId} scheduled for ${scheduledDate.toISOString()} with delay ${delay}ms`,
     );
     return;
   } catch (error) {
@@ -122,7 +128,7 @@ export async function unschedulePost(postId: string): Promise<void> {
 export async function reschedulePost(
   postId: string,
   newScheduledDate: Date,
-  userEmail: string
+  userEmail: string,
 ): Promise<void> {
   try {
     // First remove the existing job
@@ -135,12 +141,56 @@ export async function reschedulePost(
     await schedulePost(postId, newScheduledDate, userEmail);
 
     console.log(
-      `Post ${postId} rescheduled for ${newScheduledDate.toISOString()}`
+      `Post ${postId} rescheduled for ${newScheduledDate.toISOString()}`,
     );
   } catch (error) {
     console.error(`Failed to reschedule post ${postId}:`, error);
     throw error;
   }
+}
+
+// ─── Extended job data types ──────────────────────────────────────────────────
+
+export interface ProcessReviewJobData {
+  jobType: "process-review";
+  reviewPath: string; // accounts/{}/locations/{}/reviews/{}
+  eventType: string;
+  messageId: string;
+}
+
+export interface SaveLocationsJobData {
+  jobType: "save-locations";
+  backgroundJobId: string;
+  userId: string;
+  accountId: string;
+  locations: unknown[];
+  googleAccountId: string;
+}
+
+// ─── Enqueue helpers ──────────────────────────────────────────────────────────
+
+export async function enqueueReviewProcessing(
+  data: Omit<ProcessReviewJobData, "jobType">,
+): Promise<void> {
+  await postQueue.add(
+    "process-review",
+    { jobType: "process-review", ...data },
+    { attempts: 3, backoff: { type: "exponential", delay: 2000 } },
+  );
+}
+
+export async function enqueueSaveLocations(
+  data: Omit<SaveLocationsJobData, "jobType">,
+): Promise<void> {
+  await postQueue.add(
+    "save-locations",
+    { jobType: "save-locations", ...data },
+    {
+      jobId: `save-locations-${data.backgroundJobId}`,
+      attempts: 2,
+      backoff: { type: "exponential", delay: 5000 },
+    },
+  );
 }
 
 export { connection };

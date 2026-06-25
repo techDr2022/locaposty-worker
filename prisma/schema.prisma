@@ -513,6 +513,29 @@ enum CustomReportPeriodType {
 
 
 
+model BackgroundJob {
+  id        String              @id @default(cuid())
+  type      String
+  status    BackgroundJobStatus @default(QUEUED)
+  userId    String?
+  payload   Json                @default("{}")
+  result    Json?
+  error     String?
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum BackgroundJobStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
 enum SubscriptionStatus {
   INACTIVE
   TRIALING

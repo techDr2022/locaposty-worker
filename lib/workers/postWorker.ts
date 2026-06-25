@@ -1,15 +1,30 @@
 import axios from "axios";
 import { Worker, Job } from "bullmq";
 import { prisma } from "../prisma";
-import { connection } from "../queue";
+import {
+  connection,
+  type ProcessReviewJobData,
+  type SaveLocationsJobData,
+} from "../queue";
 import { refreshLocationToken } from "../refreshLocationToken";
 import { createLocationPhotoFromSourceUrl } from "../gmb/createLocationPhotoMedia";
 import { safeDb } from "../safeDb";
+import { processReview } from "./reviewWorker";
+import { processSaveLocations } from "./saveLocationsWorker";
 
-export interface PostJobData {
+export interface PublishPostJobData {
   postId: string;
-  userId: string;
+  userEmail?: string;
+  userId?: string;
 }
+
+/** @deprecated Use PublishPostJobData */
+export type PostJobData = PublishPostJobData;
+
+export type GmbJobData =
+  | PublishPostJobData
+  | ProcessReviewJobData
+  | SaveLocationsJobData;
 
 interface GmbScheduleDate {
   year: number;
@@ -188,7 +203,14 @@ function buildPostBody(post: {
   };
 }
 
-async function processPostJob(job: Job<PostJobData>): Promise<unknown> {
+function isPastScheduledTime(scheduledAt: Date | null): boolean {
+  if (!scheduledAt) return false;
+  return Date.now() > scheduledAt.getTime();
+}
+
+async function processPublishPost(
+  job: Job<PublishPostJobData>,
+): Promise<unknown> {
   const { postId } = job.data;
 
   const post = await safeDb(() =>
@@ -197,12 +219,25 @@ async function processPostJob(job: Job<PostJobData>): Promise<unknown> {
       include: {
         location: { include: { googleAccount: true } },
       },
-    })
+    }),
   );
 
   if (!post) throw new Error(`Post ${postId} not found`);
   if (post.status !== "SCHEDULED" && post.status !== "PUBLISHED") {
     console.log(`[post-worker] Post ${postId} not scheduled/published, skipping`);
+    return;
+  }
+
+  if (post.status === "SCHEDULED" && isPastScheduledTime(post.scheduledAt)) {
+    console.log(
+      `[post-worker] Post ${postId} missed scheduled time (${post.scheduledAt?.toISOString()}), marking as FAILED`,
+    );
+    await safeDb(() =>
+      prisma.post.update({
+        where: { id: postId },
+        data: { status: "FAILED" },
+      }),
+    );
     return;
   }
 
@@ -317,7 +352,10 @@ async function processPostJob(job: Job<PostJobData>): Promise<unknown> {
   return response.data;
 }
 
-async function handlePostJobError(job: Job<PostJobData>, error: unknown) {
+async function handlePublishPostError(
+  job: Job<PublishPostJobData>,
+  error: unknown,
+) {
   let errorMessage = error instanceof Error ? error.message : "Unknown error";
   let errorCode = "UNKNOWN_ERROR";
 
@@ -336,44 +374,76 @@ async function handlePostJobError(job: Job<PostJobData>, error: unknown) {
     errorCode = "NETWORK_ERROR";
   }
 
-  console.error(`[post-worker] ${errorMessage} (${errorCode})`);
-  try {
-    await safeDb(() =>
-      prisma.post.update({
-        where: { id: job.data.postId },
-        data: { status: "FAILED" },
-      })
+  const maxAttempts = job.opts.attempts ?? 1;
+  const attempt = job.attemptsMade + 1;
+  const isLastAttempt = attempt >= maxAttempts;
+
+  if (isLastAttempt) {
+    console.error(
+      `[post-worker] ${errorMessage} (${errorCode}) — attempt ${attempt}/${maxAttempts}, marking FAILED`,
     );
-  } catch (dbError) {
-    console.error("[post-worker] Failed to update post status:", dbError);
+    try {
+      await safeDb(() =>
+        prisma.post.update({
+          where: { id: job.data.postId },
+          data: { status: "FAILED" },
+        }),
+      );
+    } catch (dbError) {
+      console.error("[post-worker] Failed to update post status:", dbError);
+    }
+  } else {
+    console.warn(
+      `[post-worker] ${errorMessage} (${errorCode}) — attempt ${attempt}/${maxAttempts}, will retry`,
+    );
   }
 }
 
-export function createPostWorker(): Worker<PostJobData> {
-  const worker = new Worker<PostJobData>(
+async function processGmbJob(job: Job<GmbJobData>): Promise<unknown> {
+  const data = job.data as unknown as Record<string, unknown>;
+
+  if (data.jobType === "process-review") {
+    return processReview(job as Job<ProcessReviewJobData>);
+  }
+  if (data.jobType === "save-locations") {
+    return processSaveLocations(job as Job<SaveLocationsJobData>);
+  }
+  return processPublishPost(job as Job<PublishPostJobData>);
+}
+
+export function createPostWorker(): Worker<GmbJobData> {
+  const worker = new Worker<GmbJobData>(
     "gmb-locaposty",
     async (job) => {
+      const data = job.data as unknown as Record<string, unknown>;
       try {
-        console.log(`[post-worker] Processing job ${job.id}`);
-        return await processPostJob(job);
+        console.log(
+          `[gmb-worker] Processing job ${job.id}: name=${job.name}`,
+        );
+        return await processGmbJob(job);
       } catch (error) {
-        await handlePostJobError(job, error);
+        if (!data.jobType && data.postId) {
+          await handlePublishPostError(
+            job as Job<PublishPostJobData>,
+            error,
+          );
+        }
         throw error;
       }
     },
-    { connection }
+    { connection },
   );
 
   worker.on("completed", (j) =>
-    console.log(`[post-worker] Job ${j.id} completed`)
+    console.log(`[gmb-worker] Job ${j.id} (${j.name}) completed`),
   );
   worker.on("failed", (j, err) =>
-    console.error(`[post-worker] Job ${j?.id} failed:`, err.message)
+    console.error(`[gmb-worker] Job ${j?.id} (${j?.name}) failed:`, err.message),
   );
-  worker.on("active", (j) => console.log(`[post-worker] Job ${j.id} started`));
-  worker.on("stalled", (id) =>
-    console.warn(`[post-worker] Job ${id} stalled`)
+  worker.on("active", (j) =>
+    console.log(`[gmb-worker] Job ${j.id} (${j.name}) started`),
   );
+  worker.on("stalled", (id) => console.warn(`[gmb-worker] Job ${id} stalled`));
 
   return worker;
 }

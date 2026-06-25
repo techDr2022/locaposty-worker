@@ -6,7 +6,7 @@ import { prisma } from "./lib/prisma";
 import { createPostWorker } from "./lib/workers/postWorker";
 import { createReportWorker, reconcileScheduleTriggers } from "./lib/workers/reportWorker";
 import type { Worker } from "bullmq";
-import type { PostJobData } from "./lib/workers/postWorker";
+import type { GmbJobData } from "./lib/workers/postWorker";
 import type { ReportJobData, ReportScheduleTriggerJobData } from "./lib/reportQueue";
 
 console.log("======= LOCAPOSTY WORKER STARTING =======");
@@ -39,7 +39,7 @@ const server = createServer((req, res) => {
   res.end("Not Found");
 });
 
-let postWorker: Worker<PostJobData> | null = null;
+let postWorker: Worker<GmbJobData> | null = null;
 let reportWorker: Worker<ReportJobData | ReportScheduleTriggerJobData> | null =
   null;
 
