@@ -3,8 +3,6 @@ import { Worker, Job } from "bullmq";
 import { prisma } from "../prisma";
 import {
   createWorkerConnection,
-  postQueue,
-  schedulePost,
   type ProcessReviewJobData,
   type SaveLocationsJobData,
 } from "../queue";
@@ -203,91 +201,6 @@ function buildPostBody(post: {
     event: eventDetails,
     offer: offerDetails,
   };
-}
-
-async function shouldRequeueScheduledPost(
-  postId: string,
-  scheduledAt: Date,
-): Promise<"skip" | "requeue"> {
-  const existingJob = await postQueue.getJob(`post-${postId}`);
-  if (!existingJob) return "requeue";
-
-  const state = await existingJob.getState();
-  if (state === "active") return "skip";
-
-  const isDue = scheduledAt.getTime() <= Date.now();
-  if ((state === "delayed" || state === "waiting") && !isDue) {
-    return "skip";
-  }
-
-  if (state === "delayed" || state === "waiting") {
-    await existingJob.remove();
-  }
-
-  return "requeue";
-}
-
-/** Re-queue SCHEDULED posts whose BullMQ jobs were lost (e.g. Redis restart). */
-export async function reconcileScheduledPosts(): Promise<void> {
-  const [posts, waitingCount, delayedCount] = await Promise.all([
-    safeDb(() =>
-      prisma.post.findMany({
-        where: { status: "SCHEDULED" },
-        select: {
-          id: true,
-          scheduledAt: true,
-          user: { select: { email: true } },
-        },
-      }),
-    ),
-    postQueue.getWaitingCount(),
-    postQueue.getDelayedCount(),
-  ]);
-
-  let requeued = 0;
-  let skipped = 0;
-
-  for (const post of posts) {
-    try {
-      const action = await shouldRequeueScheduledPost(
-        post.id,
-        post.scheduledAt,
-      );
-      if (action === "skip") {
-        skipped++;
-        continue;
-      }
-
-      const runAt =
-        post.scheduledAt.getTime() <= Date.now()
-          ? new Date()
-          : post.scheduledAt;
-      await schedulePost(post.id, runAt, post.user.email ?? "");
-      requeued++;
-    } catch (err) {
-      console.error(`[post-worker] Reconcile failed for post ${post.id}:`, err);
-    }
-  }
-
-  console.log(
-    `[post-worker] Reconciled scheduled posts: ${requeued} requeued, ${skipped} already queued (queue waiting=${waitingCount} delayed=${delayedCount})`,
-  );
-}
-
-const POST_RECONCILE_INTERVAL_MS = Number(
-  process.env.POST_RECONCILE_INTERVAL_MS ?? 5 * 60 * 1000,
-);
-
-/** Poll DB for SCHEDULED posts missing queue jobs (covers Redis job loss while worker stays up). */
-export function startPeriodicPostReconcile(): NodeJS.Timeout {
-  console.log(
-    `[post-worker] Periodic reconcile every ${POST_RECONCILE_INTERVAL_MS / 1000}s`,
-  );
-  return setInterval(() => {
-    void reconcileScheduledPosts().catch((err) => {
-      console.error("[post-worker] Periodic reconcile failed:", err);
-    });
-  }, POST_RECONCILE_INTERVAL_MS);
 }
 
 async function processPublishPost(

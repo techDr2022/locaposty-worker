@@ -1,9 +1,10 @@
 /**
- * PM2 ecosystem config for LocaPosty Worker (standalone)
- * Run: pm2 start ecosystem.config.cjs
+ * PM2 config — same on local and EC2.
+ * All secrets and service URLs live in .env (DOTENV_CONFIG_PATH).
  *
- * With custom env file:
- *   DOTENV_CONFIG_PATH=.env pm2 start ecosystem.config.cjs
+ *   npm run pm2:start    # first start
+ *   npm run pm2:restart  # after code/env changes
+ *   npm run pm2:logs
  */
 const path = require("path");
 
@@ -19,13 +20,10 @@ module.exports = {
       instances: 1,
       autorestart: true,
       watch: false,
-      max_memory_restart: "500M",
+      max_memory_restart: "1G",
       env: {
-        NODE_ENV: "production",
         DOTENV_CONFIG_PATH: ".env",
         NODE_OPTIONS: "--dns-result-order=ipv4first",
-        DB_READY_RETRIES: "30",
-        DB_READY_RETRY_DELAY_MS: "3000",
       },
       error_file: "logs/worker-error.log",
       out_file: "logs/worker-out.log",

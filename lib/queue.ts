@@ -1,7 +1,8 @@
 import * as dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: process.env.DOTENV_CONFIG_PATH || ".env" });
 import { Queue } from "bullmq";
 import IORedis from "ioredis";
+import { getRedisTarget } from "./env";
 
 function createRedisConnection(): IORedis {
   const sharedOptions = {
@@ -25,9 +26,10 @@ const connection = createRedisConnection();
 
 // Test connection
 connection.on("connect", () => {
+  const target = getRedisTarget();
   console.log(
     "[REDIS] Successfully connected to Redis",
-    process.env.REDIS_URL ? "(REDIS_URL)" : `at ${process.env.REDIS_HOST}`,
+    `at ${target.host}:${target.port} (${target.source})`,
   );
 });
 
@@ -191,6 +193,33 @@ export async function enqueueSaveLocations(
       backoff: { type: "exponential", delay: 5000 },
     },
   );
+}
+
+export async function getPostQueueStats(): Promise<{
+  waiting: number;
+  delayed: number;
+  active: number;
+}> {
+  const [waiting, delayed, active] = await Promise.all([
+    postQueue.getWaitingCount(),
+    postQueue.getDelayedCount(),
+    postQueue.getActiveCount(),
+  ]);
+  return { waiting, delayed, active };
+}
+
+export async function waitForRedisReady(timeoutMs = 15000): Promise<void> {
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    try {
+      const pong = await connection.ping();
+      if (pong === "PONG") return;
+    } catch {
+      // retry
+    }
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  throw new Error("Redis not ready within timeout");
 }
 
 /** BullMQ workers need their own connection (blocking commands). */

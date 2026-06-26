@@ -23,12 +23,12 @@ echo "Generating Prisma client..."
 npx prisma generate
 
 echo "Restarting worker..."
-if pm2 describe locaposty-worker >/dev/null 2>&1; then
-  pm2 restart locaposty-worker
+if npx pm2 describe locaposty-worker >/dev/null 2>&1; then
+  npm run pm2:restart
 else
-  pm2 start ecosystem.config.cjs --only locaposty-worker
+  npm run pm2:start
 fi
 
 echo ""
 echo "Done. Status:"
-pm2 status
+npm run pm2:status

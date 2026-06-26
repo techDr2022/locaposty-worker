@@ -1,13 +1,10 @@
 import * as dotenv from "dotenv";
 dotenv.config({ path: process.env.DOTENV_CONFIG_PATH || ".env" });
 import { createServer } from "http";
-import { connection } from "./lib/queue";
+import { connection, getPostQueueStats, waitForRedisReady } from "./lib/queue";
 import { prisma } from "./lib/prisma";
-import {
-  createPostWorker,
-  reconcileScheduledPosts,
-  startPeriodicPostReconcile,
-} from "./lib/workers/postWorker";
+import { logWorkerTargets, getRedisTarget, getDatabaseHost } from "./lib/env";
+import { createPostWorker } from "./lib/workers/postWorker";
 import { createReportWorker, reconcileScheduleTriggers } from "./lib/workers/reportWorker";
 import type { Worker } from "bullmq";
 import type { GmbJobData } from "./lib/workers/postWorker";
@@ -15,12 +12,44 @@ import type { ReportJobData, ReportScheduleTriggerJobData } from "./lib/reportQu
 
 console.log("======= LOCAPOSTY WORKER STARTING =======");
 console.log("Environment:", process.env.NODE_ENV || "development");
+logWorkerTargets();
 
 const port = Number(process.env.REPORTS_WORKER_PORT || process.env.PORT || 3002);
 const dbRetries = Number(process.env.DB_READY_RETRIES || 10);
 const dbRetryDelayMs = Number(process.env.DB_READY_RETRY_DELAY_MS || 2000);
 
-const server = createServer((req, res) => {
+let postWorker: Worker<GmbJobData> | null = null;
+let reportWorker: Worker<ReportJobData | ReportScheduleTriggerJobData> | null =
+  null;
+let workersReady = false;
+
+const server = createServer(async (req, res) => {
+  if (req.url === "/health") {
+    try {
+      const [queue, scheduledPosts] = await Promise.all([
+        getPostQueueStats(),
+        prisma.post.count({ where: { status: "SCHEDULED" } }),
+      ]);
+      const redis = getRedisTarget();
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          ok: true,
+          workersReady,
+          redis: `${redis.host}:${redis.port}`,
+          database: getDatabaseHost(),
+          scheduledPostsInDb: scheduledPosts,
+          queue,
+        }),
+      );
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ ok: false, error: message }));
+    }
+    return;
+  }
+
   if (req.url === "/ping") {
     res.writeHead(200, { "Content-Type": "text/plain" });
     res.end("pong");
@@ -42,11 +71,6 @@ const server = createServer((req, res) => {
   res.writeHead(404, { "Content-Type": "text/plain" });
   res.end("Not Found");
 });
-
-let postWorker: Worker<GmbJobData> | null = null;
-let reportWorker: Worker<ReportJobData | ReportScheduleTriggerJobData> | null =
-  null;
-let postReconcileTimer: NodeJS.Timeout | null = null;
 
 async function waitForDB(retries = dbRetries): Promise<void> {
   let lastError: unknown;
@@ -78,16 +102,13 @@ server.listen(port, () => {
 
 async function bootstrapWorkers() {
   await waitForDB();
+  await waitForRedisReady();
 
   postWorker = createPostWorker();
   reportWorker = createReportWorker();
 
-  await reconcileScheduledPosts();
-  console.log("[worker] Scheduled posts reconciled on startup");
-
-  postReconcileTimer = startPeriodicPostReconcile();
-
   await reconcileScheduleTriggers();
+  workersReady = true;
   console.log("[worker] Report schedules reconciled on startup");
   console.log("[worker] All workers bootstrapped and listening");
 }
@@ -106,10 +127,6 @@ const shutdown = async () => {
       else resolve();
     });
   });
-
-  if (postReconcileTimer) {
-    clearInterval(postReconcileTimer);
-  }
 
   if (postWorker && reportWorker) {
     await Promise.all([postWorker.close(), reportWorker.close()]);
