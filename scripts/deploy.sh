@@ -23,12 +23,8 @@ echo "Generating Prisma client..."
 npx prisma generate
 
 echo "Restarting worker..."
-if npx pm2 describe locaposty-worker >/dev/null 2>&1; then
-  npm run pm2:restart
-else
-  npm run pm2:start
-fi
+bash scripts/pm2-restart.sh
 
 echo ""
-echo "Done. Status:"
-npm run pm2:status
+echo "Health check:"
+curl -sf http://localhost:3002/health || echo "WARN: /health not reachable yet — check: npm run pm2:logs"
