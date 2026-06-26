@@ -1,7 +1,7 @@
 import { Worker, Job } from "bullmq";
 import { format } from "date-fns";
 import { prisma } from "../prisma";
-import { connection } from "../queue";
+import { createWorkerConnection } from "../queue";
 import {
   enqueueReportJob,
   removeReportScheduleTriggerJob,
@@ -417,6 +417,7 @@ export async function reconcileScheduleTriggers(): Promise<void> {
 export function createReportWorker(): Worker<
   ReportJobData | ReportScheduleTriggerJobData
 > {
+  const workerConnection = createWorkerConnection();
   const worker = new Worker<ReportJobData | ReportScheduleTriggerJobData>(
     "gmb-reports",
     async (job) => {
@@ -441,9 +442,12 @@ export function createReportWorker(): Worker<
 
       throw new Error(`Unknown report job type: ${job.name}`);
     },
-    { connection, concurrency: 2 },
+    { connection: workerConnection, concurrency: 2 },
   );
 
+  worker.on("ready", () =>
+    console.log("[reports-worker] Listening on queue gmb-reports"),
+  );
   worker.on("completed", (j) =>
     console.log(`[reports-worker] Job ${j.id} completed`),
   );

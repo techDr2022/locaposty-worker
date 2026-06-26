@@ -193,4 +193,9 @@ export async function enqueueSaveLocations(
   );
 }
 
+/** BullMQ workers need their own connection (blocking commands). */
+export function createWorkerConnection(): IORedis {
+  return connection.duplicate();
+}
+
 export { connection };

@@ -3,7 +3,11 @@ dotenv.config({ path: process.env.DOTENV_CONFIG_PATH || ".env" });
 import { createServer } from "http";
 import { connection } from "./lib/queue";
 import { prisma } from "./lib/prisma";
-import { createPostWorker } from "./lib/workers/postWorker";
+import {
+  createPostWorker,
+  reconcileScheduledPosts,
+  startPeriodicPostReconcile,
+} from "./lib/workers/postWorker";
 import { createReportWorker, reconcileScheduleTriggers } from "./lib/workers/reportWorker";
 import type { Worker } from "bullmq";
 import type { GmbJobData } from "./lib/workers/postWorker";
@@ -42,6 +46,7 @@ const server = createServer((req, res) => {
 let postWorker: Worker<GmbJobData> | null = null;
 let reportWorker: Worker<ReportJobData | ReportScheduleTriggerJobData> | null =
   null;
+let postReconcileTimer: NodeJS.Timeout | null = null;
 
 async function waitForDB(retries = dbRetries): Promise<void> {
   let lastError: unknown;
@@ -77,8 +82,14 @@ async function bootstrapWorkers() {
   postWorker = createPostWorker();
   reportWorker = createReportWorker();
 
+  await reconcileScheduledPosts();
+  console.log("[worker] Scheduled posts reconciled on startup");
+
+  postReconcileTimer = startPeriodicPostReconcile();
+
   await reconcileScheduleTriggers();
   console.log("[worker] Report schedules reconciled on startup");
+  console.log("[worker] All workers bootstrapped and listening");
 }
 
 void bootstrapWorkers().catch((err) => {
@@ -95,6 +106,10 @@ const shutdown = async () => {
       else resolve();
     });
   });
+
+  if (postReconcileTimer) {
+    clearInterval(postReconcileTimer);
+  }
 
   if (postWorker && reportWorker) {
     await Promise.all([postWorker.close(), reportWorker.close()]);

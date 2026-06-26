@@ -2,7 +2,9 @@ import axios from "axios";
 import { Worker, Job } from "bullmq";
 import { prisma } from "../prisma";
 import {
-  connection,
+  createWorkerConnection,
+  postQueue,
+  schedulePost,
   type ProcessReviewJobData,
   type SaveLocationsJobData,
 } from "../queue";
@@ -111,7 +113,7 @@ function buildEventDetails(
   title: string,
   startDate: Date,
   endDate: Date,
-  hasEnd: boolean
+  hasEnd: boolean,
 ): GmbEventDetails {
   const start = toGmbSchedulePart(startDate);
   const end = toGmbSchedulePart(endDate);
@@ -153,7 +155,7 @@ function buildPostBody(post: {
       post.title ?? "",
       startDate,
       endDate,
-      !!post.eventEnd
+      !!post.eventEnd,
     );
   } else if (post.type === "OFFER") {
     topicType = "OFFER";
@@ -169,7 +171,7 @@ function buildPostBody(post: {
         post.title ?? "",
         startDate,
         endDate,
-        !!post.offerEnd
+        !!post.offerEnd,
       );
     }
   }
@@ -203,9 +205,89 @@ function buildPostBody(post: {
   };
 }
 
-function isPastScheduledTime(scheduledAt: Date | null): boolean {
-  if (!scheduledAt) return false;
-  return Date.now() > scheduledAt.getTime();
+async function shouldRequeueScheduledPost(
+  postId: string,
+  scheduledAt: Date,
+): Promise<"skip" | "requeue"> {
+  const existingJob = await postQueue.getJob(`post-${postId}`);
+  if (!existingJob) return "requeue";
+
+  const state = await existingJob.getState();
+  if (state === "active") return "skip";
+
+  const isDue = scheduledAt.getTime() <= Date.now();
+  if ((state === "delayed" || state === "waiting") && !isDue) {
+    return "skip";
+  }
+
+  if (state === "delayed" || state === "waiting") {
+    await existingJob.remove();
+  }
+
+  return "requeue";
+}
+
+/** Re-queue SCHEDULED posts whose BullMQ jobs were lost (e.g. Redis restart). */
+export async function reconcileScheduledPosts(): Promise<void> {
+  const [posts, waitingCount, delayedCount] = await Promise.all([
+    safeDb(() =>
+      prisma.post.findMany({
+        where: { status: "SCHEDULED" },
+        select: {
+          id: true,
+          scheduledAt: true,
+          user: { select: { email: true } },
+        },
+      }),
+    ),
+    postQueue.getWaitingCount(),
+    postQueue.getDelayedCount(),
+  ]);
+
+  let requeued = 0;
+  let skipped = 0;
+
+  for (const post of posts) {
+    try {
+      const action = await shouldRequeueScheduledPost(
+        post.id,
+        post.scheduledAt,
+      );
+      if (action === "skip") {
+        skipped++;
+        continue;
+      }
+
+      const runAt =
+        post.scheduledAt.getTime() <= Date.now()
+          ? new Date()
+          : post.scheduledAt;
+      await schedulePost(post.id, runAt, post.user.email ?? "");
+      requeued++;
+    } catch (err) {
+      console.error(`[post-worker] Reconcile failed for post ${post.id}:`, err);
+    }
+  }
+
+  console.log(
+    `[post-worker] Reconciled scheduled posts: ${requeued} requeued, ${skipped} already queued (queue waiting=${waitingCount} delayed=${delayedCount})`,
+  );
+}
+
+const POST_RECONCILE_INTERVAL_MS = Number(
+  process.env.POST_RECONCILE_INTERVAL_MS ?? 5 * 60 * 1000,
+);
+
+/** Poll DB for SCHEDULED posts missing queue jobs (covers Redis job loss while worker stays up). */
+export function startPeriodicPostReconcile(): NodeJS.Timeout {
+  console.log(
+    `[post-worker] Periodic reconcile every ${POST_RECONCILE_INTERVAL_MS / 1000}s`,
+  );
+  return setInterval(() => {
+    void reconcileScheduledPosts().catch((err) => {
+      console.error("[post-worker] Periodic reconcile failed:", err);
+    });
+  }, POST_RECONCILE_INTERVAL_MS);
 }
 
 async function processPublishPost(
@@ -224,19 +306,8 @@ async function processPublishPost(
 
   if (!post) throw new Error(`Post ${postId} not found`);
   if (post.status !== "SCHEDULED" && post.status !== "PUBLISHED") {
-    console.log(`[post-worker] Post ${postId} not scheduled/published, skipping`);
-    return;
-  }
-
-  if (post.status === "SCHEDULED" && isPastScheduledTime(post.scheduledAt)) {
     console.log(
-      `[post-worker] Post ${postId} missed scheduled time (${post.scheduledAt?.toISOString()}), marking as FAILED`,
-    );
-    await safeDb(() =>
-      prisma.post.update({
-        where: { id: postId },
-        data: { status: "FAILED" },
-      }),
+      `[post-worker] Post ${postId} not scheduled/published, skipping`,
     );
     return;
   }
@@ -253,10 +324,10 @@ async function processPublishPost(
       prisma.post.update({
         where: { id: postId },
         data: { status: "FAILED" },
-      })
+      }),
     );
     throw new Error(
-      `Location ${location.id} not linked to GoogleAccount. Please reconnect.`
+      `Location ${location.id} not linked to GoogleAccount. Please reconnect.`,
     );
   }
 
@@ -269,10 +340,10 @@ async function processPublishPost(
       prisma.post.update({
         where: { id: postId },
         data: { status: "FAILED" },
-      })
+      }),
     );
     throw new Error(
-      `Authentication failed for location ${location.id}. Reconnect required.`
+      `Authentication failed for location ${location.id}. Reconnect required.`,
     );
   }
 
@@ -320,7 +391,7 @@ async function processPublishPost(
           publishedAt: new Date(),
           gmbPhotoMediaName: mediaResponse.name ?? null,
         } as unknown as Parameters<typeof prisma.post.update>[0]["data"],
-      })
+      }),
     );
 
     console.log(`[post-worker] Photo ${postId} published successfully`);
@@ -345,7 +416,7 @@ async function processPublishPost(
         publishedAt: new Date(),
         gmbPostName: response.data.name,
       },
-    })
+    }),
   );
 
   console.log(`[post-worker] Post ${postId} published successfully`);
@@ -412,33 +483,38 @@ async function processGmbJob(job: Job<GmbJobData>): Promise<unknown> {
 }
 
 export function createPostWorker(): Worker<GmbJobData> {
+  const workerConnection = createWorkerConnection();
   const worker = new Worker<GmbJobData>(
     "gmb-locaposty",
     async (job) => {
       const data = job.data as unknown as Record<string, unknown>;
       try {
-        console.log(
-          `[gmb-worker] Processing job ${job.id}: name=${job.name}`,
-        );
+        console.log(`[gmb-worker] Processing job ${job.id}: name=${job.name}`);
         return await processGmbJob(job);
       } catch (error) {
         if (!data.jobType && data.postId) {
-          await handlePublishPostError(
-            job as Job<PublishPostJobData>,
-            error,
-          );
+          await handlePublishPostError(job as Job<PublishPostJobData>, error);
         }
         throw error;
       }
     },
-    { connection },
+    {
+      connection: workerConnection,
+      concurrency: Number(process.env.GMB_WORKER_CONCURRENCY || 3),
+    },
   );
 
+  worker.on("ready", () =>
+    console.log("[gmb-worker] Listening on queue gmb-locaposty"),
+  );
   worker.on("completed", (j) =>
     console.log(`[gmb-worker] Job ${j.id} (${j.name}) completed`),
   );
   worker.on("failed", (j, err) =>
-    console.error(`[gmb-worker] Job ${j?.id} (${j?.name}) failed:`, err.message),
+    console.error(
+      `[gmb-worker] Job ${j?.id} (${j?.name}) failed:`,
+      err.message,
+    ),
   );
   worker.on("active", (j) =>
     console.log(`[gmb-worker] Job ${j.id} (${j.name}) started`),
